@@ -1,0 +1,25 @@
+package ps.emall.mediamanager.file;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import ps.emall.mediamanager.common.scope.ManagedByType;
+import ps.emall.mediamanager.common.scope.ScopeType;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface FileRepository extends JpaRepository<File, UUID>, JpaSpecificationExecutor<File> {
+
+    boolean existsByNameAndFolder_Id(String name, Long folderId);
+    boolean existsByNameAndExtensionAndFolder_Id(String name, String extension, Long folderId);
+    List<File> findByFolder_Id(Long folderId);
+
+    Optional<File> findByStoreIdAndId(Long storeId, UUID id);
+
+    boolean existsByStoreIdAndId(Long storeId, UUID id);
+
+    Optional<File> findByIdAndScope(UUID id, ScopeType scope);
+
+    Optional<File> findByIdAndScopeAndManagedBy(UUID id, ScopeType scope, ManagedByType managedBy);
+}

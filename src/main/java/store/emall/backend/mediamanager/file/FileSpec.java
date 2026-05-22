@@ -1,0 +1,15 @@
+package ps.emall.mediamanager.file;
+
+import net.kaczmarzyk.spring.data.jpa.domain.Equal;
+import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+import org.springframework.data.jpa.domain.Specification;
+
+@And({
+        @Spec(params = "name", path = "name", spec = LikeIgnoreCase.class),
+        @Spec(params = "mime-type", path = "mimeType", spec = Equal.class),
+        @Spec(params = "folder-id", path = "folder.id", spec = Equal.class),
+        @Spec(params = "store-id", path = "storeId", spec = Equal.class)
+})
+public interface FileSpec extends Specification<File> {}

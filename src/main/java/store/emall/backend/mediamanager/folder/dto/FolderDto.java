@@ -1,0 +1,37 @@
+package ps.emall.mediamanager.folder.dto;
+
+import jakarta.validation.constraints.*;
+import lombok.*;
+import ps.emall.mediamanager.common.scope.ManagedByType;
+import ps.emall.mediamanager.common.scope.ScopeType;
+import ps.emall.mediamanager.common.validation.OnCreate;
+import ps.emall.mediamanager.common.validation.OnUpdate;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class FolderDto {
+
+    @Null(groups = OnCreate.class, message = "folder.id.null")
+    @NotNull(groups = OnUpdate.class, message = "folder.id.notnull")
+    @Positive(message = "folder.id.positive")
+    private Long id;
+
+    @NotBlank(message = "folder.name.notblank")
+    @Size(max = 50, message = "folder.name.size")
+    private String name;
+
+    @Null(groups = OnUpdate.class, message = "folder.storeId.null")
+    private Long storeId;
+
+    @Positive(message = "folder.parentId.positive")
+    private Long parentId;
+
+    @Null(message = "folder.scope.null")
+    private ScopeType scope;
+
+    @Null(message = "folder.managedBy.null")
+    private ManagedByType managedBy;
+}
