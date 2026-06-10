@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
-import store.emall.backend.accounts.client.media_manager.MediaResponse;
 import store.emall.backend.accounts.mall.Mall;
 import store.emall.backend.accounts.mall.MallExceptions;
 import store.emall.backend.accounts.mall.MallRepository;
-import store.emall.backend.accounts.user.UserExceptions;
 
 import java.util.Collections;
 import java.util.List;

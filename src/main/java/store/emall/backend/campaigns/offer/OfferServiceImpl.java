@@ -14,11 +14,9 @@ import store.emall.backend.accounts.shop.ShopService;
 import store.emall.backend.campaigns.ad.request.AdRequestExceptions;
 import store.emall.backend.catalog.product.ProductService;
 import store.emall.backend.catalog.product.info.ProductInfoDto;
-import store.emall.backend.common.exception.EMallsException;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.campaigns.security.SecurityContextUtil;
 import store.emall.backend.campaigns.subscription.*;
-import store.emall.backend.mediamanager.client.accounts.AccountsResponse;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,7 +35,6 @@ public class OfferServiceImpl implements OfferService {
     private final ShopService shopService;
     private final ProductService productService;
     private final ShopSubscriptionService subscriptionService;
-    private final AccountsClient accountsClient;
     private final ShopSubscriptionRepository subscriptionRepository;
 
     @Override
@@ -846,12 +843,12 @@ public class OfferServiceImpl implements OfferService {
         // 2. Check admin block — delegated to accounts via isEffectivelyActive()
         // The accounts service already embeds adminStatus logic in hasWriteAccess
         try {
-            AccountsResponse<Boolean> writeAccessResponse = accountsClient.hasWriteAccess(shopId);
-            Boolean canWrite = writeAccessResponse != null ? writeAccessResponse.getData() : null;
+//            AccountsResponse<Boolean> writeAccessResponse = accountsClient.hasWriteAccess(shopId);
+//            Boolean canWrite = writeAccessResponse != null ? writeAccessResponse.getData() : null;
 
-            if (Boolean.FALSE.equals(canWrite)) {
-                throw SubscriptionExceptions.shopBlocked();
-            }
+//            if (Boolean.FALSE.equals(canWrite)) {
+//                throw SubscriptionExceptions.shopBlocked();
+//            }
         } catch (FeignException e) {
             // Graceful degradation — if accounts is down, fall back to subscription check only
             log.warn("Could not verify admin write-access for shopId={}, proceeding with subscription check only", shopId);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
-import store.emall.backend.common.validation.OnTemp;
+import store.emall.backend.common.validation.OnTempFileUpload;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlResponse;
 import store.emall.backend.mediamanager.folder.FolderService;
@@ -26,7 +26,7 @@ public class TempFileController {
 
     @PostMapping("/upload-url")
     public EMallsResponseEntity<FileUploadByUrlResponse> uploadByUrl(
-            @RequestBody @Validated({Default.class, OnTemp.class}) FileUploadByUrlRequest fileUploadByUrlRequest
+            @RequestBody @Validated({Default.class, OnTempFileUpload.class}) FileUploadByUrlRequest fileUploadByUrlRequest
     ) {
         Long folderId = folderService.getSystemFolderId(SystemFolder.TEMP_FOLDER);
         fileUploadByUrlRequest.setFolderId(folderId);

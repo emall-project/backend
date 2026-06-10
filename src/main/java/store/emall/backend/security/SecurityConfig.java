@@ -17,13 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import store.emall.backend.accounts.security.filter.*;
-import store.emall.backend.accounts.security.handler.*;
 import store.emall.backend.security.filter.*;
 import store.emall.backend.security.handler.*;
 import store.emall.backend.security.jwt.JwtService;
 import store.emall.backend.security.otp.OtpService;
-import store.emall.backend.accounts.security.provider.*;
 import store.emall.backend.security.provider.PhoneAuthenticationProvider;
 import store.emall.backend.security.provider.UsernamePasswordAuthProvider;
 

@@ -527,16 +527,21 @@ public class ShopSubscriptionServiceImpl implements ShopSubscriptionService {
     //  PRIVATE HELPERS
 
     private String createStripeCustomerForShop(Long shopId) {
-        ShopInfoDto shop = shopService.getShopById(shopId);
-        if (shop == null) throw SubscriptionExceptions.shopNotFound();
+        try {
+            ShopInfoDto shop = shopService.getShopById(shopId);
+            if (shop == null) throw SubscriptionExceptions.shopNotFound();
 
-        CustomerCreateParams params = CustomerCreateParams.builder()
-                .setEmail(shop.getOwnerEmail() != null ? shop.getOwnerEmail() : "")
-                .setName(shop.getName())
-                .build();
-        Customer customer = Customer.create(params);
-        log.info("Stripe customer created lazily for shopId={}, customerId={}", shopId, customer.getId());
-        return customer.getId();
+            CustomerCreateParams params = CustomerCreateParams.builder()
+                    .setEmail(shop.getOwnerEmail() != null ? shop.getOwnerEmail() : "")
+                    .setName(shop.getName())
+                    .build();
+            Customer customer = Customer.create(params);
+            log.info("Stripe customer created lazily for shopId={}, customerId={}", shopId, customer.getId());
+            return customer.getId();
+        } catch (StripeException e) {
+            log.error("Stripe error creating customer for shopId={}: {}", shopId, e.getMessage());
+            throw SubscriptionExceptions.stripeError();
+        }
 
     }
 

@@ -1,9 +1,9 @@
 package store.emall.backend.common.phone_number;
 
 import org.springframework.http.HttpStatus;
-import store.emall.backend.accounts.common.exception.EMallsException;
-import store.emall.backend.accounts.common.message.MessageKey;
-import store.emall.backend.accounts.common.response.ErrorCode;
+import store.emall.backend.common.exception.EMallsException;
+import store.emall.backend.common.message.MessageKey;
+import store.emall.backend.common.response.ErrorCode;
 
 import java.util.List;
 

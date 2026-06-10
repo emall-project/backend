@@ -7,17 +7,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigDto;
-import store.emall.backend.common.audience.TargetedAudience;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.common.validation.OnUpdate;
 import store.emall.backend.catalog.security.SecurityContextUtilBean;
 import store.emall.backend.catalog.security.userdetails.Gender;
+import static store.emall.backend.common.audience.TargetedAudience.*;
 
 import java.util.List;
 
-import static store.emall.backend.catalog.common.audience.TargetedAudience.*;
 
 @RestController
 @RequestMapping("/categories")

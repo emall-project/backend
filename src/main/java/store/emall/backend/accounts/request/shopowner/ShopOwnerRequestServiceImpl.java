@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.accounts.city.City;
 import store.emall.backend.accounts.city.CityRepository;
-import store.emall.backend.accounts.client.media_manager.*;
 import store.emall.backend.campaigns.subscription.ShopSubscriptionService;
 import store.emall.backend.catalog.brand.BrandDto;
 import store.emall.backend.catalog.brand.BrandService;

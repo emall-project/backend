@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.common.validation.OnCreate;
-import store.emall.backend.common.validation.OnTemp;
+import store.emall.backend.common.validation.OnTempFileUpload;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class FileUploadByUrlRequest {
     private String name;
 
     @NotNull(groups = OnCreate.class, message = "file.folderId.notnull")
-    @Null(groups = OnTemp.class, message = "file.folderId.notnull")
+    @Null(groups = OnTempFileUpload.class, message = "file.folderId.notnull")
     private Long folderId;
 
     private Long storeId;

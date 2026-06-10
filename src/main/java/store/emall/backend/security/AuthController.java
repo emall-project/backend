@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.emall.backend.accounts.common.response.EMallsResponseEntity;
+import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.security.dto.ForgotPasswordRequest;
 import store.emall.backend.security.dto.ResetPasswordRequest;
 import store.emall.backend.security.dto.SignupRequest;
