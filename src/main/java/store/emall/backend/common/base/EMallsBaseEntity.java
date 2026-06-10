@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.base;
+package store.emall.backend.common.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

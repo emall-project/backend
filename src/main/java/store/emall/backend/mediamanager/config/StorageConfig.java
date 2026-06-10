@@ -1,12 +1,12 @@
-package ps.emall.mediamanager.config;
+package store.emall.backend.mediamanager.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ps.emall.mediamanager.storage.CloudStorage;
-import ps.emall.mediamanager.storage.local.LocalStorage;
-import ps.emall.mediamanager.storage.s3.S3Storage;
+import store.emall.backend.mediamanager.storage.CloudStorage;
+import store.emall.backend.mediamanager.storage.local.LocalStorage;
+import store.emall.backend.mediamanager.storage.s3.S3Storage;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 

@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.storage;
+package store.emall.backend.mediamanager.storage;
 
 public class StorageConstant {
     public static final int DEFAULT_PRESIGNEDURL_EXPIRATION_TIME =  500;

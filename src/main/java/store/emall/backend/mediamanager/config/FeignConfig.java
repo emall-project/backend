@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.config;
+package store.emall.backend.mediamanager.config;
 
 import feign.Logger;
 import feign.Request;

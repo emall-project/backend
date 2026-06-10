@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.response;
+package store.emall.backend.common.response;
 
 
 import lombok.AllArgsConstructor;

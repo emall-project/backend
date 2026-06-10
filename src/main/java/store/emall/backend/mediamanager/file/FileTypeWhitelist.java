@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import java.util.Set;
 

@@ -1,5 +1,5 @@
 
-package ps.emall.mediamanager.file.util;
+package store.emall.backend.mediamanager.file.util;
 
 public class MimeUtils {
     public static String getExtension(String mimeType) {

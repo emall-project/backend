@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.storage;
+package store.emall.backend.mediamanager.storage;
 
 import java.io.InputStream;
 

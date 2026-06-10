@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.userdetails;
+package store.emall.backend.mediamanager.security.userdetails;
 
 public enum Gender {
     MALE,

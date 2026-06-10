@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,20 +7,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ps.emall.mediamanager.common.page.PaginatedResponse;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.file.dto.*;
-import ps.emall.mediamanager.file.util.FileValidation;
-import ps.emall.mediamanager.folder.Folder;
-import ps.emall.mediamanager.storage.CloudStorage;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.dto.*;
+import store.emall.backend.mediamanager.file.util.FileValidation;
+import store.emall.backend.mediamanager.folder.Folder;
+import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static ps.emall.mediamanager.file.util.FileHelper.*;
+import static store.emall.backend.mediamanager.file.util.FileHelper.*;
 
 @Slf4j
 @Service

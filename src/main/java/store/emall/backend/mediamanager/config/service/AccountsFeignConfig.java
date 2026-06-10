@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.config.service;
+package store.emall.backend.mediamanager.config.service;
 
 import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;

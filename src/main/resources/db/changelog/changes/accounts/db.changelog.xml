@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <!-- Global DB initialization -->
+
+    <includeAll path="common" relativeToChangelogFile="true"/>
+
+    <includeAll path="audit" relativeToChangelogFile="true"/>
+    <includeAll path="user" relativeToChangelogFile="true"/>
+    <includeAll path="city" relativeToChangelogFile="true"/>
+    <includeAll path="mall" relativeToChangelogFile="true"/>
+    <includeAll path="shop" relativeToChangelogFile="true"/>
+    <includeAll path="request" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

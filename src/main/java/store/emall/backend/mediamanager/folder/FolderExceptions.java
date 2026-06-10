@@ -1,9 +1,9 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import org.springframework.http.HttpStatus;
-import ps.emall.mediamanager.common.exception.EMallsException;
-import ps.emall.mediamanager.common.message.MessageKey;
-import ps.emall.mediamanager.common.response.ErrorCode;
+import store.emall.backend.common.exception.EMallsException;
+import store.emall.backend.common.message.MessageKey;
+import store.emall.backend.common.response.ErrorCode;
 
 import java.util.List;
 

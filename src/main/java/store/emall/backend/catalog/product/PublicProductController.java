@@ -1,0 +1,81 @@
+package store.emall.backend.catalog.product;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+import store.emall.backend.common.audience.TargetedAudience;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.response.EMallsResponseEntity;
+import store.emall.backend.catalog.product.info.ProductInfoDto;
+import store.emall.backend.catalog.product.light.ProductLightDto;
+import store.emall.backend.catalog.product.summary.ProductSummary;
+import store.emall.backend.catalog.security.SecurityContextUtilBean;
+import store.emall.backend.catalog.security.userdetails.Gender;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/products")
+@RequiredArgsConstructor
+public class PublicProductController {
+
+    private final ProductService productService;
+    private final SecurityContextUtilBean auth;
+
+    @PostMapping("/all")
+        public EMallsResponseEntity<PaginatedResponse<ProductLightDto>> getAllLight(@RequestBody ProductFilter filter, Pageable pageable) {
+        filter.setIsActive(true);
+        boolean isMale = !Gender.FEMALE.equals(auth.getCurrentGender());
+        if (isMale) {
+            filter.setExcludedAudience(TargetedAudience.FEMALE);
+        }
+        PaginatedResponse<ProductLightDto> products = productService.getAllLight(filter, pageable);
+        return EMallsResponseEntity.ok(products);
+    }
+
+    @PostMapping("/summary")
+    public EMallsResponseEntity<ProductSummary> getSummary(@RequestBody ProductFilter filter) {
+        filter.setIsActive(true);
+        boolean isMale = !Gender.FEMALE.equals(auth.getCurrentGender());
+        if (isMale) {
+            filter.setExcludedAudience(TargetedAudience.FEMALE);
+        }
+        ProductSummary productsSummary = productService.getSummary(filter);
+        return EMallsResponseEntity.ok(productsSummary);
+    }
+
+    @PostMapping("/by-ids")
+    public EMallsResponseEntity<List<ProductLightDto>> getByIds(@RequestBody ProductIdsRequest request) {
+        return EMallsResponseEntity.ok(productService.getLightByIds(request.getProductIds()));
+    }
+
+    @GetMapping("/random")
+    public EMallsResponseEntity<List<ProductLightDto>> getRandom(@RequestParam(defaultValue = "10") Integer limit) {
+        return EMallsResponseEntity.ok(productService.getRandomLight(limit));
+    }
+
+    @GetMapping("{id}/similar")
+    public EMallsResponseEntity<List<ProductLightDto>> getSimilar(@PathVariable("id") Long id, @RequestParam Integer topK) {
+        List<ProductLightDto> products= productService.getSimilar(id, topK);
+        return EMallsResponseEntity.ok(products);
+    }
+
+
+    @GetMapping("/{id}")
+    public EMallsResponseEntity<ProductDto> getById(@PathVariable Long id) {
+        ProductDto dto = productService.getById(id, true);
+
+        return EMallsResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public EMallsResponseEntity<ProductDto> getBySlug(@PathVariable String slug) {
+        ProductDto dto = productService.getBySlug(slug);
+        return EMallsResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/{id}/info")
+    public EMallsResponseEntity<ProductInfoDto> getProductInfo(@PathVariable Long id) {
+        return EMallsResponseEntity.ok(productService.getProductInfo(id));
+    }
+}

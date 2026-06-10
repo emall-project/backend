@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.filter;
+package store.emall.backend.mediamanager.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,8 +1,8 @@
-package ps.emall.mediamanager.file.dto;
+package store.emall.backend.mediamanager.file.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import ps.emall.mediamanager.file.Status;
+import store.emall.backend.mediamanager.file.Status;
 
 import java.util.UUID;
 

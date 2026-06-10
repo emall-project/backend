@@ -1,15 +1,15 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.file.dto.FileMoveRequest;
-import ps.emall.mediamanager.file.dto.FileTransferRequest;
-import ps.emall.mediamanager.file.dto.FileUploadByUrlRequest;
-import ps.emall.mediamanager.folder.Folder;
-import ps.emall.mediamanager.folder.FolderExceptions;
-import ps.emall.mediamanager.folder.FolderRepository;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.dto.FileMoveRequest;
+import store.emall.backend.mediamanager.file.dto.FileTransferRequest;
+import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
+import store.emall.backend.mediamanager.folder.Folder;
+import store.emall.backend.mediamanager.folder.FolderExceptions;
+import store.emall.backend.mediamanager.folder.FolderRepository;
 
 import java.util.Objects;
 import java.util.UUID;

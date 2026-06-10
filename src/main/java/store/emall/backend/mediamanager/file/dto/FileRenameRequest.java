@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file.dto;
+package store.emall.backend.mediamanager.file.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,9 @@
-package ps.emall.mediamanager.security;
+package store.emall.backend.mediamanager.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ps.emall.mediamanager.security.dto.StoreRef;
-import ps.emall.mediamanager.security.userdetails.Gender;
+import store.emall.backend.mediamanager.security.dto.StoreRef;
+import store.emall.backend.mediamanager.security.userdetails.Gender;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.exception;
+package store.emall.backend.common.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ps.emall.mediamanager.common.message.MessageKey;
-import ps.emall.mediamanager.common.message.MessageService;
-import ps.emall.mediamanager.common.response.EMallsResponseEntity;
-import ps.emall.mediamanager.common.response.ErrorCode;
+import store.emall.backend.common.message.MessageKey;
+import store.emall.backend.common.message.MessageService;
+import store.emall.backend.common.response.EMallsResponseEntity;
+import store.emall.backend.common.response.ErrorCode;
 
 import java.util.List;
 import java.util.Locale;

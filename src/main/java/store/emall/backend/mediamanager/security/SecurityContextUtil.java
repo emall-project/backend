@@ -1,11 +1,11 @@
-package ps.emall.mediamanager.security;
+package store.emall.backend.mediamanager.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ps.emall.mediamanager.security.dto.StoreRef;
-import ps.emall.mediamanager.security.userdetails.CustomUserDetails;
-import ps.emall.mediamanager.security.userdetails.Gender;
+import store.emall.backend.mediamanager.security.dto.StoreRef;
+import store.emall.backend.mediamanager.security.userdetails.CustomUserDetails;
+import store.emall.backend.mediamanager.security.userdetails.Gender;
 
 import java.util.Collections;
 import java.util.List;

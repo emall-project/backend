@@ -1,0 +1,100 @@
+package store.emall.backend.catalog.product.product_variant;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import store.emall.backend.catalog.attribute.Attribute;
+import store.emall.backend.catalog.attribute.attribute_options.AttributeOption;
+import store.emall.backend.common.base.EMallsBaseEntity;
+import store.emall.backend.catalog.product.Product;
+import store.emall.backend.catalog.product.product_media.ProductMedium;
+import store.emall.backend.catalog.product.product_variant.variant_attribute.VariantAttribute;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Entity
+@Table(
+        name = "product_variants",
+        schema = "catalog",
+        indexes = {
+                @Index(
+                        name = "idx_product_variant_product_default_price",
+                        columnList = "product_id, is_default, base_price"
+                ),
+        }
+)
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Audited
+@AuditTable(value = "product_variants_audit", schema = "audit")
+public class ProductVariant extends EMallsBaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_variants_sequence")
+    @SequenceGenerator(
+            name = "product_variants_sequence",
+            sequenceName = "product_variants_sequence",
+            schema = "catalog",
+            allocationSize = 1
+    )
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "base_price", nullable = false)
+    private BigDecimal basePrice;
+
+    @Column(name = "is_default", nullable = false)
+    private Boolean isDefault;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+
+    @OneToMany(
+            mappedBy = "variant",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<VariantAttribute> variantAttributes = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ProductMedium> media = new ArrayList<>();
+
+    public void addMedium(ProductMedium medium) {
+        if (this.media == null) {
+            this.media = new ArrayList<>();
+        }
+        medium.setProduct(this.getProduct());
+        medium.setVariant(this);
+        media.add(medium);
+    }
+
+    public void addVariantAttribute(Attribute attribute, AttributeOption option) {
+        if (this.variantAttributes == null) {
+            this.variantAttributes = new ArrayList<>();
+        }
+        VariantAttribute va = VariantAttribute.builder()
+                .variant(this)
+                .attribute(attribute)
+                .option(option)
+                .build();
+        variantAttributes.add(va);
+    }
+
+}

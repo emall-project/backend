@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.page;
+package store.emall.backend.common.page;
 
 import lombok.*;
 import org.springframework.data.domain.Page;

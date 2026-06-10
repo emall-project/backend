@@ -1,9 +1,9 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
 
 import java.util.List;
 import java.util.Optional;

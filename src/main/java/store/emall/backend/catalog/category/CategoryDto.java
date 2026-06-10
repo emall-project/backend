@@ -1,0 +1,92 @@
+package store.emall.backend.catalog.category;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigDto;
+import store.emall.backend.common.audience.AgeGroup;
+import store.emall.backend.common.audience.TargetedAudience;
+import store.emall.backend.common.base.EMallsBaseDto;
+import store.emall.backend.common.validation.OnCreate;
+import store.emall.backend.common.validation.OnUpdate;
+import store.emall.backend.mediamanager.file.dto.FileDto;
+
+import java.util.Set;
+import java.util.UUID;
+
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+//@JsonPropertyOrder({
+//        "id",
+//        "name",
+//        "slug",
+//        "targetedAudience",
+//        "ageGroup",
+//        "isActive",
+//        "imageId",
+//        "parentId",
+//        "depthLevel",
+//        "audienceConfig",
+//        "image",
+//        "createdAt",
+//        "createdBy",
+//        "updatedAt",
+//        "updatedBy"
+//})
+
+public class CategoryDto extends EMallsBaseDto {
+    @Null(groups = OnCreate.class, message = "category.id.null")
+    @NotNull(groups = OnUpdate.class, message = "category.id.notnull")
+    private Long id;
+
+    @NotBlank(message = "category.name.notblank")
+    @Size(min = 3, max = 50, message = "category.name.size")
+    private String name;
+
+    @NotBlank(message = "category.slug.notblank")
+    @Pattern(
+            regexp = "^[^\\s]+$",
+            message = "category.slug.white.spaces"
+    )
+    @Pattern(
+            regexp = "^(?:[a-z0-9-]|[\\p{IsArabic}&&\\p{L}])+$",
+            message = "category.slug.lowercase"
+    )
+    @Pattern(
+            regexp = "^(?:[a-z]|[\\p{IsArabic}&&\\p{L}]).*(?:[a-z]|[\\p{IsArabic}&&\\p{L}])$",
+            message = "category.slug.start.end.letter"
+    )
+    @Size(min = 3, max = 50, message = "category.slug.size")
+    private String slug;
+
+    @NotNull(message = "category.targetedAudience.notnull")
+    private TargetedAudience targetedAudience;
+
+    @NotNull(message = "category.ageGroup.notnull")
+    private AgeGroup ageGroup;
+
+    @NotNull(message = "category.isActive.notnull")
+    private Boolean isActive;
+
+    @NotNull(message = "category.imageId.notnull")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UUID imageId;
+
+    private Long parentId;
+
+    private Integer depthLevel;
+
+    @Valid
+    private Set<CategoryAudienceConfigDto> audienceConfig;
+
+    private FileDto image;
+
+
+}

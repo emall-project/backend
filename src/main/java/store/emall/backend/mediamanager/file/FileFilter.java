@@ -1,11 +1,11 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
 
 @Data
 @Builder

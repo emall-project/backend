@@ -1,10 +1,10 @@
-package ps.emall.mediamanager.security.userdetails;
+package store.emall.backend.mediamanager.security.userdetails;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ps.emall.mediamanager.security.dto.StoreRef;
+import store.emall.backend.mediamanager.security.dto.StoreRef;
 
 import java.util.Collection;
 import java.util.Collections;

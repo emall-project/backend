@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.groups.Default;
@@ -7,14 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ps.emall.mediamanager.common.page.PaginatedResponse;
-import ps.emall.mediamanager.common.response.EMallsResponseEntity;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.common.validation.OnCreate;
-import ps.emall.mediamanager.common.validation.OnUpdate;
-import ps.emall.mediamanager.folder.dto.FolderDto;
-import ps.emall.mediamanager.folder.dto.FolderFilter;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.response.EMallsResponseEntity;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.common.validation.OnCreate;
+import store.emall.backend.common.validation.OnUpdate;
+import store.emall.backend.mediamanager.folder.dto.FolderDto;
+import store.emall.backend.mediamanager.folder.dto.FolderFilter;
 
 import java.util.List;
 

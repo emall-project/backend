@@ -1,10 +1,10 @@
-package ps.emall.mediamanager.common.exception;
+package store.emall.backend.common.exception;
 
 
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import ps.emall.mediamanager.common.response.ErrorCode;
+import store.emall.backend.common.response.ErrorCode;
 
 import java.util.List;
 

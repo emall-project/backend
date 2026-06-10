@@ -1,11 +1,11 @@
-package ps.emall.mediamanager.folder.dto;
+package store.emall.backend.mediamanager.folder.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.common.validation.OnCreate;
-import ps.emall.mediamanager.common.validation.OnUpdate;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.common.validation.OnCreate;
+import store.emall.backend.common.validation.OnUpdate;
 
 @Getter
 @Setter

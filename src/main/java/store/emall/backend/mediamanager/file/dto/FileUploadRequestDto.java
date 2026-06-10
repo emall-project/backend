@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file.dto;
+package store.emall.backend.mediamanager.file.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

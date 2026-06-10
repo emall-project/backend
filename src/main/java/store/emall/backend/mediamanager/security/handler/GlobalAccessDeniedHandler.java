@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.handler;
+package store.emall.backend.mediamanager.security.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

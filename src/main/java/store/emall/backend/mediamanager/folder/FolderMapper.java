@@ -1,6 +1,6 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
-import ps.emall.mediamanager.folder.dto.FolderDto;
+import store.emall.backend.mediamanager.folder.dto.FolderDto;
 
 import java.util.Optional;
 

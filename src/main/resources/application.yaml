@@ -1,0 +1,84 @@
+spring:
+  jackson:
+    time-zone: Asia/Gaza
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: public
+      org:
+        hibernate:
+          envers:
+            revision_type_field_name: revtype
+            revision_field_name: rev
+            track_entities_changed_in_revision: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  messages:
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+  config:
+    import: "optional:dotenv:"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lamahafiz2004@gmail.com
+    password: ftevmfqaeanoapli
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+  mail:
+    from: lamahafiz2004@gmail.com
+    from-name: E-Malls Platform
+
+  otp:
+    expiration: 300000
+    length: 6
+
+services:
+  catalog:
+    host: ${CATALOG_IP_ADDRESS:http://localhost}
+    port: ${CATALOG_PORT:8081}
+  campaigns:
+    host: ${CAMPAIGNS_IP_ADDRESS:http://localhost}
+    port: ${CAMPAIGNS_PORT:8082}
+  order-hub:
+    host: ${ORDER_HUB_IP_ADDRESS:http://localhost}
+    port: ${ORDER_HUB_PORT:8084}
+  media-manager:
+    host: ${MEDIA_MANAGER_IP_ADDRESS:http://localhost}
+    port: ${MEDIA_MANAGER_PORT:8085}
+
+internal:
+  auth:
+    username: ${INTERNAL_SERVICE_USERNAME:e-mall-internal}
+    password: ${INTERNAL_SERVICE_PASSWORD:s3cr3t-internal-p@ss}

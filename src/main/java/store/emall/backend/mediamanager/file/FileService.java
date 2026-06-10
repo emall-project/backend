@@ -1,10 +1,10 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import org.springframework.data.domain.Pageable;
-import ps.emall.mediamanager.common.page.PaginatedResponse;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.file.dto.*;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.dto.*;
 
 import java.util.List;
 import java.util.UUID;

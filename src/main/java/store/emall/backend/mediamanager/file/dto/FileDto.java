@@ -1,9 +1,9 @@
-package ps.emall.mediamanager.file.dto;
+package store.emall.backend.mediamanager.file.dto;
 
 import lombok.*;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.file.Status;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.Status;
 
 import java.util.UUID;
 

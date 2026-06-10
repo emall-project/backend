@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;

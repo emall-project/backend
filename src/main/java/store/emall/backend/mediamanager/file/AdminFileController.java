@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
@@ -7,12 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ps.emall.mediamanager.common.page.PaginatedResponse;
-import ps.emall.mediamanager.common.response.EMallsResponseEntity;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.common.validation.OnCreate;
-import ps.emall.mediamanager.file.dto.*;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.response.EMallsResponseEntity;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.common.validation.OnCreate;
+import store.emall.backend.mediamanager.file.dto.*;
 
 import java.util.List;
 import java.util.UUID;

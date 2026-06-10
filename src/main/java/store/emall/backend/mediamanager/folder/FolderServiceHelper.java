@@ -1,10 +1,10 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.folder.dto.FolderDto;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.folder.dto.FolderDto;
 
 import java.util.Objects;
 

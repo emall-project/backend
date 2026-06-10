@@ -1,11 +1,11 @@
-package ps.emall.mediamanager.file.util;
+package store.emall.backend.mediamanager.file.util;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
-import ps.emall.mediamanager.file.dto.FileDto;
-import ps.emall.mediamanager.file.FileSize;
-import ps.emall.mediamanager.storage.CloudStorage;
+import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.FileSize;
+import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

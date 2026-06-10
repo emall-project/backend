@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security;
+package store.emall.backend.mediamanager.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +14,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ps.emall.mediamanager.security.filter.InternalAuthFilter;
-import ps.emall.mediamanager.security.filter.JwtValidationFilter;
-import ps.emall.mediamanager.security.handler.GlobalAccessDeniedHandler;
-import ps.emall.mediamanager.security.handler.GlobalAuthEntryPoint;
+import store.emall.backend.mediamanager.security.filter.InternalAuthFilter;
+import store.emall.backend.mediamanager.security.filter.JwtValidationFilter;
+import store.emall.backend.mediamanager.security.handler.GlobalAccessDeniedHandler;
+import store.emall.backend.mediamanager.security.handler.GlobalAuthEntryPoint;
 
 import java.util.List;
 

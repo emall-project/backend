@@ -1,8 +1,8 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
-import ps.emall.mediamanager.file.dto.FileDto;
-import ps.emall.mediamanager.file.dto.FileUploadByUrlRequest;
-import ps.emall.mediamanager.folder.Folder;
+import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
+import store.emall.backend.mediamanager.folder.Folder;
 
 import java.util.Optional;
 

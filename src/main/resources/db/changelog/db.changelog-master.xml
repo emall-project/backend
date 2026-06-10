@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <!-- Accounts service changelog -->
+    <include file="changes/accounts/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+    <include file="changes/catalog/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+    <include file="changes/campaigns/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+    <include file="changes/media_manager/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+    <include file="changes/interaction/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+    <include file="changes/catalog/db.changelog.xml"
+             relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

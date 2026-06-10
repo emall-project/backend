@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file.util;
+package store.emall.backend.mediamanager.file.util;
 
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;

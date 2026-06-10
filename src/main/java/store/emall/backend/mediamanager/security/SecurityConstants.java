@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security;
+package store.emall.backend.mediamanager.security;
 
 public final class SecurityConstants {
 

@@ -1,8 +1,8 @@
-package ps.emall.mediamanager.storage.s3;
+package store.emall.backend.mediamanager.storage.s3;
 
 import org.springframework.cache.annotation.Cacheable;
-import ps.emall.mediamanager.storage.CloudStorage;
-import ps.emall.mediamanager.storage.StorageConstant;
+import store.emall.backend.mediamanager.storage.CloudStorage;
+import store.emall.backend.mediamanager.storage.StorageConstant;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;

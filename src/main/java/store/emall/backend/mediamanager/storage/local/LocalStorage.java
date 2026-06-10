@@ -1,6 +1,6 @@
-package ps.emall.mediamanager.storage.local;
+package store.emall.backend.mediamanager.storage.local;
 
-import ps.emall.mediamanager.storage.CloudStorage;
+import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import java.io.IOException;
 import java.io.InputStream;

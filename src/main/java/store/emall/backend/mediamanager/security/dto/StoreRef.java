@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.dto;
+package store.emall.backend.mediamanager.security.dto;
 
 import lombok.*;
 

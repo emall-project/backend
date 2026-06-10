@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.message;
+package store.emall.backend.common.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

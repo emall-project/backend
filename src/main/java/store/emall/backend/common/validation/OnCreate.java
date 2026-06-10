@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.validation;
+package store.emall.backend.common.validation;
 
 public interface OnCreate {
 }

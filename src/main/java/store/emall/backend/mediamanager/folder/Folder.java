@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,9 +8,9 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-import ps.emall.mediamanager.common.base.EMallsBaseEntity;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
+import store.emall.backend.common.base.EMallsBaseEntity;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common;
+package store.emall.backend.common;
 
 public enum SystemService {
     CATALOG("catalog service"),

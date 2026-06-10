@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 public enum SystemFolder {
     TEMP_FOLDER("TEMP_FOLDER");

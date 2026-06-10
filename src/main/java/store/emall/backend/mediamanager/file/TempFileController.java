@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 
 import jakarta.validation.groups.Default;
@@ -6,17 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ps.emall.mediamanager.common.response.EMallsResponseEntity;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.common.validation.OnTemp;
-import ps.emall.mediamanager.file.dto.FileUploadByUrlRequest;
-import ps.emall.mediamanager.file.dto.FileUploadByUrlResponse;
-import ps.emall.mediamanager.file.util.FileValidation;
-import ps.emall.mediamanager.folder.FolderService;
-import ps.emall.mediamanager.folder.SystemFolder;
-
-import java.util.UUID;
+import store.emall.backend.common.response.EMallsResponseEntity;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.common.validation.OnTemp;
+import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
+import store.emall.backend.mediamanager.file.dto.FileUploadByUrlResponse;
+import store.emall.backend.mediamanager.folder.FolderService;
+import store.emall.backend.mediamanager.folder.SystemFolder;
 
 @Slf4j
 @RestController

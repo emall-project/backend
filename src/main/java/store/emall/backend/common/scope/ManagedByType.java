@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.common.scope;
+package store.emall.backend.common.scope;
 
 public enum ManagedByType {
     SYSTEM,

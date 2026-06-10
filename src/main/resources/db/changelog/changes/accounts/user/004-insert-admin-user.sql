@@ -1,0 +1,25 @@
+--liquibase formatted sql
+--changeset lamahafiz:004-insert-admin-user
+
+INSERT INTO users (
+    user_id,
+    full_name,
+    email,
+    phone_number,
+    password,
+    role_id,
+    is_active,
+    created_at,
+    created_by
+)
+VALUES (
+    NEXTVAL('user_id_seq'),
+    'admin',
+    'admin@emalls.com',
+    '+970-0599000000',
+    '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1HnD6nV9z1R3Y1FJxR5E8u6YxX1KxG',
+    (SELECT role_id FROM roles WHERE code = 'ROLE_ADMIN'),
+    TRUE,
+    CURRENT_TIMESTAMP,
+    'system'
+);

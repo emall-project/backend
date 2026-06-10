@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.folder;
+package store.emall.backend.mediamanager.folder;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,12 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ps.emall.mediamanager.common.page.PaginatedResponse;
-import ps.emall.mediamanager.common.scope.ManagedByType;
-import ps.emall.mediamanager.common.scope.ScopeType;
-import ps.emall.mediamanager.file.FileService;
-import ps.emall.mediamanager.folder.dto.FolderDto;
-import ps.emall.mediamanager.folder.dto.FolderFilter;
+import store.emall.backend.common.page.PaginatedResponse;
+import store.emall.backend.common.scope.ManagedByType;
+import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.folder.dto.FolderDto;
+import store.emall.backend.mediamanager.folder.dto.FolderFilter;
 
 import java.util.List;
 import java.util.stream.Collectors;

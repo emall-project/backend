@@ -1,11 +1,11 @@
-package ps.emall.mediamanager.file;
+package store.emall.backend.mediamanager.file;
 
 import org.springframework.http.HttpStatus;
-import ps.emall.mediamanager.client.common.dto.Reference;
-import ps.emall.mediamanager.common.SystemService;
-import ps.emall.mediamanager.common.exception.EMallsException;
-import ps.emall.mediamanager.common.message.MessageKey;
-import ps.emall.mediamanager.common.response.ErrorCode;
+import store.emall.backend.common.util.media.Reference;
+import store.emall.backend.common.SystemService;
+import store.emall.backend.common.exception.EMallsException;
+import store.emall.backend.common.message.MessageKey;
+import store.emall.backend.common.response.ErrorCode;
 
 import java.util.ArrayList;
 import java.util.List;

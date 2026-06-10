@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.filter;
+package store.emall.backend.mediamanager.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,11 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ps.emall.mediamanager.security.SecurityConstants;
-import ps.emall.mediamanager.security.dto.StoreRef;
-import ps.emall.mediamanager.security.jwt.JwtService;
-import ps.emall.mediamanager.security.userdetails.CustomUserDetails;
-import ps.emall.mediamanager.security.userdetails.Gender;
+import store.emall.backend.mediamanager.security.SecurityConstants;
+import store.emall.backend.mediamanager.security.dto.StoreRef;
+import store.emall.backend.mediamanager.security.jwt.JwtService;
+import store.emall.backend.mediamanager.security.userdetails.CustomUserDetails;
+import store.emall.backend.mediamanager.security.userdetails.Gender;
 
 import java.io.IOException;
 import java.util.Arrays;

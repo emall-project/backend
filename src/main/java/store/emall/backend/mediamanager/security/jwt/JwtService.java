@@ -1,4 +1,4 @@
-package ps.emall.mediamanager.security.jwt;
+package store.emall.backend.mediamanager.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -6,9 +6,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ps.emall.mediamanager.security.SecurityConstants;
-import ps.emall.mediamanager.security.dto.StoreRef;
-import ps.emall.mediamanager.security.userdetails.Gender;
+import store.emall.backend.mediamanager.security.SecurityConstants;
+import store.emall.backend.mediamanager.security.dto.StoreRef;
+import store.emall.backend.mediamanager.security.userdetails.Gender;
 
 import javax.crypto.SecretKey;
 import java.util.Collections;
