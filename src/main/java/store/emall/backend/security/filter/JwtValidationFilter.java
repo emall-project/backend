@@ -21,7 +21,6 @@ import store.emall.backend.security.jwt.JwtService;
 import store.emall.backend.security.userdetails.CustomUserDetails;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,12 +42,6 @@ public class JwtValidationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
-
-        // Skip for public URLs
-        if (isPublicUrl(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         final String authHeader = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
 
@@ -88,46 +81,4 @@ public class JwtValidationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-    private boolean isPublicUrl(HttpServletRequest request) {
-        String path = request.getServletPath();
-        String method = request.getMethod();
-
-        if ("OPTIONS".equalsIgnoreCase(method)) {
-            return true;
-        }
-        if ("POST".equalsIgnoreCase(method)
-                && ("/api/shop-owner-requests".equals(path)
-                || path.startsWith("/temps/files/")
-                || "/products/all".equals(path)
-                || "/products/summary".equals(path)
-                || "/products/by-ids".equals(path))) {
-            return true;
-        }
-        if ("GET".equalsIgnoreCase(method)
-                && (path.startsWith("/api/cities/")
-                || path.startsWith("/api/malls/")
-                || path.startsWith("/api/shops/")
-                || path.startsWith("/api/mall-restaurants/")
-                || path.startsWith("/api/mall-services/")
-                || path.startsWith("/products/")
-                || path.startsWith("/categories/")
-                || path.startsWith("/brands/")
-                || path.startsWith("/attributes/")
-                || path.startsWith("/tags/")
-                || "/api/ad-requests/active/displayed".equals(path)
-                || "/api/offers/products/active/public".equals(path)
-                || path.matches("/api/subscriptions/shop/\\d+/(status|write-access)"))) {
-            return true;
-        }
-
-        return Arrays.stream(SecurityConstants.PUBLIC_URLS)
-                .anyMatch(url -> {
-                    if (url.endsWith("/**")) {
-                        return path.startsWith(url.replace("/**", ""));
-                    }
-                    return path.equals(url);
-                });
-    }
-
 }
