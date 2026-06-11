@@ -8,6 +8,7 @@ import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.security.dto.ForgotPasswordRequest;
 import store.emall.backend.security.dto.ResetPasswordRequest;
 import store.emall.backend.security.dto.SignupRequest;
+import store.emall.backend.security.dto.AuthTokenResponse;
 import store.emall.backend.accounts.user.UserDto;
 
 /**
@@ -43,21 +44,20 @@ public class AuthController {
     /**
      * POST /api/auth/refresh-token
      * FE sends the refresh token in the X-Refresh-Token header.
-     * BE validates it and returns new accessToken + refreshToken in response headers.
-     * No request body needed. No response body returned.
+     * BE validates it and returns new accessToken + refreshToken in response headers and body.
+     * No request body needed.
      */
     @PostMapping("/refresh-token")
-    public EMallsResponseEntity<Void> refreshToken(
+    public EMallsResponseEntity<AuthTokenResponse> refreshToken(
             @RequestHeader(SecurityConstants.REFRESH_TOKEN_HEADER) String refreshToken,
             HttpServletResponse response) {
 
         String[] tokens = authService.refreshToken(refreshToken);
 
-        // Put new tokens in response headers
         response.setHeader(SecurityConstants.AUTHORIZATION_HEADER, SecurityConstants.TOKEN_PREFIX + tokens[0]);
         response.setHeader(SecurityConstants.REFRESH_TOKEN_HEADER, tokens[1]);
 
-        return EMallsResponseEntity.ok(null);
+        return EMallsResponseEntity.ok(AuthTokenResponse.bearer(tokens[0], tokens[1]));
     }
 
     /**

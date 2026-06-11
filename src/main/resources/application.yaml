@@ -62,6 +62,9 @@ spring:
           writetimeout: 5000
 
 management:
+  health:
+    mail:
+      enabled: false
   endpoints:
     web:
       exposure:
