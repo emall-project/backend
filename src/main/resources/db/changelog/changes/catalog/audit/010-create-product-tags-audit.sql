@@ -2,7 +2,7 @@
 --changeset JehadHamid:010-create-product-tags-audit
 
 
-CREATE TABLE IF NOT EXISTS audit.product_tags_audit
+CREATE TABLE IF NOT EXISTS catalog.product_tags_audit
 (
     rev        INT NOT NULL,
     revtype    SMALLINT,
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS audit.product_tags_audit
     PRIMARY KEY (product_id, tag_id, rev),
     CONSTRAINT fk_product_tags_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES catalog.revinfo (rev)
 )

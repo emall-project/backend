@@ -1,15 +1,15 @@
 --liquibase formatted sql
 --changeset lamahafiz:001-create-city-table
 
-CREATE SEQUENCE IF NOT EXISTS city_id_seq
+CREATE SEQUENCE IF NOT EXISTS accounts.city_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS cities (
-    city_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('city_id_seq'),
+CREATE TABLE IF NOT EXISTS accounts.cities (
+    city_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('accounts.city_id_seq'),
     name VARCHAR(100) NOT NULL UNIQUE,
     base_fee NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
     is_active BOOLEAN DEFAULT TRUE,

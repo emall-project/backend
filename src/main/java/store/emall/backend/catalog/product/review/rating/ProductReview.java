@@ -23,7 +23,7 @@ import store.emall.backend.catalog.product.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "product_reviews_audit", schema = "audit")
+@AuditTable(value = "product_reviews_audit", schema = "catalog")
 public class ProductReview extends EMallsBaseEntity {
 
     @Id

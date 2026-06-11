@@ -2,7 +2,7 @@
 -- changeset jehad:003-create-model-invocation-records
 
 
-CREATE TABLE model_invocation_records
+CREATE TABLE IF NOT EXISTS interaction.model_invocation_records
 (
     id               BIGSERIAL PRIMARY KEY,
     model_name       VARCHAR(100) NOT NULL,

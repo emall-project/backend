@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:004-insert-admin-user
 
-INSERT INTO users (
+INSERT INTO accounts.users (
     user_id,
     full_name,
     email,
@@ -13,7 +13,7 @@ INSERT INTO users (
     created_by
 )
 VALUES (
-    NEXTVAL('user_id_seq'),
+    NEXTVAL('accounts.user_id_seq'),
     'admin',
     'admin@emalls.com',
     '+970-0599000000',

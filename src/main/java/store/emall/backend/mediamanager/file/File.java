@@ -24,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "files_audit", schema = "audit")
+@AuditTable(value = "files_audit", schema = "media_manager")
 public class File extends EMallsBaseEntity {
 
     @Id

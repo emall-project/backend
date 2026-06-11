@@ -1,11 +1,11 @@
 --liquibase formatted sql
 --changeset lamahafiz:005-create-ad-payments-table
 
-CREATE SEQUENCE IF NOT EXISTS ad_payment_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS campaigns.ad_payment_id_seq START WITH 1 INCREMENT BY 1;
 
-CREATE TABLE IF NOT EXISTS public.ad_payments (
-    payment_id              BIGINT          PRIMARY KEY DEFAULT nextval('ad_payment_id_seq'),
-    ad_request_id           BIGINT          NOT NULL REFERENCES public.ad_requests(ad_request_id),
+CREATE TABLE IF NOT EXISTS campaigns.ad_payments (
+    payment_id              BIGINT          PRIMARY KEY DEFAULT nextval('campaigns.ad_payment_id_seq'),
+    ad_request_id           BIGINT          NOT NULL REFERENCES campaigns.ad_requests(ad_request_id),
     amount                  NUMERIC(12, 2)  NOT NULL,
     currency                VARCHAR(10)     NOT NULL DEFAULT 'USD',
     payment_date            TIMESTAMP       NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS public.ad_payments (
     updated_by              VARCHAR(255)
     );
 
-CREATE INDEX IF NOT EXISTS idx_ad_pay_request_id ON public.ad_payments(ad_request_id);
-CREATE INDEX IF NOT EXISTS idx_ad_pay_stripe_pi  ON public.ad_payments(stripe_payment_intent_id);
+CREATE INDEX IF NOT EXISTS idx_ad_pay_request_id ON campaigns.ad_payments(ad_request_id);
+CREATE INDEX IF NOT EXISTS idx_ad_pay_stripe_pi  ON campaigns.ad_payments(stripe_payment_intent_id);

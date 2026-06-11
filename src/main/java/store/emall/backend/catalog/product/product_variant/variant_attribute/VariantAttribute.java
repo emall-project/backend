@@ -27,7 +27,7 @@ import store.emall.backend.catalog.product.product_variant.ProductVariant;
 @AllArgsConstructor
 @Builder
 @Audited
-@AuditTable(value = "variant_attributes_audit", schema = "audit")
+@AuditTable(value = "variant_attributes_audit", schema = "catalog")
 public class VariantAttribute {
 
     @Id

@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset JehadHamid:005-create-tags-audit
 
-CREATE TABLE IF NOT EXISTS audit.tags_audit
+CREATE TABLE IF NOT EXISTS catalog.tags_audit
 (
     rev     INT NOT NULL,
     revtype SMALLINT,
@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS audit.tags_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_tags_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES catalog.revinfo (rev)
 )

@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:010-create-shops-audit
 
-CREATE TABLE IF NOT EXISTS audit.shops_audit (
+CREATE TABLE IF NOT EXISTS accounts.shops_audit (
     shop_id BIGINT NOT NULL,
     rev INT NOT NULL,
     revtype SMALLINT,
@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS audit.shops_audit (
     PRIMARY KEY (shop_id, rev),
     CONSTRAINT fk_shops_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES audit.revinfo(rev)
+    REFERENCES accounts.revinfo(rev)
 );

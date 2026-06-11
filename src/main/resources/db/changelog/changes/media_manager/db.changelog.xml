@@ -8,7 +8,8 @@
 
     <!-- Global DB initialization -->
 
-    <includeAll path="audit" relativeToChangelogFile="true"/>
+    <includeAll path="common" relativeToChangelogFile="true"/>
     <includeAll path="media_manager/schema" relativeToChangelogFile="true"/>
+    <includeAll path="audit" relativeToChangelogFile="true"/>
     <includeAll path="media_manager/data" relativeToChangelogFile="true"/>
 </databaseChangeLog>

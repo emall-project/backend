@@ -13,7 +13,7 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 @Entity
 @Table(
         name = "offer_items",
-        schema = "public",
+        schema = "campaigns",
         uniqueConstraints = @UniqueConstraint(
                 name = "uk_offer_product",
                 columnNames = {"offer_id", "product_id"}
@@ -25,7 +25,7 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "offer_items_audit", schema = "audit")
+@AuditTable(value = "offer_items_audit", schema = "campaigns")
 public class OfferItem extends EMallsBaseEntity {
 
     @Id
@@ -33,6 +33,7 @@ public class OfferItem extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "offer_item_seq",
             sequenceName = "offer_item_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "offer_item_id")

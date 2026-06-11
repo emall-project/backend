@@ -4,6 +4,6 @@
 -- RESERVED was removed from AdTemplateStatus when template availability became
 -- time-slot based. Older rows may still contain the legacy value, which makes
 -- Hibernate fail enum hydration before application code can handle the record.
-UPDATE public.ad_templates
+UPDATE campaigns.ad_templates
 SET status = 'ACTIVE'
 WHERE status = 'RESERVED';

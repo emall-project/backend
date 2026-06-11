@@ -2,7 +2,7 @@
 --changeset jehadHamid:004-create-files-audit
 
 
-CREATE TABLE IF NOT EXISTS audit.files_audit
+CREATE TABLE IF NOT EXISTS media_manager.files_audit
 (
     id            uuid NOT NULL,
     rev           INT  NOT NULL,
@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS audit.files_audit
     CONSTRAINT pk_files_audit PRIMARY KEY (id, rev),
     CONSTRAINT fk_files_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES media_manager.revinfo (rev)
 );

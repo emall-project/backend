@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:006-create-city-audit
 
-CREATE TABLE IF NOT EXISTS audit.cities_audit (
+CREATE TABLE IF NOT EXISTS accounts.cities_audit (
     rev INT NOT NULL,
     revtype SMALLINT,
     city_id BIGINT NOT NULL,
@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS audit.cities_audit (
     PRIMARY KEY (city_id, rev),
     CONSTRAINT fk_cities_audit_rev
         FOREIGN KEY (rev)
-        REFERENCES audit.revinfo (rev)
+        REFERENCES accounts.revinfo (rev)
 );

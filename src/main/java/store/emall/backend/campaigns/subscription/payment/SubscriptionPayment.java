@@ -12,14 +12,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "subscription_payments", schema = "public")
+@Table(name = "subscription_payments", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "subscription_payments_audit", schema = "audit")
+@AuditTable(value = "subscription_payments_audit", schema = "campaigns")
 public class SubscriptionPayment extends EMallsBaseEntity {
 
     @Id
@@ -27,6 +27,7 @@ public class SubscriptionPayment extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "subscription_payment_seq",
             sequenceName = "subscription_payment_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "payment_id")

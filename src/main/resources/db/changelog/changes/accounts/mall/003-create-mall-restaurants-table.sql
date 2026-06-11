@@ -1,15 +1,15 @@
 --liquibase formatted sql
 --changeset lamahafiz:003-create-mall-restaurants-table
 
-CREATE SEQUENCE IF NOT EXISTS mall_restaurant_id_seq
+CREATE SEQUENCE IF NOT EXISTS accounts.mall_restaurant_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS mall_restaurants (
-    restaurant_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('mall_restaurant_id_seq'),
+CREATE TABLE IF NOT EXISTS accounts.mall_restaurants (
+    restaurant_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('accounts.mall_restaurant_id_seq'),
     mall_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS mall_restaurants (
 
     CONSTRAINT fk_mall_restaurants_mall
     FOREIGN KEY (mall_id)
-    REFERENCES malls(mall_id)
+    REFERENCES accounts.malls(mall_id)
 );

@@ -4,7 +4,7 @@
 DELETE FROM users
     WHERE email = 'admin@emalls.com' OR full_name = 'admin' OR phone_number = '+970-0599000000';
 
-INSERT INTO users (
+INSERT INTO accounts.users (
     user_id,
     username,
     full_name,
@@ -17,7 +17,7 @@ INSERT INTO users (
     created_by
 )
 VALUES (
-    NEXTVAL('user_id_seq'),
+    NEXTVAL('accounts.user_id_seq'),
     'admin',
     'System Administrator',
     'admin@emalls.com',

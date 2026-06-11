@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:004-create-ad-request-audit
 
-CREATE TABLE IF NOT EXISTS audit.ad_requests_audit (
+CREATE TABLE IF NOT EXISTS campaigns.ad_requests_audit (
     rev                     INT NOT NULL,
     revtype                 SMALLINT,
     ad_request_id           BIGINT NOT NULL,
@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS audit.ad_requests_audit (
     PRIMARY KEY (ad_request_id, rev),
     CONSTRAINT fk_ad_request_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES audit.revinfo (rev)
+    REFERENCES campaigns.revinfo (rev)
 );

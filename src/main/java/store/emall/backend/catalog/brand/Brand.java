@@ -22,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "brands_audit", schema = "audit")
+@AuditTable(value = "brands_audit", schema = "catalog")
 public class Brand extends EMallsBaseEntity {
 
     @Id

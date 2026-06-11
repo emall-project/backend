@@ -21,8 +21,4 @@
 
     <include file="changes/interaction/db.changelog.xml"
              relativeToChangelogFile="true"/>
-
-    <include file="changes/catalog/db.changelog.xml"
-             relativeToChangelogFile="true"/>
-
 </databaseChangeLog>

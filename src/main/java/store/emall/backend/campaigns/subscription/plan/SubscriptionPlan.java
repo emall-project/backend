@@ -11,14 +11,14 @@ import store.emall.backend.campaigns.subscription.SubscriptionPlanType;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "subscription_plans", schema = "public")
+@Table(name = "subscription_plans", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "subscription_plans_audit", schema = "audit")
+@AuditTable(value = "subscription_plans_audit", schema = "campaigns")
 public class SubscriptionPlan extends EMallsBaseEntity {
 
     @Id
@@ -26,6 +26,7 @@ public class SubscriptionPlan extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "subscription_plan_seq",
             sequenceName = "subscription_plan_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "subscription_plan_id")

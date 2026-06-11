@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "ad_templates", schema = "public")
+@Table(name = "ad_templates", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "ad_templates_audit", schema = "audit")
+@AuditTable(value = "ad_templates_audit", schema = "campaigns")
 public class AdTemplate extends EMallsBaseEntity {
 
     @Id
@@ -32,6 +32,7 @@ public class AdTemplate extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "ad_template_seq",
             sequenceName = "ad_template_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "ad_template_id")

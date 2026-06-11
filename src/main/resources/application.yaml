@@ -10,8 +10,6 @@ spring:
     hibernate:
       ddl-auto: validate
     properties:
-      hibernate:
-        default_schema: public
       org:
         hibernate:
           envers:

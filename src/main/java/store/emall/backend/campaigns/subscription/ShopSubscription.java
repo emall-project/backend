@@ -13,14 +13,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "shop_subscriptions", schema = "public")
+@Table(name = "shop_subscriptions", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "shop_subscriptions_audit", schema = "audit")
+@AuditTable(value = "shop_subscriptions_audit", schema = "campaigns")
 public class ShopSubscription extends EMallsBaseEntity {
 
     @Id
@@ -28,6 +28,7 @@ public class ShopSubscription extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "shop_subscription_seq",
             sequenceName = "shop_subscription_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "subscription_id")

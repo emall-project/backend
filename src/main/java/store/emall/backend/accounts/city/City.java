@@ -13,14 +13,14 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "cities", schema = "public")
+@Table(name = "cities", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "cities_audit", schema = "audit")
+@AuditTable(value = "cities_audit", schema = "accounts")
 public class City extends EMallsBaseEntity {
 
     @Id
@@ -28,6 +28,7 @@ public class City extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "city_seq",
             sequenceName = "city_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "city_id")

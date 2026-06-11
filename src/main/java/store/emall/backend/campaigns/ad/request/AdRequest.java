@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ad_requests", schema = "public")
+@Table(name = "ad_requests", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "ad_requests_audit", schema = "audit")
+@AuditTable(value = "ad_requests_audit", schema = "campaigns")
 public class AdRequest extends EMallsBaseEntity {
 
     @Id
@@ -31,6 +31,7 @@ public class AdRequest extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "ad_request_seq",
             sequenceName = "ad_request_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "ad_request_id")

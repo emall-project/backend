@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:014-create-comments-audit
 
-CREATE TABLE IF NOT EXISTS audit.product_comments_audit (
+CREATE TABLE IF NOT EXISTS catalog.product_comments_audit (
     rev         INT         NOT NULL,
     revtype     SMALLINT,
     comment_id  BIGINT      NOT NULL,
@@ -15,5 +15,5 @@ CREATE TABLE IF NOT EXISTS audit.product_comments_audit (
     updated_by  VARCHAR(255),
 
     PRIMARY KEY (comment_id, rev),
-    CONSTRAINT fk_comments_audit_rev FOREIGN KEY (rev) REFERENCES audit.revinfo (rev)
+    CONSTRAINT fk_comments_audit_rev FOREIGN KEY (rev) REFERENCES catalog.revinfo (rev)
 );

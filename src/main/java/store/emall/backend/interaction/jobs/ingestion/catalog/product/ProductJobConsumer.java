@@ -3,12 +3,14 @@ package store.emall.backend.interaction.jobs.ingestion.catalog.product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import store.emall.backend.interaction.jobs.JobQueue;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@Profile("!test")
 public class ProductJobConsumer {
 
     private final ProductJobService productJobService;

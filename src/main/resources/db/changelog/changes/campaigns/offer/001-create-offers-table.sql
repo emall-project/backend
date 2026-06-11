@@ -1,15 +1,15 @@
 --liquibase formatted sql
 --changeset lamahafiz:001-create-offers-table
 
-CREATE SEQUENCE IF NOT EXISTS offer_id_seq
+CREATE SEQUENCE IF NOT EXISTS campaigns.offer_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS public.offers (
-    offer_id        BIGINT          PRIMARY KEY DEFAULT nextval('offer_id_seq'),
+CREATE TABLE IF NOT EXISTS campaigns.offers (
+    offer_id        BIGINT          PRIMARY KEY DEFAULT nextval('campaigns.offer_id_seq'),
     shop_id         BIGINT          NOT NULL,
     title           VARCHAR(255)    NOT NULL,
     description     TEXT,

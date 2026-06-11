@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset JehadHamid:006-create-product-variants-audit
 
-CREATE TABLE IF NOT EXISTS audit.product_variants_audit
+CREATE TABLE IF NOT EXISTS catalog.product_variants_audit
 (
     rev        INT NOT NULL,
     revtype    SMALLINT,
@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS audit.product_variants_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_product_variants_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES catalog.revinfo (rev)
 )

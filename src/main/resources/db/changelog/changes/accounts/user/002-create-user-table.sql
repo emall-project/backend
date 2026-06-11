@@ -1,15 +1,15 @@
 --liquibase formatted sql
 --changeset lamahafiz:002-create-user-table
 
-CREATE SEQUENCE IF NOT EXISTS user_id_seq
+CREATE SEQUENCE IF NOT EXISTS accounts.user_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS users (
-    user_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('user_id_seq'),
+CREATE TABLE IF NOT EXISTS accounts.users (
+    user_id BIGINT PRIMARY KEY DEFAULT NEXTVAL('accounts.user_id_seq'),
     full_name VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
     phone_number VARCHAR(25) NOT NULL UNIQUE,
@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS users (
 
     CONSTRAINT fk_users_role
             FOREIGN KEY (role_id)
-            REFERENCES roles(role_id)
+            REFERENCES accounts.roles(role_id)
 
 );

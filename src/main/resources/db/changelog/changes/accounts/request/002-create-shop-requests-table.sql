@@ -1,11 +1,11 @@
 --liquibase formatted sql
 --changeset lamahafiz:002-create-shop-requests-table
 
-CREATE SEQUENCE IF NOT EXISTS shop_request_id_seq
+CREATE SEQUENCE IF NOT EXISTS accounts.shop_request_id_seq
     START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-CREATE TABLE IF NOT EXISTS shop_requests (
-    id BIGINT PRIMARY KEY DEFAULT NEXTVAL('shop_request_id_seq'),
+CREATE TABLE IF NOT EXISTS accounts.shop_requests (
+    id BIGINT PRIMARY KEY DEFAULT NEXTVAL('accounts.shop_request_id_seq'),
     shop_owner_request_id BIGINT NOT NULL UNIQUE,
     mall_id               BIGINT NOT NULL,
     name                  VARCHAR(255) NOT NULL,
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS shop_requests (
     updated_by  VARCHAR(150),
 
     CONSTRAINT fk_shop_requests_owner_request
-        FOREIGN KEY (shop_owner_request_id) REFERENCES shop_owner_requests(id),
+        FOREIGN KEY (shop_owner_request_id) REFERENCES accounts.shop_owner_requests(id),
 
     CONSTRAINT fk_shop_requests_mall
-        FOREIGN KEY (mall_id) REFERENCES malls(mall_id),
+        FOREIGN KEY (mall_id) REFERENCES accounts.malls(mall_id),
 
     CONSTRAINT fk_shop_requests_created_shop
-        FOREIGN KEY (created_shop_id) REFERENCES shops(shop_id)
+        FOREIGN KEY (created_shop_id) REFERENCES accounts.shops(shop_id)
 );

@@ -64,7 +64,7 @@ public interface MallRepository extends JpaRepository<Mall, Long>, JpaSpecificat
 
     @Query(value = """
     SELECT *
-    FROM public.malls m
+    FROM accounts.malls m
     WHERE m.logo_uuid = :imageId
        OR EXISTS (
            SELECT 1

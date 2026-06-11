@@ -1,11 +1,11 @@
 --liquibase formatted sql
 --changeset lamahafiz:001-create-shop-owner-requests-table
 
-CREATE SEQUENCE IF NOT EXISTS shop_owner_request_id_seq
+CREATE SEQUENCE IF NOT EXISTS accounts.shop_owner_request_id_seq
     START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
-CREATE TABLE IF NOT EXISTS shop_owner_requests (
-    id               BIGINT PRIMARY KEY DEFAULT NEXTVAL('shop_owner_request_id_seq'),
+CREATE TABLE IF NOT EXISTS accounts.shop_owner_requests (
+    id               BIGINT PRIMARY KEY DEFAULT NEXTVAL('accounts.shop_owner_request_id_seq'),
     full_name        VARCHAR(255),
     username         VARCHAR(150)  NOT NULL UNIQUE,
     email            VARCHAR(150)  UNIQUE,
@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS shop_owner_requests (
     updated_by  VARCHAR(150),
 
     CONSTRAINT fk_shop_owner_requests_created_user
-        FOREIGN KEY (created_user_id) REFERENCES users(user_id)
+        FOREIGN KEY (created_user_id) REFERENCES accounts.users(user_id)
 );

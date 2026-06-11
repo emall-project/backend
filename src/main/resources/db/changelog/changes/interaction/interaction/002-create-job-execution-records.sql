@@ -1,7 +1,7 @@
 -- liquibase formatted sql
 -- changeset jehad:002-create-job-execution-records
 
-CREATE TABLE job_execution_records
+CREATE TABLE IF NOT EXISTS interaction.job_execution_records
 (
     id             BIGSERIAL PRIMARY KEY,
     job_type       VARCHAR(100)             NOT NULL,

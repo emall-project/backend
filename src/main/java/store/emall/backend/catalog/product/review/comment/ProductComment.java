@@ -28,7 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "product_comments_audit", schema = "audit")
+@AuditTable(value = "product_comments_audit", schema = "catalog")
 public class ProductComment extends EMallsBaseEntity {
 
     @Id

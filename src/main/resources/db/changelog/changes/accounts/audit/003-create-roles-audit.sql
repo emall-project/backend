@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:003-create-roles-audit
 
-CREATE TABLE IF NOT EXISTS audit.roles_audit (
+CREATE TABLE IF NOT EXISTS accounts.roles_audit (
     role_id BIGINT NOT NULL,
     rev INT NOT NULL,
     revtype SMALLINT,
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS audit.roles_audit (
     PRIMARY KEY (role_id, rev),
     CONSTRAINT fk_roles_audit_rev
         FOREIGN KEY (rev)
-        REFERENCES audit.revinfo (rev)
+        REFERENCES accounts.revinfo (rev)
 );

@@ -19,7 +19,7 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "tags_audit", schema = "audit")
+@AuditTable(value = "tags_audit", schema = "catalog")
 
 public class Tag extends EMallsBaseEntity {
     @Id

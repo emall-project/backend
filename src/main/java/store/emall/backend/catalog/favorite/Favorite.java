@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "favorites_audit", schema = "audit")
+@AuditTable(value = "favorites_audit", schema = "catalog")
 public class Favorite {
 
     @Id

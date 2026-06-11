@@ -1,10 +1,10 @@
 --liquibase formatted sql
 --changeset lamahafiz:001-create-subscription-plan-table
 
-CREATE SEQUENCE IF NOT EXISTS subscription_plan_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS campaigns.subscription_plan_id_seq START WITH 1 INCREMENT BY 1;
 
-CREATE TABLE IF NOT EXISTS public.subscription_plans (
-    subscription_plan_id  BIGINT          PRIMARY KEY DEFAULT nextval('subscription_plan_id_seq'),
+CREATE TABLE IF NOT EXISTS campaigns.subscription_plans (
+    subscription_plan_id  BIGINT          PRIMARY KEY DEFAULT nextval('campaigns.subscription_plan_id_seq'),
     name                  VARCHAR(100)    NOT NULL,
     plan_type             VARCHAR(20)     NOT NULL,
     duration_months       INTEGER         NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public.subscription_plans (
     updated_by            VARCHAR(255)
 );
 
-INSERT INTO public.subscription_plans
+INSERT INTO campaigns.subscription_plans
 (name, plan_type, duration_months, price, currency, stripe_price_id, is_active)
 VALUES
     ('Monthly Plan', 'MONTHLY', 1,    9.99, 'USD', 'prod_ULwjCUAknZzaZm', TRUE),

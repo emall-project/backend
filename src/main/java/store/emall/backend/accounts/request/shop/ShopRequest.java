@@ -18,14 +18,14 @@ import store.emall.backend.accounts.user.User;
 import java.util.*;
 
 @Entity
-@Table(name = "shop_requests", schema = "public")
+@Table(name = "shop_requests", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "shop_requests_audit", schema = "audit")
+@AuditTable(value = "shop_requests_audit", schema = "accounts")
 public class ShopRequest extends EMallsBaseEntity {
 
     @Id
@@ -33,6 +33,7 @@ public class ShopRequest extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "shop_request_seq",
             sequenceName = "shop_request_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "id")

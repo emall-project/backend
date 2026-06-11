@@ -7,7 +7,7 @@ import org.hibernate.envers.RevisionTimestamp;
 
 @Entity
 @RevisionEntity
-@Table(name = "revinfo", schema = "audit")
+@Table(name = "revinfo", schema = "accounts")
 public class AuditRevisionEntity {
 
     @Id
@@ -18,7 +18,8 @@ public class AuditRevisionEntity {
     )
     @SequenceGenerator(
             name = "revinfo_seq_generator",
-            sequenceName = "audit.revinfo_seq",
+            sequenceName = "revinfo_seq",
+            schema = "accounts",
             allocationSize = 50
     )
     @Column(name = "rev")

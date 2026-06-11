@@ -93,7 +93,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long>, JpaSpecificat
     }
     @Query(value = """
         SELECT *
-        FROM public.shops s
+        FROM accounts.shops s
         WHERE s.logo_uuid = :imageId
            OR s.license_image_uuid = :imageId
            OR EXISTS (

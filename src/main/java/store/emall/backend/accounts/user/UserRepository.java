@@ -57,7 +57,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query(value = """
         SELECT *
-        FROM public.users u
+        FROM accounts.users u
         WHERE u.profile_picture_uuid = :imageId
         """, nativeQuery = true)
     List<User> findByImageId(UUID imageId);

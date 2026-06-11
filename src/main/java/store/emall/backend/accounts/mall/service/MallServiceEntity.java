@@ -12,14 +12,14 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 import store.emall.backend.accounts.mall.Mall;
 
 @Entity
-@Table(name = "mall_services", schema = "public")
+@Table(name = "mall_services", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "mall_services_audit", schema = "audit")
+@AuditTable(value = "mall_services_audit", schema = "accounts")
 public class MallServiceEntity extends EMallsBaseEntity {
 
     @Id
@@ -27,6 +27,7 @@ public class MallServiceEntity extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "mall_service_seq",
             sequenceName = "mall_service_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "service_id")

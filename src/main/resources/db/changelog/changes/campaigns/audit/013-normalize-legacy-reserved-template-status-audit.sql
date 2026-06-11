@@ -2,6 +2,6 @@
 --changeset jehadhamid:013-normalize-legacy-reserved-template-status-audit
 
 -- Keep audited template rows readable by the current AdTemplateStatus enum.
-UPDATE audit.ad_templates_audit
+UPDATE campaigns.ad_templates_audit
 SET status = 'ACTIVE'
 WHERE status = 'RESERVED';

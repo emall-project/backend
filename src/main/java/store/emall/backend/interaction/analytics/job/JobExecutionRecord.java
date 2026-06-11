@@ -8,7 +8,7 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 import java.time.Instant;
 
 @Entity
-@Table(name = "job_execution_records")
+@Table(name = "job_execution_records", schema = "interaction")
 @Getter
 @Setter
 @Builder

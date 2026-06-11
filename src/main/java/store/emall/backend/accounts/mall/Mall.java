@@ -17,20 +17,21 @@ import store.emall.backend.accounts.mall.service.MallServiceEntity;
 import java.util.*;
 
 @Entity
-@Table(name = "malls", schema = "public")
+@Table(name = "malls", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "malls_audit", schema = "audit")
+@AuditTable(value = "malls_audit", schema = "accounts")
 public class Mall extends EMallsBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mall_seq")
     @SequenceGenerator(
             name = "mall_seq",
             sequenceName = "mall_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "mall_id")

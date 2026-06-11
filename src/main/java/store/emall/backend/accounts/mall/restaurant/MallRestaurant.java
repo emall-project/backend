@@ -17,14 +17,14 @@ import java.util.Map;
 import java.util.UUID;
 
 @Entity
-@Table(name = "mall_restaurants", schema = "public")
+@Table(name = "mall_restaurants", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "mall_restaurants_audit", schema = "audit")
+@AuditTable(value = "mall_restaurants_audit", schema = "accounts")
 public class MallRestaurant extends EMallsBaseEntity {
 
     @Id
@@ -32,6 +32,7 @@ public class MallRestaurant extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "mall_restaurant_seq",
             sequenceName = "mall_restaurant_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "restaurant_id")

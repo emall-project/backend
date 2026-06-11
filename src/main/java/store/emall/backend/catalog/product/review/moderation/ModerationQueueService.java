@@ -5,6 +5,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import store.emall.backend.catalog.product.review.comment.ProductCommentRepository;
 
@@ -13,6 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class ModerationQueueService {

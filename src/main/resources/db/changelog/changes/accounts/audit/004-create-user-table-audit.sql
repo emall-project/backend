@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:004-create-users-audit-table
 
-CREATE TABLE IF NOT EXISTS audit.users_audit (
+CREATE TABLE IF NOT EXISTS accounts.users_audit (
     user_id BIGINT NOT NULL,
     rev INT NOT NULL,
     revtype SMALLINT,
@@ -22,5 +22,5 @@ CREATE TABLE IF NOT EXISTS audit.users_audit (
     CONSTRAINT pk_users_audit PRIMARY KEY (user_id, rev),
     CONSTRAINT fk_users_audit_rev
         FOREIGN KEY (rev)
-        REFERENCES audit.revinfo (rev)
+        REFERENCES accounts.revinfo (rev)
 );

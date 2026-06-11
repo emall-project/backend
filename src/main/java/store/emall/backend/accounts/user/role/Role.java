@@ -12,14 +12,14 @@ import org.hibernate.envers.Audited;
 import store.emall.backend.common.base.EMallsBaseEntity;
 
 @Entity
-@Table(name = "roles", schema = "public")
+@Table(name = "roles", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "roles_audit", schema = "audit")
+@AuditTable(value = "roles_audit", schema = "accounts")
 public class Role extends EMallsBaseEntity {
 
     @Id
@@ -27,6 +27,7 @@ public class Role extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "role_seq",
             sequenceName = "role_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "role_id")

@@ -31,7 +31,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "category_audience_configs_audit", schema = "audit")
+@AuditTable(value = "category_audience_configs_audit", schema = "catalog")
 public class CategoryAudienceConfig {
 
     @Id

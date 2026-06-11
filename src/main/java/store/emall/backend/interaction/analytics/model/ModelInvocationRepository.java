@@ -61,7 +61,7 @@ public interface ModelInvocationRepository extends JpaRepository<ModelInvocation
     @Query(value = """
                 select to_char(date_trunc('hour', started_at), 'YYYY-MM-DD HH24:00') as hour_bucket,
                        count(*) as call_count
-                from model_invocation_records
+                from interaction.model_invocation_records
                 where started_at between :from and :to
                 group by date_trunc('hour', started_at)
                 order by date_trunc('hour', started_at)

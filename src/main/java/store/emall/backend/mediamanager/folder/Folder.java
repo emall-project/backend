@@ -22,15 +22,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "folders_audit", schema = "audit")
+@AuditTable(value = "folders_audit", schema = "media_manager")
 public class Folder extends EMallsBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "folder_seq")
     @SequenceGenerator(
             name = "folder_seq",
-            schema = "media_manager",
             sequenceName = "folder_id_seq",
+            schema = "media_manager",
             allocationSize = 1
     )
     @Column(name = "id")

@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:006-create-offer-items-audit
 
-CREATE TABLE IF NOT EXISTS audit.offer_items_audit (
+CREATE TABLE IF NOT EXISTS campaigns.offer_items_audit (
     rev                 INT             NOT NULL,
     revtype             SMALLINT,
     offer_item_id       BIGINT          NOT NULL,
@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS audit.offer_items_audit (
     PRIMARY KEY (offer_item_id, rev),
     CONSTRAINT fk_offer_items_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES audit.revinfo (rev)
+    REFERENCES campaigns.revinfo (rev)
 );

@@ -31,7 +31,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "product_media_audit", schema = "audit")
+@AuditTable(value = "product_media_audit", schema = "catalog")
 public class ProductMedium extends EMallsBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_media_seq")

@@ -2,7 +2,7 @@
 --changeset jehadHamid:003-create-folders-audit
 
 
-CREATE TABLE IF NOT EXISTS audit.folders_audit
+CREATE TABLE IF NOT EXISTS media_manager.folders_audit
 (
     id         BIGINT NOT NULL,
     rev        INT    NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS audit.folders_audit
     CONSTRAINT pk_folders_audit PRIMARY KEY (id, rev),
     CONSTRAINT fk_folders_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES media_manager.revinfo (rev)
 );

@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "offers", schema = "public")
+@Table(name = "offers", schema = "campaigns")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "offers_audit", schema = "audit")
+@AuditTable(value = "offers_audit", schema = "campaigns")
 public class Offer extends EMallsBaseEntity {
 
     @Id
@@ -28,6 +28,7 @@ public class Offer extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "offer_seq",
             sequenceName = "offer_id_seq",
+            schema = "campaigns",
             allocationSize = 1
     )
     @Column(name = "offer_id")

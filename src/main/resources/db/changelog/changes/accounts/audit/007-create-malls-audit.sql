@@ -1,7 +1,7 @@
 --liquibase formatted sql
---changeset lamahafiz:007-create-malls-audit.
+--changeset lamahafiz:007-create-malls-accounts.
 
-CREATE TABLE IF NOT EXISTS audit.malls_audit (
+CREATE TABLE IF NOT EXISTS accounts.malls_audit (
     mall_id BIGINT NOT NULL,
     rev INT NOT NULL,
     revtype SMALLINT,
@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS audit.malls_audit (
     PRIMARY KEY (mall_id, rev),
     CONSTRAINT fk_malls_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES audit.revinfo(rev)
+    REFERENCES accounts.revinfo(rev)
 );

@@ -14,14 +14,14 @@ import store.emall.backend.accounts.user.User;
 import java.util.*;
 
 @Entity
-@Table(name = "shops", schema = "public")
+@Table(name = "shops", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "shops_audit", schema = "audit")
+@AuditTable(value = "shops_audit", schema = "accounts")
 public class Shop extends EMallsBaseEntity {
 
     @Id
@@ -29,6 +29,7 @@ public class Shop extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "shop_seq",
             sequenceName = "shop_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "shop_id")

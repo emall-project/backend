@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset JehadHamid:002-create-categories-audit
 
-CREATE TABLE IF NOT EXISTS audit.categories_audit
+CREATE TABLE IF NOT EXISTS catalog.categories_audit
 (
     rev               INT NOT NULL,
     revtype           SMALLINT,
@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS audit.categories_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_categories_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES catalog.revinfo (rev)
 )

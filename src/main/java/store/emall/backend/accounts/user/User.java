@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "users", schema = "accounts")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "users_audit", schema = "audit")
+@AuditTable(value = "users_audit", schema = "accounts")
 public class User extends EMallsBaseEntity {
 
     @Id
@@ -28,6 +28,7 @@ public class User extends EMallsBaseEntity {
     @SequenceGenerator(
             name = "user_seq",
             sequenceName = "user_id_seq",
+            schema = "accounts",
             allocationSize = 1
     )
     @Column(name = "user_id")

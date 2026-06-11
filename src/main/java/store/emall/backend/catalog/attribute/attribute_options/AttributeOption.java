@@ -30,7 +30,7 @@ import store.emall.backend.common.base.EMallsBaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "attribute_options_audit", schema = "audit")
+@AuditTable(value = "attribute_options_audit", schema = "catalog")
 public class AttributeOption extends EMallsBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attribute_options_seq")

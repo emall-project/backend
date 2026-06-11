@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset lamahafiz:012-create-ad-payments-audit-table
 
-CREATE TABLE IF NOT EXISTS audit.ad_payments_audit (
+CREATE TABLE IF NOT EXISTS campaigns.ad_payments_audit (
     rev                      INT             NOT NULL,
     revtype                  SMALLINT,
     payment_id               BIGINT          NOT NULL,
@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS audit.ad_payments_audit (
     updated_at               TIMESTAMP,
     updated_by               VARCHAR(255),
     PRIMARY KEY (payment_id, rev),
-    CONSTRAINT fk_ad_pay_audit_rev FOREIGN KEY (rev) REFERENCES audit.revinfo(rev)
+    CONSTRAINT fk_ad_pay_audit_rev FOREIGN KEY (rev) REFERENCES campaigns.revinfo(rev)
 );

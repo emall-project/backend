@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset JehadHamid:009-create-product-media-audit
 
-CREATE TABLE IF NOT EXISTS audit.product_media_audit
+CREATE TABLE IF NOT EXISTS catalog.product_media_audit
 (
     rev        INT NOT NULL,
     revtype    SMALLINT,
@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS audit.product_media_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_product_media_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES audit.revinfo (rev)
+            REFERENCES catalog.revinfo (rev)
 )

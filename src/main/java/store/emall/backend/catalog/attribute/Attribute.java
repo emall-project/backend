@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "attributes_audit", schema = "audit")
+@AuditTable(value = "attributes_audit", schema = "catalog")
 public class Attribute extends EMallsBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attributes_seq")

@@ -36,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "product_variants_audit", schema = "audit")
+@AuditTable(value = "product_variants_audit", schema = "catalog")
 public class ProductVariant extends EMallsBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_variants_sequence")

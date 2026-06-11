@@ -50,7 +50,7 @@ public interface MallRestaurantRepository extends JpaRepository<MallRestaurant, 
 
     @Query(value = """
         SELECT *
-        FROM public.mall_restaurants mr
+        FROM accounts.mall_restaurants mr
         WHERE mr.logo_uuid = :imageId
         """, nativeQuery = true)
     List<MallRestaurant> findByImageId(UUID imageId);

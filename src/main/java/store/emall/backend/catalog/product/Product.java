@@ -42,7 +42,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "products_audit", schema = "audit")
+@AuditTable(value = "products_audit", schema = "catalog")
 public class Product extends EMallsBaseEntity {
 
     @Id
@@ -103,7 +103,7 @@ public class Product extends EMallsBaseEntity {
     )
     @AuditJoinTable(
             name = "product_tags_audit",
-            schema = "audit"
+            schema = "catalog"
     )
     private List<Tag> tags = new ArrayList<>();
 

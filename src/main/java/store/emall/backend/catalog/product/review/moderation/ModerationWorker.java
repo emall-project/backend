@@ -5,6 +5,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import store.emall.backend.catalog.product.review.comment.ProductComment;
 import store.emall.backend.catalog.product.review.comment.ProductCommentRepository;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * Single-threaded worker that consumes the ModerationQueue.
  */
 @Component
+@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class ModerationWorker {

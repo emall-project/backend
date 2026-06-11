@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset emall:010-create-subscription-audit-tables
 
-CREATE TABLE IF NOT EXISTS audit.subscription_plans_audit (
+CREATE TABLE IF NOT EXISTS campaigns.subscription_plans_audit (
     rev                   INT             NOT NULL,
     revtype               SMALLINT,
     subscription_plan_id  BIGINT          NOT NULL,
@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS audit.subscription_plans_audit (
     updated_at            TIMESTAMP,
     updated_by            VARCHAR(255),
     PRIMARY KEY (subscription_plan_id, rev),
-    CONSTRAINT fk_sub_plan_audit_rev FOREIGN KEY (rev) REFERENCES audit.revinfo(rev)
+    CONSTRAINT fk_sub_plan_audit_rev FOREIGN KEY (rev) REFERENCES campaigns.revinfo(rev)
 );
 
-CREATE TABLE IF NOT EXISTS audit.shop_subscriptions_audit (
+CREATE TABLE IF NOT EXISTS campaigns.shop_subscriptions_audit (
     rev                     INT             NOT NULL,
     revtype                 SMALLINT,
     subscription_id         BIGINT          NOT NULL,
@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS audit.shop_subscriptions_audit (
     updated_at              TIMESTAMP,
     updated_by              VARCHAR(255),
     PRIMARY KEY (subscription_id, rev),
-    CONSTRAINT fk_shop_sub_audit_rev FOREIGN KEY (rev) REFERENCES audit.revinfo(rev)
+    CONSTRAINT fk_shop_sub_audit_rev FOREIGN KEY (rev) REFERENCES campaigns.revinfo(rev)
 );
 
-CREATE TABLE IF NOT EXISTS audit.subscription_payments_audit (
+CREATE TABLE IF NOT EXISTS campaigns.subscription_payments_audit (
     rev               INT             NOT NULL,
     revtype           SMALLINT,
     payment_id        BIGINT          NOT NULL,
@@ -63,5 +63,5 @@ CREATE TABLE IF NOT EXISTS audit.subscription_payments_audit (
     updated_at        TIMESTAMP,
     updated_by        VARCHAR(255),
     PRIMARY KEY (payment_id, rev),
-    CONSTRAINT fk_sub_pay_audit_rev FOREIGN KEY (rev) REFERENCES audit.revinfo(rev)
+    CONSTRAINT fk_sub_pay_audit_rev FOREIGN KEY (rev) REFERENCES campaigns.revinfo(rev)
 );

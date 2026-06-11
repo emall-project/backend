@@ -8,13 +8,13 @@ import java.time.Instant;
 @Entity
 @Table(
         name = "interaction_events",
+        schema = "interaction",
         indexes = {
-                @Index(name = "idx_interaction_events_user_id", columnList = "user_id"),
-                @Index(name = "idx_interaction_events_product_id", columnList = "product_id"),
-                @Index(name = "idx_interaction_events_campaign_id", columnList = "campaign_id"),
-                @Index(name = "idx_interaction_events_order_id", columnList = "order_id"),
+                @Index(name = "idx_interaction_events_entity_id", columnList = "entity_id"),
                 @Index(name = "idx_interaction_events_event_type", columnList = "event_type"),
-                @Index(name = "idx_interaction_events_occurred_at", columnList = "occurred_at")
+                @Index(name = "idx_interaction_events_occurred_at", columnList = "occurred_at"),
+                @Index(name = "idx_interaction_events_user_occurred_at", columnList = "occurred_by, occurred_at"),
+                @Index(name = "idx_interaction_events_entity_event_type", columnList = "entity_id, event_type")
         }
 )
 @Getter

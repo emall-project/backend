@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "comment_moderation_log_audit", schema = "audit")
+@AuditTable(value = "comment_moderation_log_audit", schema = "catalog")
 public class CommentModerationLog {
 
     @Id

@@ -1,15 +1,15 @@
 --liquibase formatted sql
 --changeset lamahafiz:002-create-ad-request-table
 
-CREATE SEQUENCE IF NOT EXISTS ad_request_id_seq
+CREATE SEQUENCE IF NOT EXISTS campaigns.ad_request_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS ad_requests (
-    ad_request_id           BIGINT          PRIMARY KEY DEFAULT nextval('ad_request_id_seq'),
+CREATE TABLE IF NOT EXISTS campaigns.ad_requests (
+    ad_request_id           BIGINT          PRIMARY KEY DEFAULT nextval('campaigns.ad_request_id_seq'),
     template_id             BIGINT          NOT NULL,
     shop_id                 BIGINT          NOT NULL,
     title                   VARCHAR(255)    NOT NULL,
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS ad_requests (
     updated_by              VARCHAR(255),
 
     CONSTRAINT fk_ad_request_template FOREIGN KEY (template_id)
-    REFERENCES public.ad_templates (ad_template_id) ON DELETE RESTRICT
+    REFERENCES campaigns.ad_templates (ad_template_id) ON DELETE RESTRICT
 );
