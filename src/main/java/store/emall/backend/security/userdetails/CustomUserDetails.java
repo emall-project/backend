@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.dto.StoreRef;
 import store.emall.backend.accounts.user.User;
 
@@ -24,7 +25,7 @@ public class CustomUserDetails implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     private final Integer age;
-    private final String gender;
+    private final Gender gender;
 
     private final List<StoreRef> shopIds;
 
@@ -42,7 +43,7 @@ public class CustomUserDetails implements UserDetails {
         this.shopIds = Collections.emptyList();
     }
 
-    public CustomUserDetails(User user, Integer age, String gender) {
+    public CustomUserDetails(User user, Integer age, Gender gender) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -67,7 +68,28 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = List.of(new SimpleGrantedAuthority(user.getRole().getCode()));
         this.age = null;
         this.gender = null;
-        this.shopIds = shopIds != null ? shopIds : Collections.emptyList();    }
+        this.shopIds = shopIds != null ? shopIds : Collections.emptyList();
+    }
+
+    public CustomUserDetails(Long userId,
+                             String username,
+                             String fullName,
+                             String roleCode,
+                             Integer age,
+                             Gender gender,
+                             List<StoreRef> shopIds) {
+        this.userId = userId;
+        this.username = username;
+        this.password = null;
+        this.fullName = fullName;
+        this.phoneNumber = null;
+        this.roleCode = roleCode;
+        this.isActive = true;
+        this.authorities = List.of(new SimpleGrantedAuthority(roleCode));
+        this.age = age;
+        this.gender = gender;
+        this.shopIds = shopIds != null ? shopIds : Collections.emptyList();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.accounts.shop.ShopInfoDto;
 import store.emall.backend.accounts.shop.ShopService;
 import store.emall.backend.common.page.PaginatedResponse;
-import store.emall.backend.campaigns.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtil;
 import store.emall.backend.campaigns.subscription.payment.*;
 import store.emall.backend.campaigns.subscription.plan.*;
 

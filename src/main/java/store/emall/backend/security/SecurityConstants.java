@@ -37,6 +37,7 @@ public final class SecurityConstants {
     public static final String ROLE_ADMIN      = "ROLE_ADMIN";
     public static final String ROLE_CUSTOMER   = "ROLE_CUSTOMER";
     public static final String ROLE_SHOP_OWNER = "ROLE_SHOP_OWNER";
+    public static final String ROLE_INTERNAL   = "ROLE_INTERNAL";
 
     public static final String ROLE_ADMIN_SHORT      = "ADMIN";
     public static final String ROLE_CUSTOMER_SHORT   = "CUSTOMER";
@@ -55,7 +56,9 @@ public final class SecurityConstants {
             "/actuator/**",
             "/api/auth/forgot-password/request",
             "/api/auth/forgot-password/resend",
-            "/api/auth/forgot-password/reset"
+            "/api/auth/forgot-password/reset",
+            "/api/subscriptions/webhooks/stripe",
+            "/api/subscriptions/shop/*/status"
     };
 
     // ==================== OTP ====================

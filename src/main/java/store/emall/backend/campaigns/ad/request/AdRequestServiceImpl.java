@@ -19,7 +19,7 @@ import store.emall.backend.campaigns.ad.template.AdTemplateExceptions;
 import store.emall.backend.campaigns.ad.template.AdTemplateRepository;
 import store.emall.backend.campaigns.ad.template.AdTemplateStatus;
 import store.emall.backend.common.page.PaginatedResponse;
-import store.emall.backend.campaigns.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtil;
 import store.emall.backend.campaigns.subscription.*;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;

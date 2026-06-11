@@ -2,7 +2,10 @@ package store.emall.backend.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import store.emall.backend.accounts.shop.ShopRepository;
+import store.emall.backend.accounts.user.Gender;
+import store.emall.backend.security.dto.StoreRef;
+
+import java.util.List;
 
 /**
  * Spring-managed bean that wraps SecurityContextUtil static methods.
@@ -16,8 +19,6 @@ import store.emall.backend.accounts.shop.ShopRepository;
 @RequiredArgsConstructor
 public class SecurityContextUtilBean {
 
-    private final ShopRepository shopRepository;
-
     public boolean isAdmin() {
         return SecurityContextUtil.isAdmin();
     }
@@ -28,6 +29,10 @@ public class SecurityContextUtilBean {
 
     public boolean isShopOwner() {
         return SecurityContextUtil.isShopOwner();
+    }
+
+    public boolean isAdminOrShopOwner() {
+        return SecurityContextUtil.isAdminOrShopOwner();
     }
 
     public boolean isOwner(Long resourceUserId) {
@@ -46,15 +51,35 @@ public class SecurityContextUtilBean {
         return SecurityContextUtil.getCurrentUsername();
     }
 
+    public Integer getCurrentAge() {
+        return SecurityContextUtil.getCurrentAge().orElse(null);
+    }
+
+    public Gender getCurrentGender() {
+        return SecurityContextUtil.getCurrentGender().orElse(Gender.NOT_SPECIFIED);
+    }
+
+    public List<StoreRef> getCurrentShopIds() {
+        return SecurityContextUtil.getCurrentShopIds();
+    }
+
+    public Long getMallId(Long shopId) {
+        return SecurityContextUtil.getMallId(shopId);
+    }
+
     /**
      * Returns true if the current user is ADMIN OR is the owner of the given shop.
      * Used in @PreAuthorize for shop management endpoints.
      */
     public boolean isShopOwnerOf(Long shopId) {
-        if (SecurityContextUtil.isAdmin()) return true;
-        Long currentUserId = SecurityContextUtil.getCurrentUserId();
-        return shopRepository.findById(shopId)
-                .map(shop -> shop.getOwner().getUserId().equals(currentUserId))
-                .orElse(false);
+        return SecurityContextUtil.isShopOwnerOf(shopId);
+    }
+
+    public boolean isAdminOrShopOwnerOf(Long shopId) {
+        return SecurityContextUtil.isAdminOrShopOwnerOf(shopId);
+    }
+
+    public boolean adminOnly() {
+        return SecurityContextUtil.isAdmin();
     }
 }

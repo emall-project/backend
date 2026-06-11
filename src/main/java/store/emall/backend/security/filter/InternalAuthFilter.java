@@ -1,7 +1,5 @@
 package store.emall.backend.security.filter;
 
-import org.springframework.util.AntPathMatcher;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Component
@@ -109,6 +106,9 @@ public class InternalAuthFilter extends OncePerRequestFilter {
         if ("GET".equals(method) && path.matches("/api/shops/\\d+/write-access"))  return true;
         if ("GET".equals(method) && path.matches("/api/shops/info/\\d+"))          return true;
         if ("GET".equals(method) && path.matches("/media/[0-9a-fA-F\\-]{36}/usage"))          return true;
+        if ("POST".equals(method) && "/api/subscriptions/trial".equals(path)) return true;
+        if ("GET".equals(method) && path.matches("/api/offers/product/\\d+/active-price")) return true;
+        if ("POST".equals(method) && "/api/offers/products/active-discounts".equals(path)) return true;
 
         return false;
     }

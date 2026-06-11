@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.common.validation.OnUpdate;
-import store.emall.backend.catalog.security.SecurityContextUtilBean;
+import store.emall.backend.security.SecurityContextUtilBean;
 
 import java.util.List;
 

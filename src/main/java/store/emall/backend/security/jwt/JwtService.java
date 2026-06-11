@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.SecurityConstants;
 import store.emall.backend.security.dto.StoreRef;
 
@@ -35,7 +36,7 @@ public class JwtService {
 
     // For Customer
     public String generateAccessToken(Long userId, String username, String fullName,
-                                      String role, Integer age, String gender) {
+                                      String role, Integer age, Gender gender) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(SecurityConstants.CLAIM_USER_ID,    userId);
         claims.put(SecurityConstants.CLAIM_USERNAME,   username);
@@ -43,7 +44,7 @@ public class JwtService {
         claims.put(SecurityConstants.CLAIM_ROLE,       role);
         claims.put(SecurityConstants.CLAIM_TOKEN_TYPE, SecurityConstants.TOKEN_TYPE_ACCESS);
         if (age    != null) claims.put(SecurityConstants.CLAIM_AGE,    age);
-        if (gender != null) claims.put(SecurityConstants.CLAIM_GENDER, gender);
+        if (gender != null) claims.put(SecurityConstants.CLAIM_GENDER, gender.name());
         return buildToken(claims, username, SecurityConstants.ACCESS_TOKEN_EXPIRATION_MS);
     }
 
@@ -149,8 +150,20 @@ public class JwtService {
         return null;
     }
 
-    public String extractGender(String token) {
-        return extractClaim(token, claims -> claims.get(SecurityConstants.CLAIM_GENDER, String.class));
+    public Gender extractGender(String token) {
+        Object raw = extractClaim(token, claims -> claims.get(SecurityConstants.CLAIM_GENDER));
+        if (raw == null) {
+            return Gender.NOT_SPECIFIED;
+        }
+        if (raw instanceof Gender gender) {
+            return gender;
+        }
+        try {
+            return Gender.valueOf(String.valueOf(raw).trim().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ex) {
+            log.warn("Unknown gender claim value: {}", raw);
+            return Gender.NOT_SPECIFIED;
+        }
     }
 
     private Long toLong(Object v) {

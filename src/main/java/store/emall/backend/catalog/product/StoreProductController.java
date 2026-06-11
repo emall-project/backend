@@ -15,9 +15,9 @@ import store.emall.backend.catalog.product.light.ProductLightDto;
 import store.emall.backend.catalog.product.product_variant.ProductVariantDto;
 import store.emall.backend.catalog.product.product_variant.ProductVariantService;
 import store.emall.backend.catalog.product.summary.ProductSummary;
-import store.emall.backend.catalog.security.SecurityContextUtil;
-import store.emall.backend.catalog.security.SecurityContextUtilBean;
-import store.emall.backend.catalog.security.dto.StoreRef;
+import store.emall.backend.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtilBean;
+import store.emall.backend.security.dto.StoreRef;
 
 import java.util.List;
 

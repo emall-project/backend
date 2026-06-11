@@ -10,7 +10,7 @@ import store.emall.backend.common.message.MessageKey;
 import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.common.validation.OnUpdate;
-import store.emall.backend.catalog.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtil;
 
 import java.util.List;
 import java.util.Map;

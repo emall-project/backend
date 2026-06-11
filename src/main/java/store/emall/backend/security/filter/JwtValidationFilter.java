@@ -11,14 +11,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.SecurityConstants;
-import store.emall.backend.security.SecurityContextUtilBean;
+import store.emall.backend.security.dto.StoreRef;
 import store.emall.backend.security.jwt.JwtService;
-import store.emall.backend.security.userdetails.CustomUserDetailsService;
+import store.emall.backend.security.userdetails.CustomUserDetails;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -37,8 +37,6 @@ import java.util.List;
 public class JwtValidationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
-    private final SecurityContextUtilBean auth;
 
     @Override
     protected void doFilterInternal(
@@ -66,19 +64,22 @@ public class JwtValidationFilter extends OncePerRequestFilter {
                 String username = jwtService.extractUsername(jwt);
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    Long userId = jwtService.extractUserId(jwt);
+                    String fullName = jwtService.extractFullName(jwt);
+                    String role = jwtService.extractRole(jwt);
+                    Integer age = jwtService.extractAge(jwt);
+                    Gender gender = jwtService.extractGender(jwt);
+                    List<StoreRef> shopIds = jwtService.extractShopIds(jwt);
 
-                    if (userDetails.isEnabled()) {
-                        String role = jwtService.extractRole(jwt);
-                        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+                    CustomUserDetails userDetails =
+                            new CustomUserDetails(userId, username, fullName, role, age, gender, shopIds);
 
-                        UsernamePasswordAuthenticationToken authToken =
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails, null, authorities
-                                );
-                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                    }
+                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         } catch (Exception e) {
@@ -88,22 +89,36 @@ public class JwtValidationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean isPublicUrl(String path) {
-        return Arrays.stream(SecurityConstants.PUBLIC_URLS)
-                .anyMatch(url -> {
-                    if (url.endsWith("/**")) {
-                        return path.startsWith(url.replace("/**", ""));
-                    }
-                    return path.equals(url);
-                });
-    }
-
     private boolean isPublicUrl(HttpServletRequest request) {
         String path = request.getServletPath();
         String method = request.getMethod();
 
-        if ("/api/shop-owner-requests".equals(path)) {
-            return "POST".equalsIgnoreCase(method);
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return true;
+        }
+        if ("POST".equalsIgnoreCase(method)
+                && ("/api/shop-owner-requests".equals(path)
+                || path.startsWith("/temps/files/")
+                || "/products/all".equals(path)
+                || "/products/summary".equals(path)
+                || "/products/by-ids".equals(path))) {
+            return true;
+        }
+        if ("GET".equalsIgnoreCase(method)
+                && (path.startsWith("/api/cities/")
+                || path.startsWith("/api/malls/")
+                || path.startsWith("/api/shops/")
+                || path.startsWith("/api/mall-restaurants/")
+                || path.startsWith("/api/mall-services/")
+                || path.startsWith("/products/")
+                || path.startsWith("/categories/")
+                || path.startsWith("/brands/")
+                || path.startsWith("/attributes/")
+                || path.startsWith("/tags/")
+                || "/api/ad-requests/active/displayed".equals(path)
+                || "/api/offers/products/active/public".equals(path)
+                || path.matches("/api/subscriptions/shop/\\d+/(status|write-access)"))) {
+            return true;
         }
 
         return Arrays.stream(SecurityConstants.PUBLIC_URLS)

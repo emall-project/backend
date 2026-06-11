@@ -2,6 +2,7 @@ package store.emall.backend.catalog.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
 import store.emall.backend.campaigns.offer.*;
 import store.emall.backend.catalog.brand.Brand;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 public class ProductServiceHelper {
     private final ProductRepository productRepository;
     //    private final CampaignsClient campaignsClient;
-    private final OfferService offerService;
+    private final ObjectProvider<OfferService> offerServiceProvider;
     private final FileService fileService;
     private final JobPublisher jobPublisher;
 
@@ -65,7 +66,7 @@ public class ProductServiceHelper {
             return dto;
         }
         // TODO : VALIDATE this, i use different service method cause i didn't find the used one
-        ActiveProductDiscountDto offer = offerService.getActiveDiscountForProduct(dto.getId());
+        ActiveProductDiscountDto offer = offerService().getActiveDiscountForProduct(dto.getId());
 
 //        Map<Long, ActiveOfferDto.VariantDiscountDto> priceMap = offer.getVariantPrices()
 //                .stream()
@@ -182,7 +183,7 @@ public class ProductServiceHelper {
             return Collections.emptyMap();
         }
 
-        List<ActiveProductDiscountDto> offers = offerService.getActiveDiscountsForProducts(
+        List<ActiveProductDiscountDto> offers = offerService().getActiveDiscountsForProducts(
                 sanitizedIds
         );
 
@@ -249,5 +250,8 @@ public class ProductServiceHelper {
         };
     }
 
+    private OfferService offerService() {
+        return offerServiceProvider.getObject();
+    }
 
 }

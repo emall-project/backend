@@ -54,8 +54,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             return new CustomUserDetails(user, storeRefs);
         }
         if (SecurityConstants.ROLE_CUSTOMER.equals(user.getRole().getCode())) {
-            String genderStr = user.getGender() != null ? user.getGender().name() : null;
-            return new CustomUserDetails(user, user.getAge(), genderStr);
+            return new CustomUserDetails(user, user.getAge(), user.getGender());
         }
         return new CustomUserDetails(user);
     }

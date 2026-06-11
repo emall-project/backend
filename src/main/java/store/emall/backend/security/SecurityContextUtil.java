@@ -3,6 +3,7 @@ package store.emall.backend.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.dto.StoreRef;
 import store.emall.backend.security.userdetails.CustomUserDetails;
 
@@ -96,7 +97,7 @@ public final class SecurityContextUtil {
         return getCurrentUserDetails().map(CustomUserDetails::getAge);
     }
 
-    public static Optional<String> getCurrentGender() {
+    public static Optional<Gender> getCurrentGender() {
         return getCurrentUserDetails().map(CustomUserDetails::getGender);
     }
 
@@ -112,6 +113,10 @@ public final class SecurityContextUtil {
 
     public static boolean isShopOwner() {
         return hasAuthority(SecurityConstants.ROLE_SHOP_OWNER);
+    }
+
+    public static boolean isAdminOrShopOwner() {
+        return isAdmin() || isShopOwner();
     }
 
     /**
@@ -143,6 +148,29 @@ public final class SecurityContextUtil {
 
     public static boolean isOwnerOrAdmin(Long resourceUserId) {
         return isAdmin() || isOwner(resourceUserId);
+    }
+
+    public static boolean isShopOwnerOf(Long shopId) {
+        if (shopId == null || !isShopOwner()) {
+            return false;
+        }
+        return getCurrentShopIds().stream()
+                .anyMatch(ref -> shopId.equals(ref.getStoreId()));
+    }
+
+    public static boolean isAdminOrShopOwnerOf(Long shopId) {
+        return isAdmin() || isShopOwnerOf(shopId);
+    }
+
+    public static Long getMallId(Long shopId) {
+        if (shopId == null) {
+            return null;
+        }
+        return getCurrentShopIds().stream()
+                .filter(ref -> shopId.equals(ref.getStoreId()))
+                .map(StoreRef::getMallId)
+                .findFirst()
+                .orElse(null);
     }
 
     // ==================== Authentication Checks ====================

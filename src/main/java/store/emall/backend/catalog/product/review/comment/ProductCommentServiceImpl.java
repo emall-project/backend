@@ -8,7 +8,7 @@ import store.emall.backend.catalog.product.Product;
 import store.emall.backend.catalog.product.ProductExceptions;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.catalog.product.review.moderation.ModerationService;
-import store.emall.backend.catalog.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtil;
 
 import java.util.Arrays;
 import java.util.List;

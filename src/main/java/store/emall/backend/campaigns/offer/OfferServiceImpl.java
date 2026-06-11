@@ -15,7 +15,7 @@ import store.emall.backend.campaigns.ad.request.AdRequestExceptions;
 import store.emall.backend.catalog.product.ProductService;
 import store.emall.backend.catalog.product.info.ProductInfoDto;
 import store.emall.backend.common.page.PaginatedResponse;
-import store.emall.backend.campaigns.security.SecurityContextUtil;
+import store.emall.backend.security.SecurityContextUtil;
 import store.emall.backend.campaigns.subscription.*;
 
 import java.math.BigDecimal;

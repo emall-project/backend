@@ -2,6 +2,7 @@ package store.emall.backend.accounts.shop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,7 +51,7 @@ public class ShopServiceImpl implements ShopService {
     private final FileService fileService;
     private final FolderService folderService;
     private final BrandService brandService;
-    private final ShopSubscriptionService shopSubscriptionService;
+    private final ObjectProvider<ShopSubscriptionService> shopSubscriptionServiceProvider;
 
     @Override
     @Transactional(readOnly = true)
@@ -495,7 +496,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     private void triggerTrial(Shop savedShop, User owner) {
-        shopSubscriptionService.createTrial(
+        shopSubscriptionServiceProvider.getObject().createTrial(
                 savedShop.getShopId(),
                 owner.getEmail() != null ? owner.getEmail() : "",
                 savedShop.getName()

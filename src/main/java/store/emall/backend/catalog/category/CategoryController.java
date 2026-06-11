@@ -11,8 +11,8 @@ import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.common.validation.OnUpdate;
-import store.emall.backend.catalog.security.SecurityContextUtilBean;
-import store.emall.backend.catalog.security.userdetails.Gender;
+import store.emall.backend.security.SecurityContextUtilBean;
+import store.emall.backend.accounts.user.Gender;
 import static store.emall.backend.common.audience.TargetedAudience.*;
 
 import java.util.List;

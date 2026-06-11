@@ -13,20 +13,13 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 @Configuration
 public class StorageConfig {
 
-    private final S3Client s3Client;
-    private final S3Presigner presigner;
-    private final String bucket;
-
-    public StorageConfig(S3Client s3Client, S3Presigner presigner,
-                         @Value("${aws.s3.bucket}") String bucket) {
-        this.s3Client = s3Client;
-        this.presigner = presigner;
-        this.bucket = bucket;
-    }
-
     @Bean
     @ConditionalOnProperty(name = "storage.type", havingValue = "s3")
-    public CloudStorage s3Storage() {
+    public CloudStorage s3Storage(
+            S3Client s3Client,
+            S3Presigner presigner,
+            @Value("${aws.s3.bucket}") String bucket
+    ) {
         return new S3Storage(s3Client, presigner, bucket);
     }
 

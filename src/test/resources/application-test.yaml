@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:emall_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  liquibase:
+    enabled: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: false
+
+  rabbitmq:
+    listener:
+      simple:
+        auto-startup: false
+      direct:
+        auto-startup: false
+
+  task:
+    scheduling:
+      enabled: false

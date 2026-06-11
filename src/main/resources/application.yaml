@@ -23,13 +23,29 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
 
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:emall}
+    password: ${SPRING_RABBITMQ_PASSWORD:emallpass}
+    listener:
+      simple:
+        acknowledge-mode: auto
+        default-requeue-rejected: false
+        concurrency: 1
+        max-concurrency: 4
+        prefetch: 20
+
   messages:
     basename: messages
     encoding: UTF-8
     fallback-to-system-locale: false
 
-  config:
-    import: "optional:dotenv:"
+  servlet:
+    multipart:
+      max-file-size: 1MB
+
 
   mail:
     host: smtp.gmail.com
@@ -64,19 +80,40 @@ app:
     expiration: 300000
     length: 6
 
-services:
-  catalog:
-    host: ${CATALOG_IP_ADDRESS:http://localhost}
-    port: ${CATALOG_PORT:8081}
-  campaigns:
-    host: ${CAMPAIGNS_IP_ADDRESS:http://localhost}
-    port: ${CAMPAIGNS_PORT:8082}
-  order-hub:
-    host: ${ORDER_HUB_IP_ADDRESS:http://localhost}
-    port: ${ORDER_HUB_PORT:8084}
-  media-manager:
-    host: ${MEDIA_MANAGER_IP_ADDRESS:http://localhost}
-    port: ${MEDIA_MANAGER_PORT:8085}
+
+stripe:
+  secret:
+    key: ${STRIPE_SECRET_KEY}
+  webhook:
+    secret: ${STRIPE_WEBHOOK_SECRET}
+
+
+aws:
+  s3:
+    bucket: ${AWS_BUCKET_NAME:emall-media}
+    region: ${AWS_REGION_NAME:eu-north-1}
+    access-key: ${AWS_ACCESS_KEY_ID}
+    secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+
+models:
+  product-similarity-engine:
+    url: ${PRODUCT_SIMILARITY_ENGINE_HOST:https://product-similarity-engine-github-963793636631.europe-west1.run.app}
+    username: ${PRODUCT_SIMILARITY_ENGINE_USER_NAME:admin}
+    password: ${PRODUCT_SIMILARITY_ENGINE_PASSWORD:change-me-in-prod}
+
+moderation:
+  openai:
+    api-key: ${OPENAI_MODERATION_API_KEY:}
+
+  worker:
+    transaction-commit-delay-ms: 300
+    delay-between-calls-ms: 1200
+
+  scheduler:
+    max-retries: 3              # AI called at most 3 times per comment on failure
+    retry-interval-minutes: 10  # Wait 10 min between retries
+    retry-interval-ms: 600000   # Same value in milliseconds for @Scheduled
 
 internal:
   auth:

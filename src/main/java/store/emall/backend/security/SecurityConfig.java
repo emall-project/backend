@@ -110,6 +110,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password/request").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password/resend").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/forgot-password/reset").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/temps/files/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products/all").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products/summary").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products/by-ids").permitAll()
+                        .requestMatchers("/api/subscriptions/webhooks/stripe").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/users/*/info").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/shops/*/exists").authenticated()
@@ -126,11 +131,23 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/shops/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/mall-restaurants/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/mall-services/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/brands/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/attributes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/ad-requests/active/displayed").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/offers/products/active/public").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/subscriptions/shop/*/status").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/subscriptions/shop/*/write-access").permitAll()
 
                         // checking if we define login endpoint as public, would that solve the login issue?
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/media/*/usage").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/subscriptions/trial").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/offers/product/*/active-price").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/offers/products/active-discounts").authenticated()
                         // ── 4. Everything else requires JWT ──
                         .anyRequest().authenticated()
                 )
