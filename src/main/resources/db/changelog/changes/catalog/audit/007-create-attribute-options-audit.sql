@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS catalog.attribute_options_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_attribute_options_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES catalog.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 )

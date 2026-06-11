@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS catalog.category_audience_configs_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_variant_attribute_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES catalog.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 )

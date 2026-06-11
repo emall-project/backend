@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS catalog.categories
     parent_id         BIGINT,
     depth_level       INTEGER,
     created_at        timestamp          NOT NULL DEFAULT now(),
-    created_by        VARCHAR(50)        NOT NULL,
+    created_by        VARCHAR(50),
     updated_at        timestamp                   DEFAULT now(),
     updated_by        VARCHAR(50),
     FOREIGN KEY (parent_id) REFERENCES catalog.categories (id)

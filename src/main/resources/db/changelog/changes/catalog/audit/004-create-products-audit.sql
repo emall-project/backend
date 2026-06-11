@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS catalog.products_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_products_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES catalog.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 )

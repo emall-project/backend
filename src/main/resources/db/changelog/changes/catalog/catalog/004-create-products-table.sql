@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS catalog.products
     mall_id           BIGINT       NOT NULL,
     store_id          BIGINT       NOT NULL,
     created_at        timestamp    NOT NULL DEFAULT now(),
-    created_by        VARCHAR(50)  NOT NULL,
+    created_by        VARCHAR(50),
     updated_at        timestamp             DEFAULT now(),
     updated_by        VARCHAR(50),
     UNIQUE (slug, store_id),

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS catalog.brands
     is_active         BOOLEAN            NOT NULL DEFAULT TRUE,
     image_id          UUID,
     created_at        timestamp          NOT NULL DEFAULT now(),
-    created_by        VARCHAR(50)        NOT NULL,
+    created_by        VARCHAR(50),
     updated_at        timestamp                   DEFAULT now(),
     updated_by        VARCHAR(50)
 );

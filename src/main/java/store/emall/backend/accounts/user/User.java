@@ -60,7 +60,7 @@ public class User extends EMallsBaseEntity {
     private LocalDateTime lastLoginAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @Column(name = "age", nullable = false)

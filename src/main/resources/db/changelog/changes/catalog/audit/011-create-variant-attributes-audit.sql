@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS catalog.variant_attributes_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_variant_attribute_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES catalog.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 )

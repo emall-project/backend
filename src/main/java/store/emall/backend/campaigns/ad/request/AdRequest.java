@@ -61,10 +61,10 @@ public class AdRequest extends EMallsBaseEntity {
     @Column(name = "rejection_reason", columnDefinition = "TEXT")
     private String rejectionReason;
 
-    @Column(name = "is_displayed")
+    @Column(name = "is_displayed", nullable = false)
     private Boolean isDisplayed = false;
 
-    @Column(name = "payment_reminder_sent")
+    @Column(name = "payment_reminder_sent", nullable = false)
     private Boolean paymentReminderSent = false;
 
     @Column(name = "start_date", nullable = false)

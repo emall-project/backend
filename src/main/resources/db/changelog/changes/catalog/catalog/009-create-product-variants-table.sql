@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS catalog.product_variants
     base_price DECIMAL     NOT NULL,
     is_default BOOLEAN     NOT NULL DEFAULT false,
     created_at timestamp   NOT NULL DEFAULT now(),
-    created_by VARCHAR(50) NOT NULL,
+    created_by VARCHAR(50),
     updated_at timestamp            DEFAULT now(),
     updated_by VARCHAR(50),
     FOREIGN KEY (product_id) REFERENCES catalog.products (id) ON DELETE CASCADE

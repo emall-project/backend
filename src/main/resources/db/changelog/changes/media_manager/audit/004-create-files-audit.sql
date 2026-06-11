@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS media_manager.files_audit
     CONSTRAINT pk_files_audit PRIMARY KEY (id, rev),
     CONSTRAINT fk_files_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES media_manager.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 );

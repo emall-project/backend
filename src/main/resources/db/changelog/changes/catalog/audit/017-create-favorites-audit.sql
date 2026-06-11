@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS catalog.favorites_audit
     PRIMARY KEY (id, rev),
     CONSTRAINT fk_favorites_audit_rev
         FOREIGN KEY (rev)
-            REFERENCES catalog.revinfo (rev)
+            REFERENCES accounts.revinfo (rev)
 )

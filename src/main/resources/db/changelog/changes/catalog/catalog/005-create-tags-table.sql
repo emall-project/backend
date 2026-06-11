@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS catalog.tags
     id         BIGINT PRIMARY KEY          DEFAULT nextval('catalog.tags_sequence'),
     name       VARCHAR(50) UNIQUE NOT NULL,
     created_at timestamp          NOT NULL DEFAULT now(),
-    created_by VARCHAR(50)        NOT NULL,
+    created_by VARCHAR(50),
     updated_at timestamp                   DEFAULT now(),
     updated_by VARCHAR(50)
 )

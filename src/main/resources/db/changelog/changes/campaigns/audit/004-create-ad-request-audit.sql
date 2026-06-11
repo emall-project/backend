@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS campaigns.ad_requests_audit (
     PRIMARY KEY (ad_request_id, rev),
     CONSTRAINT fk_ad_request_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES campaigns.revinfo (rev)
+    REFERENCES accounts.revinfo (rev)
 );

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS catalog.attribute_options
     sort_order   INT         NOT NULL,
     attribute_id BIGINT      NOT NULL,
     created_at   timestamp   NOT NULL DEFAULT now(),
-    created_by   VARCHAR(50) NOT NULL,
+    created_by   VARCHAR(50),
     updated_at   timestamp            DEFAULT now(),
     updated_by   VARCHAR(50),
     UNIQUE (value, attribute_id)

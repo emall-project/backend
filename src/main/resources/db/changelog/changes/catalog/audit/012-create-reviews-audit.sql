@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS catalog.product_reviews_audit (
     updated_by  VARCHAR(255),
 
     PRIMARY KEY (review_id, rev),
-    CONSTRAINT fk_reviews_audit_rev FOREIGN KEY (rev) REFERENCES catalog.revinfo (rev)
+    CONSTRAINT fk_reviews_audit_rev FOREIGN KEY (rev) REFERENCES accounts.revinfo (rev)
 );

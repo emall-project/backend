@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS campaigns.offers_audit (
     PRIMARY KEY (offer_id, rev),
     CONSTRAINT fk_offers_audit_rev
     FOREIGN KEY (rev)
-    REFERENCES campaigns.revinfo (rev)
+    REFERENCES accounts.revinfo (rev)
 );

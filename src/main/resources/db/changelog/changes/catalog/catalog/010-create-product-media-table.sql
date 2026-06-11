@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS catalog.product_media
     medium_id  uuid        NOT NULL,
     sort_order INT         NOT NULL,
     created_at timestamp   NOT NULL DEFAULT now(),
-    created_by VARCHAR(50) NOT NULL,
+    created_by VARCHAR(50),
     updated_at timestamp            DEFAULT now(),
     updated_by VARCHAR(50),
     FOREIGN KEY (product_id) REFERENCES catalog.products (id) ON DELETE CASCADE,

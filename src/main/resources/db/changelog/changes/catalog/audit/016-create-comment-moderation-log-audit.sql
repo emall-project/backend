@@ -15,5 +15,5 @@ CREATE TABLE IF NOT EXISTS catalog.comment_moderation_log_audit (
 
     PRIMARY KEY (log_id, rev),
     CONSTRAINT fk_moderation_log_audit_rev FOREIGN KEY (rev)
-    REFERENCES catalog.revinfo (rev)
+    REFERENCES accounts.revinfo (rev)
 );

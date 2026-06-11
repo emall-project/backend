@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS campaigns.ad_payments_audit (
     updated_at               TIMESTAMP,
     updated_by               VARCHAR(255),
     PRIMARY KEY (payment_id, rev),
-    CONSTRAINT fk_ad_pay_audit_rev FOREIGN KEY (rev) REFERENCES campaigns.revinfo(rev)
+    CONSTRAINT fk_ad_pay_audit_rev FOREIGN KEY (rev) REFERENCES accounts.revinfo(rev)
 );
