@@ -1,0 +1,50 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  filter/drop_actuator_telemetry:
+    error_mode: ignore
+    traces:
+      span:
+        - 'IsMatch(name, ".*/actuator.*")'
+        - 'IsMatch(attributes["http.target"], ".*/actuator.*")'
+        - 'IsMatch(attributes["http.route"], ".*/actuator.*")'
+        - 'IsMatch(attributes["http.url"], ".*/actuator.*")'
+        - 'IsMatch(attributes["url.path"], ".*/actuator.*")'
+    logs:
+      log_record:
+        - 'IsMatch(body, ".*/actuator.*")'
+        - 'IsMatch(attributes["http.target"], ".*/actuator.*")'
+        - 'IsMatch(attributes["http.route"], ".*/actuator.*")'
+        - 'IsMatch(attributes["http.url"], ".*/actuator.*")'
+        - 'IsMatch(attributes["url.path"], ".*/actuator.*")'
+
+  batch:
+
+exporters:
+  otlp/grafana:
+    endpoint: grafana-lgtm:4317
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [filter/drop_actuator_telemetry, batch]
+      exporters: [otlp/grafana]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/grafana]
+
+    logs:
+      receivers: [otlp]
+      processors: [filter/drop_actuator_telemetry, batch]
+      exporters: [otlp/grafana]

@@ -1,0 +1,187 @@
+name: emall
+
+services:
+  # -------------------------
+  # Database (internal only)
+  # -------------------------
+  emall-db:
+    image: postgres:17
+    container_name: emall-db
+    environment:
+      POSTGRES_DB: emall
+      POSTGRES_USER: emall
+      POSTGRES_PASSWORD: ${EMALL_DB_PASSWORD:-devpass}
+    volumes:
+      - emall_data:/var/lib/postgresql/data
+      # Optional: use this if your app/Liquibase does not create schemas itself.
+      # - ./db/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - system-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U emall -d emall" ]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+  # -------------------------
+  # Monolith app (internal only)
+  # -------------------------
+  emall-app:
+    build: .
+    container_name: emall-app
+    depends_on:
+      emall-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://emall-db:5432/emall
+      SPRING_DATASOURCE_USERNAME: emall
+      SPRING_DATASOURCE_PASSWORD: ${EMALL_DB_PASSWORD:-devpass}
+
+      # Shared security/internal credentials
+      JWT_SECRET: ${JWT_SECRET}
+      INTERNAL_SERVICE_USERNAME: ${INTERNAL_SERVICE_USERNAME}
+      INTERNAL_SERVICE_PASSWORD: ${INTERNAL_SERVICE_PASSWORD}
+
+      # Campaigns/payment config
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+
+      # Catalog / moderation config
+      OPENAI_MODERATION_API_KEY: ${OPENAI_MODERATION_API_KEY}
+
+      # Media manager / S3 config
+      AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+
+      # RabbitMQ
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER:-emall}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-emallpass}
+
+      # Observability
+      GRAFANA_URL: http://grafana-lgtm:4318
+      OTEL_INSTRUMENTATION_HTTP_SERVER_EXCLUDE_URLS: .*/actuator.*
+      OTEL_INSTRUMENTATION_SPRING_BOOT_ACTUATOR_AUTOCONFIGURE_ENABLED: "false"
+      JAVA_TOOL_OPTIONS: >
+        -javaagent:/otel/opentelemetry-javaagent.jar
+        -Dotel.service.name=emall-app
+        -Dotel.exporter.otlp.endpoint=http://otel-collector:4317
+        -Dotel.exporter.otlp.protocol=grpc
+        -Dotel.traces.exporter=otlp
+        -Dotel.metrics.exporter=otlp
+        -Dotel.logs.exporter=otlp
+        -Dotel.instrumentation.http.server.exclude-urls=.*/actuator.*
+
+
+    expose:
+      - "8080"
+    networks:
+      - system-network
+      - edge
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP" ]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # app communication
+      - "15672:15672"   # management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-emall}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-emallpass}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - system-network
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_port_connectivity" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # -------------------------
+  # Gateway (public)
+  # -------------------------
+  gateway:
+    image: nginx:1.27
+    depends_on:
+      emall-app:
+        condition: service_healthy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx_logs:/var/log/nginx
+    ports:
+      - "${GATEWAY_PORT:-80}:80"
+      - "443:443"
+    networks:
+      - edge
+      - system-network
+
+  # -------------------------
+  # Edge tools / observability
+  # -------------------------
+  grafana-lgtm:
+    image: "grafana/otel-lgtm:latest"
+    environment:
+      GF_SERVER_ROOT_URL: http://localhost/trace/
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SERVER_DOMAIN: localhost
+
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-emall}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-devpass}
+
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_AUTH_BASIC_ENABLED: "true"
+      GF_AUTH_DISABLE_LOGIN_FORM: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      - "3000:3000"
+      - "4317:4317"
+      - "4318:4318"
+    networks:
+      - edge
+      - system-network
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.114.0
+    container_name: otel-collector
+    command: [ "--config=/etc/otelcol-contrib/config.yaml" ]
+    depends_on:
+      - grafana-lgtm
+    ports:
+      - 8888:8888
+    volumes:
+      - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+    networks:
+      - system-network
+
+networks:
+  edge:
+    driver: bridge
+    internal: false
+    name: edge
+
+
+  system-network:
+    driver: bridge
+    internal: true
+    name: system-network
+
+volumes:
+  emall_data:
+  nginx_logs:
+  rabbitmq_data:
