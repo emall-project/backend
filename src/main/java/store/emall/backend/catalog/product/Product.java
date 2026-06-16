@@ -91,7 +91,7 @@ public class Product extends EMallsBaseEntity {
     private Long mallId;
 
     @Column(name = "store_id", nullable = false)
-    private Long storeId;
+    private Long shopId;
 
     @ManyToMany
     @Audited

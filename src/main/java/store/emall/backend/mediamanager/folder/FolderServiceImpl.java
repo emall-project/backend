@@ -55,8 +55,8 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional(readOnly = true)
-    public FolderDto getByStoreIdAndId(Long storeId, Long id) {
-        Folder folder = folderServiceHelper.getFolder(storeId, id);
+    public FolderDto getByShopIdAndId(Long shopId, Long id) {
+        Folder folder = folderServiceHelper.getFolder(shopId, id);
 
         return FolderMapper.toDto(folder);
     }
@@ -73,7 +73,7 @@ public class FolderServiceImpl implements FolderService {
     public FolderDto create(FolderDto folderDto) {
         folderServiceHelper.validateScopeConsistency(folderDto);
 
-        Folder parent = folderServiceHelper.validateAndLoadParent(folderDto.getParentId(), folderDto.getStoreId(), folderDto.getScope());
+        Folder parent = folderServiceHelper.validateAndLoadParent(folderDto.getParentId(), folderDto.getShopId(), folderDto.getScope());
 
 
         folderServiceHelper.validateUniqueName(folderDto.getParentId(), folderDto.getName());
@@ -84,7 +84,7 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional
-    public FolderDto storeCreate(FolderDto folderDto) {
+    public FolderDto shopCreate(FolderDto folderDto) {
         if (folderDto.getParentId() == null) {
             throw FolderExceptions.rootFolderCreationNotAllowed();
         }
@@ -100,16 +100,16 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional
-    public FolderDto storeUpdate(FolderDto dto) {
+    public FolderDto shopUpdate(FolderDto dto) {
         if (dto.getParentId() == null) {
             throw FolderExceptions.rootFolderCreationNotAllowed();
         }
 
         Folder existing = folderServiceHelper.getFolder(
                 dto.getId(),
-                dto.getStoreId(),
-                ScopeType.STORE,
-                ManagedByType.STORE
+                dto.getShopId(),
+                ScopeType.SHOP,
+                ManagedByType.SHOP
         );
         return update(existing, dto);
     }
@@ -130,9 +130,9 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     @Transactional
-    public void storeDelete(Long storeId, Long id) {
-        Folder folder = folderServiceHelper.getFolder(id, storeId, ScopeType.STORE, ManagedByType.STORE);
-        folderServiceHelper.validateManagedDeleteSubtree(folder, ScopeType.STORE, ManagedByType.STORE, storeId);
+    public void shopDelete(Long shopId, Long id) {
+        Folder folder = folderServiceHelper.getFolder(id, shopId, ScopeType.SHOP, ManagedByType.SHOP);
+        folderServiceHelper.validateManagedDeleteSubtree(folder, ScopeType.SHOP, ManagedByType.SHOP, shopId);
         delete(folder);
     }
 
@@ -146,7 +146,7 @@ public class FolderServiceImpl implements FolderService {
     private FolderDto update(Folder existing, FolderDto dto) {
         Folder parent = folderServiceHelper.validateAndLoadParent(
                 dto.getParentId(),
-                existing.getStoreId(),
+                existing.getShopId(),
                 existing.getScope()
         );
 

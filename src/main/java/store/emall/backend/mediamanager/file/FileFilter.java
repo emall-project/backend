@@ -18,7 +18,7 @@ public class FileFilter {
 
     private Long folderId;
 
-    private Long storeId;
+    private Long shopId;
 
     private Long fileSize;
 

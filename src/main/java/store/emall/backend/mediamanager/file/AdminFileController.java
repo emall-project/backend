@@ -53,7 +53,7 @@ public class AdminFileController {
             @RequestBody @Validated({Default.class, OnCreate.class}) FileUploadByUrlRequest fileUploadByUrlRequest
     ) {
         fileUploadByUrlRequest.setScope(
-                fileUploadByUrlRequest.getStoreId() == null ? ScopeType.SYSTEM : ScopeType.STORE
+                fileUploadByUrlRequest.getShopId() == null ? ScopeType.SYSTEM : ScopeType.SHOP
         );
         fileUploadByUrlRequest.setManagedBy(ManagedByType.ADMIN);
 

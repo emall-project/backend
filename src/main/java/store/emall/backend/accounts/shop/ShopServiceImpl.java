@@ -419,7 +419,7 @@ public class ShopServiceImpl implements ShopService {
         FolderDto folderDto = FolderDto.builder()
                 .name(folderName)
                 .parentId(null)
-                .storeId(shop.getShopId())
+                .shopId(shop.getShopId())
                 .build();
         FolderDto saved = folderService.create(folderDto);
         Long newFolderId = saved.getId();
@@ -434,8 +434,8 @@ public class ShopServiceImpl implements ShopService {
         FileTransferRequest fileTransferRequest = FileTransferRequest.builder()
                 .id(fileUuid)
                 .newFolderId(targetFolderId)
-                .newStoreId(shopId)
-                .newScope(ScopeType.STORE)
+                .newShopId(shopId)
+                .newScope(ScopeType.SHOP)
                 .newManagedBy(ManagedByType.SYSTEM)
                 .build();
 

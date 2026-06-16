@@ -30,7 +30,7 @@ public class TempFileController {
     ) {
         Long folderId = folderService.getSystemFolderId(SystemFolder.TEMP_FOLDER);
         fileUploadByUrlRequest.setFolderId(folderId);
-        fileUploadByUrlRequest.setStoreId(null);
+        fileUploadByUrlRequest.setShopId(null);
         fileUploadByUrlRequest.setScope(ScopeType.SYSTEM);
         fileUploadByUrlRequest.setManagedBy(ManagedByType.SYSTEM);
         return EMallsResponseEntity.ok(fileService.uploadByUrl(fileUploadByUrlRequest));

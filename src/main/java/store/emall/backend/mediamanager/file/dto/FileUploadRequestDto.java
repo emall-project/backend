@@ -16,5 +16,5 @@ public class FileUploadRequestDto {
     @NotNull(message = "file.folderId.notnull")
     private Long folderId;
 
-    private Long storeId;
+    private Long shopId;
 }

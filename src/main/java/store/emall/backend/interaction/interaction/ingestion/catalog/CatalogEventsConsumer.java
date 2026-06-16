@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import store.emall.backend.interaction.interaction.EventQueue;
 import store.emall.backend.interaction.interaction.InteractionEventService;
-import store.emall.backend.interaction.jobs.JobQueue;
 
 @Slf4j
 @Component
@@ -29,6 +28,6 @@ public class CatalogEventsConsumer {
     ) {
         log.info("Received catalog event with routingKey={}", routingKey);
 
-        interactionEventService.storeCatalogEvent(catalogEvent, routingKey);
+        interactionEventService.shopCatalogEvent(catalogEvent, routingKey);
     }
 }

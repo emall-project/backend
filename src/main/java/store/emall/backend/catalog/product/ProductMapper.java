@@ -26,7 +26,7 @@ public class ProductMapper {
                 .categoryId(entity.getCategory().getId())
                 .brandId(entity.getBrand().getId())
                 .mallId(entity.getMallId())
-                .storeId(entity.getStoreId())
+                .shopId(entity.getShopId())
 
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -73,7 +73,7 @@ public class ProductMapper {
                 .category(entity.getCategory().getName())
                 .brand(entity.getBrand().getName())
                 .mallId(entity.getMallId())
-                .storeId(entity.getStoreId())
+                .shopId(entity.getShopId())
                 .build();
         if (entity.getTags() != null) {
             productJob.setTags(entity.getTags().stream().map(Tag::getName).collect(Collectors.toList()));

@@ -37,9 +37,9 @@ public interface ProductVariantRepository
     @Query("""
         SELECT v 
         FROM ProductVariant v
-        WHERE v.product.storeId = :storeId AND 
+        WHERE v.product.shopId = :shopId AND 
          v.product.id = :productId AND
          v.id = :id
     """)
-    Optional<ProductVariant> findByStoreIdAndProductIdAndId(Long storeId, Long productId, Long id);
+    Optional<ProductVariant> findByShopIdAndProductIdAndId(Long shopId, Long productId, Long id);
 }

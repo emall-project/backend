@@ -7,10 +7,10 @@ public interface ProductVariantService {
 
     ProductVariantDto create(Long productId, ProductVariantDto dto);
 
-    ProductVariantDto add(Long storeId, Long productId, ProductVariantDto dto);
+    ProductVariantDto add(Long shopId, Long productId, ProductVariantDto dto);
 
-    ProductVariantDto update(Long storeId, Long productId, ProductVariantDto dto);
+    ProductVariantDto update(Long shopId, Long productId, ProductVariantDto dto);
 
-    void delete(Long storeId, Long productId, Long id);
+    void delete(Long shopId, Long productId, Long id);
 
 }

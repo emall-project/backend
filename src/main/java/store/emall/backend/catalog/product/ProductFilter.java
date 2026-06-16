@@ -1,6 +1,5 @@
 package store.emall.backend.catalog.product;
 
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,7 @@ public class ProductFilter {
     private Long brandId;
     private Boolean isActive;
     private Long mallId;
-    private Long storeId;
+    private Long shopId;
     private TargetedAudience targetedAudience;
     private TargetedAudience excludedAudience;
     private AgeGroup ageGroup;

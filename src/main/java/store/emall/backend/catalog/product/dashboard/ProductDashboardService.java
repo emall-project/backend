@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ProductDashboardService {
-    ProductDashboardSummaryDto getSummary(Long storeId);
+    ProductDashboardSummaryDto getSummary(Long shopId);
 }

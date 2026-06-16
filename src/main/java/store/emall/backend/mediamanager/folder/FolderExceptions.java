@@ -42,12 +42,12 @@ public final class FolderExceptions {
                 .build();
     }
 
-    public static EMallsException storeIdMismatch() {
+    public static EMallsException shopIdMismatch() {
         return EMallsException.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
-                .message(MessageKey.FOLDER_STORE_ID_MISMATCH.getKey())
+                .message(MessageKey.FOLDER_SHOP_ID_MISMATCH.getKey())
                 .errorCode(List.of(
-                        new ErrorCode("storeId", MessageKey.FOLDER_STORE_ID_MISMATCH.getKey())
+                        new ErrorCode("shopId", MessageKey.FOLDER_SHOP_ID_MISMATCH.getKey())
                 ))
                 .build();
     }
@@ -57,7 +57,7 @@ public final class FolderExceptions {
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .message(MessageKey.CHANGING_FOLDER_SCOPE_NOT_ALLOWED.getKey())
                 .errorCode(List.of(
-                        new ErrorCode("storeId", MessageKey.CHANGING_FOLDER_SCOPE_NOT_ALLOWED.getKey())
+                        new ErrorCode("shopId", MessageKey.CHANGING_FOLDER_SCOPE_NOT_ALLOWED.getKey())
                 ))
                 .build();
     }

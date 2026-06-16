@@ -38,9 +38,9 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     private final ProductServiceHelper productServiceHelper;
 
     @Override
-    public ProductVariantDto add(Long storeId, Long productId, ProductVariantDto dto) {
+    public ProductVariantDto add(Long shopId, Long productId, ProductVariantDto dto) {
         // Fetch product or throw
-        Product product = productRepository.findByStoreIdAndId(storeId, productId)
+        Product product = productRepository.findByShopIdAndId(shopId, productId)
                 .orElseThrow(ProductExceptions::productNotFound);
 
         validateMedia(dto.getMedia());
@@ -92,9 +92,9 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public ProductVariantDto update(Long storeId, Long productId, ProductVariantDto dto) {
+    public ProductVariantDto update(Long shopId, Long productId, ProductVariantDto dto) {
 
-        ProductVariant existing = productVariantRepository.findByStoreIdAndProductIdAndId(storeId, productId, dto.getId()).orElseThrow(
+        ProductVariant existing = productVariantRepository.findByShopIdAndProductIdAndId(shopId, productId, dto.getId()).orElseThrow(
                 ProductVariantExceptions::variantNotFound
         );
 
@@ -124,8 +124,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
 
     @Override
-    public void delete(Long storeId, Long productId, Long id) {
-        ProductVariant variant = productVariantRepository.findByStoreIdAndProductIdAndId(storeId, productId, id).orElseThrow(
+    public void delete(Long shopId, Long productId, Long id) {
+        ProductVariant variant = productVariantRepository.findByShopIdAndProductIdAndId(shopId, productId, id).orElseThrow(
                 ProductVariantExceptions::variantNotFound
         );
         if (variant.getIsDefault().equals(Boolean.TRUE)) {

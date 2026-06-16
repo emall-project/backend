@@ -14,8 +14,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoreCommentSummaryDto {
-    private Long storeId;
+public class ShopCommentSummaryDto {
+    private Long shopId;
     private long totalComments;
     private long approvedComments;
     private long pendingComments;

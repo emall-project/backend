@@ -19,6 +19,6 @@ public class ProductSimilarity {
     private String category;
     private String brand;
     private Long mallId;
-    private Long storeId;
+    private Long shopId;
     private Boolean isActive;
 }

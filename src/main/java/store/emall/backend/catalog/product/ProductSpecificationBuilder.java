@@ -30,7 +30,7 @@ public final class ProductSpecificationBuilder {
                 categorySpec(filter.getCategoryId(), filter.getCategoryIds()),
                 brandSpec(filter.getBrandId()),
                 mallSpec(filter.getMallId()),
-                storeSpec(filter.getStoreId()),
+                storeSpec(filter.getShopId()),
                 isActiveSpec(filter.getIsActive()),
                 targetedAudienceSpec(filter.getTargetedAudience()),
                 ageGroupSpec(filter.getAgeGroup()),
@@ -109,12 +109,12 @@ public final class ProductSpecificationBuilder {
         };
     }
 
-    public static Specification<Product> storeSpec(Long storeId) {
+    public static Specification<Product> storeSpec(Long shopId) {
         return (root, query, cb) -> {
-            if (storeId == null) {
+            if (shopId == null) {
                 return null;
             }
-            return cb.equal(root.get("storeId"), storeId);
+            return cb.equal(root.get("shopId"), shopId);
         };
     }
 

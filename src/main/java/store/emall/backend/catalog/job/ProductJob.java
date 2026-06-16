@@ -35,7 +35,7 @@ public class ProductJob {
 
     private Long mallId;
 
-    private Long storeId;
+    private Long shopId;
 
     private List<String> tags;
 

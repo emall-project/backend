@@ -672,7 +672,7 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
         FolderDto folderDto = FolderDto.builder()
                 .name(folderName)
                 .parentId(null)
-                .storeId(shop.getShopId())
+                .shopId(shop.getShopId())
                 .build();
 
         FolderDto saved = folderService.create(folderDto);
@@ -782,8 +782,8 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
         FileTransferRequest fileTransferRequest = FileTransferRequest.builder()
                 .id(fileUuid)
                 .newFolderId(targetFolderId)
-                .newStoreId(shopId)
-                .newScope(ScopeType.STORE)
+                .newShopId(shopId)
+                .newScope(ScopeType.SHOP)
                 .newManagedBy(ManagedByType.SYSTEM)
                 .build();
 

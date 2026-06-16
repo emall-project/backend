@@ -34,8 +34,8 @@ public class FileServiceHelper {
                 .orElseThrow(FileExceptions::fileNotFound);
     }
 
-    public File getFile(UUID id, Long storeId) {
-        return fileRepository.findByStoreIdAndId(storeId, id)
+    public File getFile(UUID id, Long shopId) {
+        return fileRepository.findByShopIdAndId(shopId, id)
                 .orElseThrow(FileExceptions::fileNotFound);
     }
 
@@ -44,8 +44,8 @@ public class FileServiceHelper {
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
-    public Folder getFolder(Long id, Long storeId) {
-        return folderRepository.findByStoreIdAndId(storeId, id)
+    public Folder getFolder(Long id, Long shopId) {
+        return folderRepository.findByShopIdAndId(shopId, id)
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
@@ -58,11 +58,11 @@ public class FileServiceHelper {
             throw FileExceptions.managedByNotFound();
         }
 
-        if (dto.getScope() == ScopeType.SYSTEM && dto.getStoreId() != null) {
+        if (dto.getScope() == ScopeType.SYSTEM && dto.getShopId() != null) {
             throw FileExceptions.fileScopeMismatch();
         }
 
-        if (dto.getScope() == ScopeType.STORE && dto.getStoreId() == null) {
+        if (dto.getScope() == ScopeType.SHOP && dto.getShopId() == null) {
             throw FileExceptions.fileScopeMismatch();
         }
     }
@@ -76,22 +76,22 @@ public class FileServiceHelper {
             throw FileExceptions.managedByNotFound();
         }
 
-        if (dto.getScope() == ScopeType.SYSTEM && dto.getStoreId() != null) {
+        if (dto.getScope() == ScopeType.SYSTEM && dto.getShopId() != null) {
             throw FileExceptions.fileScopeMismatch();
         }
 
-        if (dto.getScope() == ScopeType.STORE && dto.getStoreId() == null) {
+        if (dto.getScope() == ScopeType.SHOP && dto.getShopId() == null) {
             throw FileExceptions.fileScopeMismatch();
         }
     }
 
-    public void validateFileFolderScope(Long fileStoreId, ScopeType fileScope, Folder folder) {
+    public void validateFileFolderScope(Long fileShopId, ScopeType fileScope, Folder folder) {
         if (folder.getScope() != fileScope) {
             throw FileExceptions.fileScopeMismatch();
         }
 
-        if (!Objects.equals(fileStoreId, folder.getStoreId())) {
-            throw FileExceptions.storeIdMisMatch();
+        if (!Objects.equals(fileShopId, folder.getShopId())) {
+            throw FileExceptions.shopIdMisMatch();
         }
     }
 
@@ -120,12 +120,12 @@ public class FileServiceHelper {
             throw FileExceptions.fileScopeMismatch();
         }
 
-        if (!Objects.equals(newFolder.getStoreId(), dto.getNewStoreId())) {
-            throw FileExceptions.storeIdMisMatch();
+        if (!Objects.equals(newFolder.getShopId(), dto.getNewShopId())) {
+            throw FileExceptions.shopIdMisMatch();
         }
 
         boolean sameScope = file.getScope() == dto.getNewScope();
-        boolean sameStore = Objects.equals(file.getStoreId(), dto.getNewStoreId());
+        boolean sameStore = Objects.equals(file.getShopId(), dto.getNewShopId());
         boolean sameFolder = Objects.equals(file.getFolder().getId(), dto.getNewFolderId());
         boolean sameManager = file.getManagedBy() == dto.getNewManagedBy();
 

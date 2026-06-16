@@ -53,7 +53,7 @@ public class AdminFolderController {
     public EMallsResponseEntity<FolderDto> create(
             @RequestBody @Validated({Default.class, OnCreate.class}) FolderDto folderDto
     ) {
-        folderDto.setStoreId(null);
+        folderDto.setShopId(null);
         folderDto.setScope(ScopeType.SYSTEM);
         folderDto.setManagedBy(ManagedByType.ADMIN);
 
@@ -65,7 +65,7 @@ public class AdminFolderController {
     public EMallsResponseEntity<FolderDto> update(
             @RequestBody @Validated({Default.class, OnUpdate.class}) FolderDto folderDto
     ) {
-        folderDto.setStoreId(null);
+        folderDto.setShopId(null);
         folderDto.setScope(ScopeType.SYSTEM);
         folderDto.setManagedBy(ManagedByType.ADMIN);
 

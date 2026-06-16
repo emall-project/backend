@@ -35,12 +35,12 @@ public final class FileExceptions {
                 .build();
     }
 
-    public static EMallsException storeIdMisMatch() {
+    public static EMallsException shopIdMisMatch() {
         return EMallsException.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
-                .message(MessageKey.FILE_STORE_ID_MISMATCH.getKey())
+                .message(MessageKey.FILE_SHOP_ID_MISMATCH.getKey())
                 .errorCode(List.of(
-                        new ErrorCode("storeId", MessageKey.FILE_STORE_ID_MISMATCH.getKey())
+                        new ErrorCode("shopId", MessageKey.FILE_SHOP_ID_MISMATCH.getKey())
                 ))
                 .build();
     }

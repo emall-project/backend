@@ -18,74 +18,74 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("stores/{storeId}/files")
-//todo: replace with isShopOwnerOf(#storeId)
-@PreAuthorize("@auth.isAdminOrShopOwnerOf(#storeId)")
+@RequestMapping("stores/{shopId}/files")
+//todo: replace with isShopOwnerOf(#shopId)
+@PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
-public class StoreFileController {
+public class ShopFileController {
 
     private final FileService fileService;
 
     @GetMapping
     public EMallsResponseEntity<PaginatedResponse<FileDto>> getAll(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             Pageable pageable,
             @ModelAttribute FileFilter fileFilter
     ) {
-        fileFilter.setStoreId(storeId);
-        fileFilter.setScope(ScopeType.STORE);
+        fileFilter.setShopId(shopId);
+        fileFilter.setScope(ScopeType.SHOP);
         PaginatedResponse<FileDto> files = fileService.getAll(pageable, fileFilter);
         return EMallsResponseEntity.ok(files);
     }
 
     @GetMapping("/all")
     public EMallsResponseEntity<List<FileDto>> getFiles(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @ModelAttribute FileFilter fileFilter
     ) {
-        fileFilter.setStoreId(storeId);
-        fileFilter.setScope(ScopeType.STORE);
+        fileFilter.setShopId(shopId);
+        fileFilter.setScope(ScopeType.SHOP);
         List<FileDto> files = fileService.getAllFileList(fileFilter);
         return EMallsResponseEntity.ok(files);
     }
 
     @GetMapping("/{id}")
-    public EMallsResponseEntity<FileDto> getById(@PathVariable Long storeId, @PathVariable UUID id) {
-        FileDto file = fileService.getByStoreIdAndId(storeId, id);
+    public EMallsResponseEntity<FileDto> getById(@PathVariable Long shopId, @PathVariable UUID id) {
+        FileDto file = fileService.getByShopIdAndId(shopId, id);
         return EMallsResponseEntity.ok(file);
     }
 
     @PostMapping("/upload-url")
     public EMallsResponseEntity<FileUploadByUrlResponse> uploadByUrl(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @RequestBody @Validated({Default.class, OnCreate.class}) FileUploadByUrlRequest fileUploadByUrlRequest
     ) {
-        return EMallsResponseEntity.ok(fileService.uploadByUrl(storeId, fileUploadByUrlRequest));
+        return EMallsResponseEntity.ok(fileService.uploadByUrl(shopId, fileUploadByUrlRequest));
     }
 
     @PutMapping("/rename")
     public EMallsResponseEntity<FileDto> rename(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @RequestBody FileRenameRequest fileRenameRequest
     ) {
-        FileDto dto = fileService.rename(storeId, fileRenameRequest);
+        FileDto dto = fileService.rename(shopId, fileRenameRequest);
         return EMallsResponseEntity.ok(dto);
     }
 
     @PutMapping("/move")
     public EMallsResponseEntity<FileDto> move(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @RequestBody @Validated FileMoveRequest fileMoveRequest
     ) {
-        fileMoveRequest.setStoreId(storeId);
+        fileMoveRequest.setShopId(shopId);
 
         FileDto dto = fileService.move(fileMoveRequest);
         return EMallsResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
-    public EMallsResponseEntity<Void> delete(@PathVariable Long storeId, @PathVariable UUID id) {
-        fileService.delete(storeId, id);
+    public EMallsResponseEntity<Void> delete(@PathVariable Long shopId, @PathVariable UUID id) {
+        fileService.delete(shopId, id);
         return EMallsResponseEntity.noContent(null);
     }
 }

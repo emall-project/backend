@@ -17,7 +17,7 @@ public class ProductJobMapper {
                 .category(product.getCategory())
                 .brand(product.getBrand())
                 .mallId(product.getMallId())
-                .storeId(product.getStoreId())
+                .shopId(product.getShopId())
                 .isActive(product.getIsActive())
                 .build();
     }

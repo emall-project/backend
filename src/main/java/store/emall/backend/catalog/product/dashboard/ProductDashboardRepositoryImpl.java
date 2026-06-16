@@ -17,14 +17,14 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     private EntityManager em;
 
     @Override
-    public ProductDashboardKpisDto getKpis(Long storeId) {
+    public ProductDashboardKpisDto getKpis(Long shopId) {
         Object[] row = singleRow("""
                 SELECT COUNT(p.id),
                        SUM(CASE WHEN p.isActive = true THEN 1 ELSE 0 END),
                        SUM(CASE WHEN p.isActive = false THEN 1 ELSE 0 END)
                 FROM Product p
-                WHERE p.storeId = :storeId
-                """, storeId);
+                WHERE p.shopId = :shopId
+                """, shopId);
 
         return new ProductDashboardKpisDto(
                 longValue(row[0]),
@@ -34,29 +34,29 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public ProductDashboardVariantKpisDto getVariantKpis(Long storeId) {
+    public ProductDashboardVariantKpisDto getVariantKpis(Long shopId) {
         long totalProducts = longValue(em.createQuery("""
                         SELECT COUNT(p.id)
                         FROM Product p
-                        WHERE p.storeId = :storeId
+                        WHERE p.shopId = :shopId
                         """)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getSingleResult());
 
         long totalVariants = longValue(em.createQuery("""
                         SELECT COUNT(v.id)
                         FROM ProductVariant v
-                        WHERE v.product.storeId = :storeId
+                        WHERE v.product.shopId = :shopId
                         """)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getSingleResult());
 
         Object[] row = singleRow("""
                 SELECT SUM(CASE WHEN SIZE(p.variants) = 1 THEN 1 ELSE 0 END),
                        SUM(CASE WHEN SIZE(p.variants) > 1 THEN 1 ELSE 0 END)
                 FROM Product p
-                WHERE p.storeId = :storeId
-                """, storeId);
+                WHERE p.shopId = :shopId
+                """, shopId);
 
         BigDecimal averageVariantsPerProduct = totalProducts == 0
                 ? BigDecimal.ZERO
@@ -72,13 +72,13 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public ProductDashboardTagCoverageDto getTagCoverage(Long storeId) {
+    public ProductDashboardTagCoverageDto getTagCoverage(Long shopId) {
         Object[] row = singleRow("""
                 SELECT SUM(CASE WHEN SIZE(p.tags) > 0 THEN 1 ELSE 0 END),
                        SUM(CASE WHEN SIZE(p.tags) = 0 THEN 1 ELSE 0 END)
                 FROM Product p
-                WHERE p.storeId = :storeId
-                """, storeId);
+                WHERE p.shopId = :shopId
+                """, shopId);
 
         return new ProductDashboardTagCoverageDto(
                 longValue(row[0]),
@@ -87,15 +87,15 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public ProductDashboardPriceStatsDto getPriceStats(Long storeId) {
+    public ProductDashboardPriceStatsDto getPriceStats(Long shopId) {
         Object[] row = singleRow("""
                 SELECT MIN(p.defaultVariant.basePrice),
                        MAX(p.defaultVariant.basePrice),
                        AVG(p.defaultVariant.basePrice)
                 FROM Product p
-                WHERE p.storeId = :storeId
+                WHERE p.shopId = :shopId
                   AND p.defaultVariant IS NOT NULL
-                """, storeId);
+                """, shopId);
 
         return new ProductDashboardPriceStatsDto(
                 bigDecimalValue(row[0]),
@@ -105,18 +105,18 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public List<NamedDistributionRowDto> getCategoryDistribution(Long storeId) {
+    public List<NamedDistributionRowDto> getCategoryDistribution(Long shopId) {
         return em.createQuery("""
                         SELECT p.category.id,
                                p.category.name,
                                COUNT(p.id),
                                SUM(CASE WHEN p.isActive = true THEN 1 ELSE 0 END)
                         FROM Product p
-                        WHERE p.storeId = :storeId
+                        WHERE p.shopId = :shopId
                         GROUP BY p.category.id, p.category.name
                         ORDER BY COUNT(p.id) DESC, p.category.name ASC
                         """, Object[].class)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getResultList()
                 .stream()
                 .map(row -> new NamedDistributionRowDto(
@@ -129,18 +129,18 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public List<NamedDistributionRowDto> getBrandDistribution(Long storeId) {
+    public List<NamedDistributionRowDto> getBrandDistribution(Long shopId) {
         return em.createQuery("""
                         SELECT p.brand.id,
                                p.brand.name,
                                COUNT(p.id),
                                SUM(CASE WHEN p.isActive = true THEN 1 ELSE 0 END)
                         FROM Product p
-                        WHERE p.storeId = :storeId
+                        WHERE p.shopId = :shopId
                         GROUP BY p.brand.id, p.brand.name
                         ORDER BY COUNT(p.id) DESC, p.brand.name ASC
                         """, Object[].class)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getResultList()
                 .stream()
                 .map(row -> new NamedDistributionRowDto(
@@ -153,29 +153,29 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
     }
 
     @Override
-    public List<EnumDistributionRowDto> getAudienceDistribution(Long storeId) {
-        return getEnumDistribution(storeId, "targetedAudience");
+    public List<EnumDistributionRowDto> getAudienceDistribution(Long shopId) {
+        return getEnumDistribution(shopId, "targetedAudience");
     }
 
     @Override
-    public List<EnumDistributionRowDto> getAgeDistribution(Long storeId) {
-        return getEnumDistribution(storeId, "ageGroup");
+    public List<EnumDistributionRowDto> getAgeDistribution(Long shopId) {
+        return getEnumDistribution(shopId, "ageGroup");
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProductCreatedByMonthDto> getProductsCreatedByMonth(Long storeId, LocalDateTime fromInclusive) {
+    public List<ProductCreatedByMonthDto> getProductsCreatedByMonth(Long shopId, LocalDateTime fromInclusive) {
         return em.createNativeQuery("""
                         SELECT TO_CHAR(DATE_TRUNC('month', p.created_at), 'YYYY-MM') AS month_key,
                                COUNT(p.id) AS total_products,
                                SUM(CASE WHEN p.is_active = true THEN 1 ELSE 0 END) AS active_products
                         FROM catalog.products p
-                        WHERE p.store_id = :storeId
+                        WHERE p.shop_id = :shopId
                           AND p.created_at >= :fromInclusive
                         GROUP BY month_key
                         ORDER BY month_key ASC
                         """)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .setParameter("fromInclusive", Timestamp.valueOf(fromInclusive))
                 .getResultList()
                 .stream()
@@ -190,19 +190,19 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
                 .toList();
     }
 
-    private List<EnumDistributionRowDto> getEnumDistribution(Long storeId, String fieldName) {
+    private List<EnumDistributionRowDto> getEnumDistribution(Long shopId, String fieldName) {
         String jpql = """
                 SELECT p.%s,
                        COUNT(p.id),
                        SUM(CASE WHEN p.isActive = true THEN 1 ELSE 0 END)
                 FROM Product p
-                WHERE p.storeId = :storeId
+                WHERE p.shopId = :shopId
                 GROUP BY p.%s
                 ORDER BY COUNT(p.id) DESC, p.%s ASC
                 """.formatted(fieldName, fieldName, fieldName);
 
         return em.createQuery(jpql, Object[].class)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getResultList()
                 .stream()
                 .map(row -> new EnumDistributionRowDto(
@@ -213,9 +213,9 @@ public class ProductDashboardRepositoryImpl implements ProductDashboardRepositor
                 .toList();
     }
 
-    private Object[] singleRow(String jpql, Long storeId) {
+    private Object[] singleRow(String jpql, Long shopId) {
         return (Object[]) em.createQuery(jpql)
-                .setParameter("storeId", storeId)
+                .setParameter("shopId", shopId)
                 .getSingleResult();
     }
 

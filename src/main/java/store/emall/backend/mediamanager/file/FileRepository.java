@@ -15,9 +15,9 @@ public interface FileRepository extends JpaRepository<File, UUID>, JpaSpecificat
     boolean existsByNameAndExtensionAndFolder_Id(String name, String extension, Long folderId);
     List<File> findByFolder_Id(Long folderId);
 
-    Optional<File> findByStoreIdAndId(Long storeId, UUID id);
+    Optional<File> findByShopIdAndId(Long shopId, UUID id);
 
-    boolean existsByStoreIdAndId(Long storeId, UUID id);
+    boolean existsByShopIdAndId(Long shopId, UUID id);
 
     Optional<File> findByIdAndScope(UUID id, ScopeType scope);
 

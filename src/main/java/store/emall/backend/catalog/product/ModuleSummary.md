@@ -1,6 +1,6 @@
 ### 1. Domain Model Summary
 - **Main Entity:** `Product` represents a catalog item.
-- **Hierarchy & Ownership:** A product belongs strictly to one `Category`, one `Brand`, and is owned by a specific `Store` (`storeId`) within a `Mall` (`mallId`).
+- **Hierarchy & Ownership:** A product belongs strictly to one `Category`, one `Brand`, and is owned by a specific `Store` (`shopId`) within a `Mall` (`mallId`).
 - **Composition & Lifecycle Shift:** A product is composed of `ProductVariant`s. *However, unlike the previous version, variants now have an independent lifecycle.* They are created with the product but updated/deleted via their own dedicated endpoints.
 - **Key Fields:**
   - `slug`: The store-scoped URL identifier.
@@ -17,16 +17,16 @@ The API strictly partitions access between two domains:
   - **Forbidden:** Accessing inactive/draft products or mutating any data.
   - **Enforcement:** The controller forces `filter.setIsActive(true)`. Direct endpoint fetches explicitly check `product.getIsActive()` and throw an exception if false.
 - **Store Role (`StoreProductController`):**
-  - **Allowed:** Full CRUD operations on products and individual variants belonging to their `storeId`.
+  - **Allowed:** Full CRUD operations on products and individual variants belonging to their `shopId`.
   - **Forbidden:** Modifying or viewing products/variants of other stores.
-  - **Enforcement:** `storeId` is bound via the URL path (`@PathVariable`), implicitly trusting the path and overriding payload values to prevent ID spoofing.
+  - **Enforcement:** `shopId` is bound via the URL path (`@PathVariable`), implicitly trusting the path and overriding payload values to prevent ID spoofing.
 
 ---
 
 ### 3. Business Rules
 
 #### General Rules
-- **Data Segregation:** Products and their slugs are strictly partitioned by `storeId`.
+- **Data Segregation:** Products and their slugs are strictly partitioned by `shopId`.
 - **Mandatory Default Variant:** A product MUST have exactly one default variant (`isDefault = true`). Having zero or multiple defaults is forbidden.
 - **Variant Attribute Requirement:** If a product contains more than one variant, *every* variant must have at least one defined `VariantAttribute` (to differentiate them).
 
@@ -38,10 +38,10 @@ The API strictly partitions access between two domains:
 - **Separation of Concerns:** You can no longer update a product and its variants in the same request. The product update payload explicitly forbids variants (`@Null(groups = OnUpdate.class)`).
 - **Variant Independence:** Variants must be updated or deleted individually via dedicated endpoints (`PUT .../variants` and `DELETE .../variants/{id}`).
 - **State Machine Hooks:** Toggling the `isActive` flag from `false` to `true` triggers an `activation()` routine, and `true` to `false` triggers `deactivation()`.
-- **Immutability:** Once created, a product cannot be moved to a different `mallId` or `storeId`.
+- **Immutability:** Once created, a product cannot be moved to a different `mallId` or `shopId`.
 
 #### Delete Rules
-- **Ownership Verification:** A product or variant can only be deleted if the authenticated `storeId` matches the product's owner.
+- **Ownership Verification:** A product or variant can only be deleted if the authenticated `shopId` matches the product's owner.
 - **Hard Deletion:** Deleting a product triggers a hard cascade delete (`CascadeType.ALL`), permanently removing variants, media, and tags from the database.
 
 #### Access Rules

@@ -20,8 +20,8 @@ public class FolderServiceHelper {
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
-    public Folder getFolder(Long storeId, Long id) {
-        return folderRepository.findByStoreIdAndId(storeId, id)
+    public Folder getFolder(Long shopId, Long id) {
+        return folderRepository.findByShopIdAndId(shopId, id)
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
@@ -35,8 +35,8 @@ public class FolderServiceHelper {
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
-    public Folder getFolder(Long id, Long storeId, ScopeType scope, ManagedByType managedBy) {
-        return folderRepository.findByIdAndStoreIdAndScopeAndManagedBy(id, storeId, scope, managedBy)
+    public Folder getFolder(Long id, Long shopId, ScopeType scope, ManagedByType managedBy) {
+        return folderRepository.findByIdAndShopIdAndScopeAndManagedBy(id, shopId, scope, managedBy)
                 .orElseThrow(FolderExceptions::folderNotFound);
     }
 
@@ -49,16 +49,16 @@ public class FolderServiceHelper {
             throw FolderExceptions.managedByNotFound();
         }
 
-        if (dto.getScope() == ScopeType.SYSTEM && dto.getStoreId() != null) {
+        if (dto.getScope() == ScopeType.SYSTEM && dto.getShopId() != null) {
             throw FolderExceptions.folderScopeMismatch();
         }
 
-        if (dto.getScope() == ScopeType.STORE && dto.getStoreId() == null) {
+        if (dto.getScope() == ScopeType.SHOP && dto.getShopId() == null) {
             throw FolderExceptions.folderScopeMismatch();
         }
     }
 
-    public Folder validateAndLoadParent(Long parentId, Long storeId, ScopeType scope) {
+    public Folder validateAndLoadParent(Long parentId, Long shopId, ScopeType scope) {
         if (parentId == null) {
             return null;
         }
@@ -70,14 +70,14 @@ public class FolderServiceHelper {
         }
 
         if (scope == ScopeType.SYSTEM) {
-            if (parent.getStoreId() != null || storeId != null) {
+            if (parent.getShopId() != null || shopId != null) {
                 throw FolderExceptions.folderScopeMismatch();
             }
             return parent;
         }
 
-        if (!Objects.equals(parent.getStoreId(), storeId)) {
-            throw FolderExceptions.storeIdMismatch();
+        if (!Objects.equals(parent.getShopId(), shopId)) {
+            throw FolderExceptions.shopIdMismatch();
         }
 
         return parent;
@@ -121,16 +121,16 @@ public class FolderServiceHelper {
             Folder folder,
             ScopeType scope,
             ManagedByType managedBy,
-            Long storeId
+            Long shopId
     ) {
         if (folder.getScope() != scope
                 || folder.getManagedBy() != managedBy
-                || !Objects.equals(folder.getStoreId(), storeId)) {
+                || !Objects.equals(folder.getShopId(), shopId)) {
             throw FolderExceptions.folderNotFound();
         }
 
         for (Folder child : folderRepository.findByParent_Id(folder.getId())) {
-            validateManagedDeleteSubtree(child, scope, managedBy, storeId);
+            validateManagedDeleteSubtree(child, scope, managedBy, shopId);
         }
     }
 }

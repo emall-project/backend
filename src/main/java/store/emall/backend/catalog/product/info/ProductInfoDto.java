@@ -21,7 +21,7 @@ public class ProductInfoDto {
     private String brandName;
     private Boolean isActive;
 
-    private Long storeId;
+    private Long shopId;
     private Long mallId;
 
     private FileLightDto medium;

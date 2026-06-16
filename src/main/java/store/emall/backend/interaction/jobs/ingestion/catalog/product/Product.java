@@ -37,7 +37,7 @@ public class Product {
 
     private Long mallId;
 
-    private Long storeId;
+    private Long shopId;
 
     private List<String> tags;
 

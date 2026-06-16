@@ -5,6 +5,6 @@ import store.emall.backend.interaction.interaction.ingestion.catalog.CatalogEven
 public interface InteractionEventService {
 
 
-    InteractionEvent storeCatalogEvent(CatalogEvent event, String routingKey);
+    InteractionEvent shopCatalogEvent(CatalogEvent event, String routingKey);
 
 }

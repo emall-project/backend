@@ -21,8 +21,8 @@ public class FileMoveRequest {
     @NotNull(message = "file.newFolderId.notNull")
     private Long newFolderId;
 
-    @Null(message = "file.storeId.null")
-    private Long storeId;
+    @Null(message = "file.shopId.null")
+    private Long shopId;
 
     @Null(message = "file.scope.null")
     private ScopeType scope;

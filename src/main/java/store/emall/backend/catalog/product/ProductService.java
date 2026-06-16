@@ -21,19 +21,19 @@ public interface ProductService {
 
     List<ProductLightDto> getRandomLight(Integer limit);
 
-    ProductDto create(Long mallId, Long storeId, ProductDto productDto);
+    ProductDto create(Long mallId, Long shopId, ProductDto productDto);
 
-    ProductDto update(Long mallId, Long storeId, ProductDto productDto);
+    ProductDto update(Long mallId, Long shopId, ProductDto productDto);
 
     ProductDto getById(Long id, Boolean onlyActive);
 
-    ProductDto getByStoreIdAndId(Long storeId, Long id);
+    ProductDto getByShopIdAndId(Long shopId, Long id);
 
     ProductDto getBySlug(String slug);
 
-    ProductDto getByStoreIdAndSlug(Long storeId, String slug);
+    ProductDto getByShopIdAndSlug(Long shopId, String slug);
 
-    void delete(Long storeId, Long id);
+    void delete(Long shopId, Long id);
 
     ProductInfoDto getProductInfo(Long id);
 

@@ -23,8 +23,8 @@ public class FolderDto {
     @Size(max = 50, message = "folder.name.size")
     private String name;
 
-    @Null(groups = OnUpdate.class, message = "folder.storeId.null")
-    private Long storeId;
+    @Null(groups = OnUpdate.class, message = "folder.shopId.null")
+    private Long shopId;
 
     @Positive(message = "folder.parentId.positive")
     private Long parentId;

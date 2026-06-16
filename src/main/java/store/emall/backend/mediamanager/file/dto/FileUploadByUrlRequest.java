@@ -22,7 +22,7 @@ public class FileUploadByUrlRequest {
     @Null(groups = OnTempFileUpload.class, message = "file.folderId.notnull")
     private Long folderId;
 
-    private Long storeId;
+    private Long shopId;
 
     @Null(message = "file.scope.null")
     private ScopeType scope;

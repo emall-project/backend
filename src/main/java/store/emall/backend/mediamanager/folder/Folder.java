@@ -44,7 +44,7 @@ public class Folder extends EMallsBaseEntity {
     private Folder parent;
 
     @Column(name = "store_id")
-    private Long storeId;
+    private Long shopId;
 
 
     @Enumerated(EnumType.STRING)

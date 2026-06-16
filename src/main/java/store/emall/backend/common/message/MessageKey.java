@@ -354,7 +354,7 @@ public enum MessageKey {
     PRODUCT_NOT_FOUND("product.not.found"),
     PRODUCT_NOT_ACTIVE("product.not.active"),
     PRODUCT_SLUG_EXISTS("product.slug.exists"),
-    PRODUCT_SLUG_EXISTS_IN_THE_SAME_STORE("product.slug.exists.in.the.same.store"),
+    PRODUCT_SLUG_EXISTS_IN_THE_SAME_SHOP("product.slug.exists.in.the.same.shop"),
     PRODUCT_INACTIVE("product.inactive"),
     PRODUCT_HAS_MULTIPLE_DEFAULT_VARIANTS("product.has.multiple.default.variants"),
     DEFAULT_VARIANTS_REQUIRED("default.variants.required"),
@@ -363,7 +363,7 @@ public enum MessageKey {
     INVALID_PRODUCT_AGE_GROUP_FOR_CATEGORY("invalid.product.ageGroup.for.category"),
     INTERACTION_SERVICE_NOT_AVAILABLE("interaction.service.not.available"),
     PRODUCT_DOSE_NOT_BELONG_TO_MALL("product.dose.not.belong.to.mall"),
-    PRODUCT_DOSE_NOT_BELONG_TO_STORE("product.dose.not.belong.to.store"),
+    PRODUCT_DOSE_NOT_BELONG_TO_SHOP("product.dose.not.belong.to.shop"),
     // =========================================================
     // PRODUCT - DTO VALIDATION
     // =========================================================
@@ -390,7 +390,7 @@ public enum MessageKey {
     PRODUCT_DESCRIPTION_SIZE("product.description.size"),
 
     PRODUCT_MALL_ID_NULL("product.mallId.null"),
-    PRODUCT_STORE_ID_NULL("product.storeId.null"),
+    PRODUCT_SHOP_ID_NULL("product.shopId.null"),
 
     PRODUCT_VARIANTS_NOT_NULL("product.variants.not.null"),
 
@@ -536,7 +536,7 @@ public enum MessageKey {
     FILE_NAME_EXISTS("file.name.exist"),
     FILE_UPLOAD_FAILED("file.upload.failed"),
     FILE_DELETE_FAILED("file.delete.failed"),
-    FILE_STORE_ID_MISMATCH("file.store.id.mismatch"),
+    FILE_SHOP_ID_MISMATCH("file.shop.id.mismatch"),
     FILE_NOT_APPROVED_YET("file.not.approved"),
     FILE_REJECTED("file.rejected"),
     FILE_TOO_LARGE("file.too.large"),
@@ -554,7 +554,7 @@ public enum MessageKey {
     FOLDER_ID_NULL("folder.id.null"),
     FOLDER_ID_POSITIVE("folder.id.positive"),
     FOLDER_NAME_NOT_BLANK("folder.name.notblank"),
-    FOLDER_STORE_ID_NOT_BLANK("folder.storeId.notblank"),
+    FOLDER_SHOP_ID_NOT_BLANK("folder.shopId.notblank"),
     FOLDER_NAME_SIZE("folder.name.size"),
     FOLDER_PARENTID_POSITIVE("folder.parent.id.positive"),
 
@@ -562,7 +562,7 @@ public enum MessageKey {
     FOLDER_NOT_FOUND("folder.not.found"),
     FOLDER_NAME_EXISTS("folder.name.exist"),
     FOLDER_HIERARCHY_CYCLIC("folder.hierarchy.cyclic"),
-    FOLDER_STORE_ID_MISMATCH("folder.store.id.mismatch"),
+    FOLDER_SHOP_ID_MISMATCH("folder.shop.id.mismatch"),
     CHANGING_FOLDER_SCOPE_NOT_ALLOWED("changing.folder.scope.not.allowed"),
     ROOT_FOLDER_CREATION_NOT_ALLOWED("root.folder.creation.not.allowed"),
     FOLDER_SCOPE_MISMATCH("folder.scope.mismatch"),

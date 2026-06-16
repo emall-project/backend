@@ -10,7 +10,6 @@ import store.emall.backend.common.base.EMallsBaseDto;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.common.validation.OnUpdate;
 import store.emall.backend.catalog.product.product_variant.ProductVariantDto;
-import store.emall.backend.catalog.tag.Tag;
 import store.emall.backend.catalog.tag.TagDto;
 
 import java.util.List;
@@ -71,8 +70,8 @@ public class ProductDto extends EMallsBaseDto {
     @Null(message = "product.mallId.null")
     private Long mallId;
 
-    @Null(message = "product.storeId.null")
-    private Long storeId;
+    @Null(message = "product.shopId.null")
+    private Long shopId;
 
     @Valid
     private List<TagDto> tags;//create if not found

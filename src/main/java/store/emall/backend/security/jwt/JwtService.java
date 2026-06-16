@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.SecurityConstants;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -53,7 +53,7 @@ public class JwtService {
      * Frontend reads shopIds from JWT and shows the "choose your shop" screen.
      */
     public String generateAccessToken(Long userId, String username, String fullName,
-                                      String role, List<StoreRef> shopIds) {
+                                      String role, List<ShopRef> shopIds) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(SecurityConstants.CLAIM_USER_ID,    userId);
         claims.put(SecurityConstants.CLAIM_USERNAME,   username);
@@ -62,7 +62,7 @@ public class JwtService {
         claims.put(SecurityConstants.CLAIM_TOKEN_TYPE, SecurityConstants.TOKEN_TYPE_ACCESS);
         List<Map<String, Object>> storeList = shopIds != null
                 ? shopIds.stream()
-                .map(s -> Map.<String, Object>of("storeId", s.getStoreId(), "mallId", s.getMallId()))
+                .map(s -> Map.<String, Object>of("shopId", s.getShopId(), "mallId", s.getMallId()))
                 .toList()
                 : List.of();
         claims.put(SecurityConstants.CLAIM_SHOP_IDS, storeList);
@@ -110,16 +110,16 @@ public class JwtService {
     }
 
     @SuppressWarnings("unchecked")
-    public List<StoreRef> extractShopIds(String token) {
+    public List<ShopRef> extractShopIds(String token) {
         Object raw = extractClaim(token, claims -> claims.get(SecurityConstants.CLAIM_SHOP_IDS));
         if (raw == null) return Collections.emptyList();
         List<?> list = (List<?>) raw;
         return list.stream()
                 .map(item -> {
                     Map<?, ?> map = (Map<?, ?>) item;
-                    Long storeId = toLong(map.get("storeId"));
+                    Long shopId = toLong(map.get("shopId"));
                     Long mallId  = toLong(map.get("mallId"));
-                    return new StoreRef(storeId, mallId);
+                    return new ShopRef(shopId, mallId);
                 })
                 .toList();
     }

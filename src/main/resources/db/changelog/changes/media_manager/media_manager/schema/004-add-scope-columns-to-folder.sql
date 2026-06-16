@@ -8,13 +8,13 @@ ALTER TABLE media_manager.folders
 UPDATE media_manager.folders
 SET scope = CASE
                 WHEN store_id IS NULL THEN 'SYSTEM'
-                ELSE 'STORE'
+                ELSE 'SHOP'
     END;
 
 UPDATE media_manager.folders
 SET managed_by = CASE
                      WHEN store_id IS NULL THEN 'ADMIN'
-                     ELSE 'STORE'
+                     ELSE 'SHOP'
     END;
 
 ALTER TABLE media_manager.folders

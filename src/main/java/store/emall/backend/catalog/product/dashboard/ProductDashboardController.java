@@ -11,15 +11,15 @@ import store.emall.backend.common.response.EMallsResponseEntity;
 
 
 @RestController
-@RequestMapping("stores/{storeId}/products/dashboard")
-@PreAuthorize("@auth.isAdminOrShopOwnerOf(#storeId)")
+@RequestMapping("stores/{shopId}/products/dashboard")
+@PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
 public class ProductDashboardController {
     private final ProductDashboardService productDashboardService;
 
     @GetMapping("/summary")
-    public EMallsResponseEntity<ProductDashboardSummaryDto> getDashboardSummary(@PathVariable Long storeId) {
-        ProductDashboardSummaryDto dashboardSummary = productDashboardService.getSummary(storeId);
+    public EMallsResponseEntity<ProductDashboardSummaryDto> getDashboardSummary(@PathVariable Long shopId) {
+        ProductDashboardSummaryDto dashboardSummary = productDashboardService.getSummary(shopId);
         return EMallsResponseEntity.ok(dashboardSummary);
     }
 }

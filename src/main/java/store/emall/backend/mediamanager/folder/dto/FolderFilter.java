@@ -14,7 +14,7 @@ import store.emall.backend.common.scope.ScopeType;
 public class FolderFilter {
     private String name;
     private Long parentId;
-    private Long storeId;
+    private Long shopId;
     private ScopeType scope;
     private ManagedByType managedByType;
 }

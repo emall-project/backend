@@ -19,21 +19,21 @@ import store.emall.backend.mediamanager.folder.dto.FolderFilter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stores/{storeId}/folders")
-@PreAuthorize("@auth.isAdminOrShopOwnerOf(#storeId)")
+@RequestMapping("/stores/{shopId}/folders")
+@PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
-public class StoreFolderController {
+public class ShopFolderController {
 
     private final FolderService folderService;
 
     @GetMapping
     public EMallsResponseEntity<PaginatedResponse<FolderDto>> getAll(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             Pageable pageable,
             @ModelAttribute FolderFilter filter
     ) {
-        filter.setStoreId(storeId);
-        filter.setScope(ScopeType.STORE);
+        filter.setShopId(shopId);
+        filter.setScope(ScopeType.SHOP);
 
         PaginatedResponse<FolderDto> folders = folderService.getAll(pageable, filter);
         return EMallsResponseEntity.ok(folders);
@@ -41,11 +41,11 @@ public class StoreFolderController {
 
     @GetMapping("/all")
     public EMallsResponseEntity<List<FolderDto>> getFolderList(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @ModelAttribute FolderFilter filter
     ) {
-        filter.setStoreId(storeId);
-        filter.setScope(ScopeType.STORE);
+        filter.setShopId(shopId);
+        filter.setScope(ScopeType.SHOP);
 
         List<FolderDto> folders = folderService.getAllFolderList(filter);
         return EMallsResponseEntity.ok(folders);
@@ -53,45 +53,45 @@ public class StoreFolderController {
 
     @GetMapping("/{id}")
     public EMallsResponseEntity<FolderDto> getById(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @PathVariable @Positive Long id
     ) {
-        FolderDto folder = folderService.getByStoreIdAndId(storeId, id);
+        FolderDto folder = folderService.getByShopIdAndId(shopId, id);
         return EMallsResponseEntity.ok(folder);
     }
 
     @PostMapping
     public EMallsResponseEntity<FolderDto> create(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @RequestBody @Validated({Default.class, OnCreate.class}) FolderDto folderDto
     ) {
-        folderDto.setStoreId(storeId);
-        folderDto.setScope(ScopeType.STORE);
-        folderDto.setManagedBy(ManagedByType.STORE);
+        folderDto.setShopId(shopId);
+        folderDto.setScope(ScopeType.SHOP);
+        folderDto.setManagedBy(ManagedByType.SHOP);
 
-        FolderDto dto = folderService.storeCreate(folderDto);
+        FolderDto dto = folderService.shopCreate(folderDto);
         return EMallsResponseEntity.created(dto);
     }
 
     @PutMapping
     public EMallsResponseEntity<FolderDto> update(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @RequestBody @Validated({Default.class, OnUpdate.class}) FolderDto folderDto
     ) {
-        folderDto.setStoreId(storeId);
-        folderDto.setScope(ScopeType.STORE);
-        folderDto.setManagedBy(ManagedByType.STORE);
+        folderDto.setShopId(shopId);
+        folderDto.setScope(ScopeType.SHOP);
+        folderDto.setManagedBy(ManagedByType.SHOP);
 
-        FolderDto dto = folderService.storeUpdate(folderDto);
+        FolderDto dto = folderService.shopUpdate(folderDto);
         return EMallsResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     public EMallsResponseEntity<Void> delete(
-            @PathVariable Long storeId,
+            @PathVariable Long shopId,
             @PathVariable @Positive Long id
     ) {
-        folderService.storeDelete(storeId, id);
+        folderService.shopDelete(shopId, id);
         return EMallsResponseEntity.noContent(null);
     }
 }

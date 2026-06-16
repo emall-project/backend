@@ -17,25 +17,25 @@ public interface FolderService {
 
     FolderDto getById(Long id);
 
-    FolderDto getByStoreIdAndId(Long storeId, Long id);
+    FolderDto getByShopIdAndId(Long shopId, Long id);
 
     FolderDto getByIdAndScope(Long id, ScopeType scope);
 
     FolderDto create(FolderDto folderDto);
 
-    FolderDto storeCreate(FolderDto folderDto);
+    FolderDto shopCreate(FolderDto folderDto);
 
     FolderDto systemUpdate(FolderDto folderDto);
 
     FolderDto adminUpdate(FolderDto dto);
 
-    FolderDto storeUpdate(FolderDto folderDto);
+    FolderDto shopUpdate(FolderDto folderDto);
 
     void systemDelete(Long id);
 
     void adminDelete(Long id, ScopeType scope, ManagedByType managedBy);
 
-    void storeDelete(Long storeId, Long id);
+    void shopDelete(Long shopId, Long id);
 
     Long getSystemFolderId(SystemFolder systemFolder);
 }

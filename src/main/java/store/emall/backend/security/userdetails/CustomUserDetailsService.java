@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.security.SecurityConstants;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 import store.emall.backend.accounts.shop.ShopRepository;
 import store.emall.backend.accounts.user.User;
 import store.emall.backend.accounts.user.UserRepository;
@@ -47,11 +47,11 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     private CustomUserDetails buildUserDetails(User user) {
         if (SecurityConstants.ROLE_SHOP_OWNER.equals(user.getRole().getCode())) {
-            List<StoreRef> storeRefs = shopRepository.findByOwner_UserId(user.getUserId())
+            List<ShopRef> shopRefs = shopRepository.findByOwner_UserId(user.getUserId())
                     .stream()
-                    .map(shop -> new StoreRef(shop.getShopId(), shop.getMall().getMallId()))
+                    .map(shop -> new ShopRef(shop.getShopId(), shop.getMall().getMallId()))
                     .toList();
-            return new CustomUserDetails(user, storeRefs);
+            return new CustomUserDetails(user, shopRefs);
         }
         if (SecurityConstants.ROLE_CUSTOMER.equals(user.getRole().getCode())) {
             return new CustomUserDetails(user, user.getAge(), user.getGender());

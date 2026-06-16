@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
         ProductSummaryRepository {
     Optional<Product> findBySlug(String slug);
 
-    boolean existsBySlugAndStoreId(String slug, Long storeId);
+    boolean existsBySlugAndShopId(String slug, Long shopId);
 
     long countByCategory_Id(Long categoryId);
 
@@ -36,14 +36,14 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
     void deactivateByCategoryId(Long categoryId);
 
     @Modifying
-    @Query("UPDATE Product p SET p.isActive = false WHERE p.storeId = :storeId")
-    void deactivateByStoreId(Long storeId);
+    @Query("UPDATE Product p SET p.isActive = false WHERE p.shopId = :shopId")
+    void deactivateByShopId(Long shopId);
 
     boolean existsByTags_Id(Long tagsId);
 
     long countByTags_Id(Long tagsId);
 
-    boolean existsBySlugIgnoreCaseAndStoreId(String slug, Long storeId);
+    boolean existsBySlugIgnoreCaseAndShopId(String slug, Long shopId);
 
     @Override
     long count(Specification<Product> spec);
@@ -52,9 +52,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
 
     List<Long> findIdsBySpecification(Specification<Product> spec);
 
-    Optional<Product> findByStoreIdAndSlug(Long storeId, String slug);
+    Optional<Product> findByShopIdAndSlug(Long shopId, String slug);
 
-    Optional<Product> findByStoreIdAndId(Long storeId, Long id);
+    Optional<Product> findByShopIdAndId(Long shopId, Long id);
 
     @Modifying
     @Query("""

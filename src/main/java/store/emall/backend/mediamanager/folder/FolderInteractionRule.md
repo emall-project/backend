@@ -7,12 +7,12 @@
   * **Scope**
 
     * `SYSTEM`
-    * `STORE`
+    * `SHOP`
 
   * **Manager**
 
     * `ADMIN`
-    * `STORE`
+    * `SHOP`
     * `ACCOUNT_SERVICE`
     * `CAMPAIGN_SERVICE`
     * `ACCOUNTS_SERVICE`
@@ -22,7 +22,7 @@
     * `MEDIA_MANAGER_SERVICE`
     * `INTERACTIONS_SERVICE`
     * `ADMIN`
-    * `STORE`
+    * `SHOP`
 
 * Scope determines **where the folder belongs**
 
@@ -46,15 +46,15 @@
 
   * **Store endpoints**
 
-    * `scope = STORE`
-    * `managedBy = STORE`
-    * `storeId = {storeId}`
+    * `scope = SHOP`
+    * `managedBy = SHOP`
+    * `shopId = {shopId}`
 
   * **Internal service endpoints**
 
     * `scope = SYSTEM`
     * `managedBy = {service}`
-    * `storeId = null`
+    * `shopId = null`
 
 ---
 
@@ -63,12 +63,12 @@
 * **System folder**
 
   * `scope = SYSTEM`
-  * `storeId = null`
+  * `shopId = null`
 
 * **Store folder**
 
-  * `scope = STORE`
-  * `storeId != null`
+  * `scope = SHOP`
+  * `shopId != null`
 
 * Folder hierarchy must be consistent:
 
@@ -108,7 +108,7 @@
 
 ## Store Rules
 
-* Store operates with a fixed `storeId`
+* Store operates with a fixed `shopId`
 
 ### Allowed
 
@@ -118,9 +118,9 @@
   * Read folders in their store
   * Update/delete folders where:
 
-    * `scope = STORE`
-    * `storeId = current store`
-    * `managedBy = STORE`
+    * `scope = SHOP`
+    * `shopId = current store`
+    * `managedBy = SHOP`
 
 ### Restricted
 
@@ -146,7 +146,7 @@
 
 * A service cannot:
 
-  * Change `scope` or `managedBy` or `storeId`
+  * Change `scope` or `managedBy` or `shopId`
 
 ---
 
@@ -167,7 +167,7 @@
 
   * `scope`
   * `managedBy`
-  * `storeId` (if it changes ownership)
+  * `shopId` (if it changes ownership)
 
 ---
 

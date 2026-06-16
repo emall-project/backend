@@ -39,7 +39,7 @@ public class ProductInfoMapper {
                         ? entity.getBrand().getName() : null)
                 .isActive(entity.getIsActive())
                 .variants(variants)
-                .storeId(entity.getStoreId())
+                .shopId(entity.getShopId())
                 .mallId(entity.getMallId())
                 .medium(medium)
                 .build();

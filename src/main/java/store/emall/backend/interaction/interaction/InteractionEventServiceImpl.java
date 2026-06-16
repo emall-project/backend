@@ -18,7 +18,7 @@ public class InteractionEventServiceImpl implements InteractionEventService {
 
 
     @Override
-    public InteractionEvent storeCatalogEvent(CatalogEvent event, String routingKey) {
+    public InteractionEvent shopCatalogEvent(CatalogEvent event, String routingKey) {
         InteractionEvent interactionEvent = InteractionEvent.builder()
                 .user(event.user())
                 .entityId(event.entityId())

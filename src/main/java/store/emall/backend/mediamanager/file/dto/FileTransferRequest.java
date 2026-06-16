@@ -22,7 +22,7 @@ public class FileTransferRequest {
     @NotNull(message = "file.newFolderId.notNull")
     private Long newFolderId;
 
-    private Long newStoreId;
+    private Long newShopId;
 
     @NotNull(message = "file.newScope.notNull")
     private ScopeType newScope;

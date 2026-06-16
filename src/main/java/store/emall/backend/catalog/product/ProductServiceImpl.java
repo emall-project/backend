@@ -207,8 +207,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getByStoreIdAndId(Long storeId, Long id) {
-        Product product = productRepository.findByStoreIdAndId(storeId, id)
+    public ProductDto getByShopIdAndId(Long shopId, Long id) {
+        Product product = productRepository.findByShopIdAndId(shopId, id)
                 .orElseThrow(ProductExceptions::productNotFound);
 
         return productServiceHelper.injectDiscount(productServiceHelper.injectMedium(ProductMapper.toDto(product)));
@@ -229,9 +229,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProductDto getByStoreIdAndSlug(Long storeId, String slug) {
-        log.info("storeId : {}, slug : {}", storeId, slug);
-        Product product = productRepository.findByStoreIdAndSlug(storeId, slug)
+    public ProductDto getByShopIdAndSlug(Long shopId, String slug) {
+        log.info("shopId : {}, slug : {}", shopId, slug);
+        Product product = productRepository.findByShopIdAndSlug(shopId, slug)
                 .orElseThrow(ProductExceptions::productNotFound);
 
         return productServiceHelper.injectDiscount(productServiceHelper.injectMedium(ProductMapper.toDto(product)));
@@ -327,7 +327,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto create(Long mallId, Long storeId, ProductDto dto) {
+    public ProductDto create(Long mallId, Long shopId, ProductDto dto) {
 
         // validation
         Category category = categoryRepository.findById(dto.getCategoryId())
@@ -338,7 +338,7 @@ public class ProductServiceImpl implements ProductService {
 
         productServiceHelper.audienceValidation(dto, category, brand);
 
-        if (productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), storeId)) {
+        if (productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), shopId)) {
             throw ProductExceptions.slugExistsInTheSameStore();
         }
 
@@ -356,7 +356,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = ProductMapper.toEntity(dto, category, brand, tags);
 
         product.setMallId(mallId);
-        product.setStoreId(storeId);
+        product.setShopId(shopId);
 
         Product saved = productRepository.save(product);
 
@@ -379,7 +379,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     // update only product basic info
-    public ProductDto update(Long mallId, Long storeId, ProductDto dto) {
+    public ProductDto update(Long mallId, Long shopId, ProductDto dto) {
 
         Product existing = productRepository.findById(dto.getId())
                 .orElseThrow(ProductExceptions::productNotFound);
@@ -393,7 +393,7 @@ public class ProductServiceImpl implements ProductService {
         productServiceHelper.audienceValidation(dto, category, brand);
 
         if (!existing.getSlug().equals(dto.getSlug()) &&
-                productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), existing.getStoreId())) {
+                productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), existing.getShopId())) {
             log.warn("Slug {} already exists", dto.getSlug());
             throw ProductExceptions.slugExistsInTheSameStore();
         }
@@ -402,7 +402,7 @@ public class ProductServiceImpl implements ProductService {
             throw ProductExceptions.productDoesNotBelongToMall();
         }
 
-        if (!existing.getStoreId().equals(storeId)) {
+        if (!existing.getShopId().equals(shopId)) {
             throw ProductExceptions.productDoesNotBelongToStore();
         }
 
@@ -444,8 +444,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(Long storeId, Long id) {
-        Product product = productRepository.findByStoreIdAndId(storeId, id)
+    public void delete(Long shopId, Long id) {
+        Product product = productRepository.findByShopIdAndId(shopId, id)
                 .orElseThrow(ProductExceptions::productNotFound);
 
         // todo check if there any order, discount, variant

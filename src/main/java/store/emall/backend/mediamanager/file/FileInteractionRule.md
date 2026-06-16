@@ -6,11 +6,11 @@
 
   * **Scope**
     * `SYSTEM`
-    * `STORE`
+    * `SHOP`
 
   * **Manager**
     * `ADMIN`
-    * `STORE`
+    * `SHOP`
     * `ACCOUNT_SERVICE`
     * `CAMPAIGN_SERVICE`
 
@@ -36,14 +36,14 @@
 * These are set by the server:
 
   * **System endpoints**
-    * `scope = SYSTEM` if `storeId = null`
-    * `scope = STORE` if `storeId != null`
+    * `scope = SYSTEM` if `shopId = null`
+    * `scope = SHOP` if `shopId != null`
     * `managedBy = ADMIN` or current internal service
 
   * **Store endpoints**
-    * `scope = STORE`
-    * `managedBy = STORE`
-    * `storeId = {storeId}`
+    * `scope = SHOP`
+    * `managedBy = SHOP`
+    * `shopId = {shopId}`
 
 ---
 
@@ -51,11 +51,11 @@
 
 * **System file**
   * `scope = SYSTEM`
-  * `storeId = null`
+  * `shopId = null`
 
 * **Store file**
-  * `scope = STORE`
-  * `storeId != null`
+  * `scope = SHOP`
+  * `shopId != null`
 
 * File must stay consistent with folder scope:
 
@@ -85,13 +85,13 @@
 * System constraints:
 
   * File scope must match folder scope
-  * File `storeId` must match folder `storeId`
+  * File `shopId` must match folder `shopId`
 
 ---
 
 ## Store Rules
 
-* Store operates with a fixed `storeId`
+* Store operates with a fixed `shopId`
 
 ### Allowed
 
@@ -125,20 +125,20 @@ When creating or moving a file:
 * If file is system-scoped:
 
   * folder must be system-scoped
-  * `file.storeId = null`
-  * `folder.storeId = null`
+  * `file.shopId = null`
+  * `folder.shopId = null`
 
 * If file is store-scoped:
 
   * folder must belong to the same store
-  * `file.storeId = storeId`
-  * `folder.storeId = storeId`
+  * `file.shopId = shopId`
+  * `folder.shopId = shopId`
 
 * Invalid cases:
 
-  * file `storeId` is null but folder `storeId` is not null
-  * file `storeId` is not null but folder `storeId` is null
-  * file `storeId` and folder `storeId` are different
+  * file `shopId` is null but folder `shopId` is not null
+  * file `shopId` is not null but folder `shopId` is null
+  * file `shopId` and folder `shopId` are different
   * file `scope` and folder `scope` are different
 
 ---
@@ -147,14 +147,14 @@ When creating or moving a file:
 
 For store endpoints:
 
-* The `storeId` comes from the path
+* The `shopId` comes from the path
 
 * The store owner must only operate on:
 
-  * files with the same `storeId`
-  * folders with the same `storeId`
+  * files with the same `shopId`
+  * folders with the same `shopId`
 
-* Any mismatch should be rejected with `storeIdMisMatch`
+* Any mismatch should be rejected with `shopIdMisMatch`
 
 ---
 
@@ -230,7 +230,7 @@ When moving a file:
 * Completing upload does not change:
   * `scope`
   * `managedBy`
-  * `storeId`
+  * `shopId`
 
 * Completing upload updates upload metadata, such as:
 
@@ -248,6 +248,6 @@ When moving a file:
 
   * `scope`
   * `managedBy`
-  * `storeId` if it changes ownership/scope
+  * `shopId` if it changes ownership/scope
 
 ---

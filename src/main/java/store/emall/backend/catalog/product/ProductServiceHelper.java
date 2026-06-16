@@ -34,8 +34,8 @@ public class ProductServiceHelper {
     private final FileService fileService;
     private final JobPublisher jobPublisher;
 
-    boolean slugExistsInTheSameStore(String slug, Long storeId) {
-        boolean result = productRepository.existsBySlugIgnoreCaseAndStoreId(slug, storeId);
+    boolean slugExistsInTheSameStore(String slug, Long shopId) {
+        boolean result = productRepository.existsBySlugIgnoreCaseAndShopId(slug, shopId);
         return result;
     }
 

@@ -19,7 +19,7 @@ public interface FileService {
 
     FileDto getByIdAndScope(UUID id, ScopeType scopeType);
 
-    FileDto getByStoreIdAndId(Long storeId, UUID id);
+    FileDto getByShopIdAndId(Long shopId, UUID id);
 
     List<FileDto> getByFolderId(Long id);
 
@@ -33,7 +33,7 @@ public interface FileService {
 
 //    FileDto upload(FileUploadRequestDto fileUploadRequest);
 
-    FileUploadByUrlResponse uploadByUrl(Long storeId, FileUploadByUrlRequest fileUploadByUrlRequest);
+    FileUploadByUrlResponse uploadByUrl(Long shopId, FileUploadByUrlRequest fileUploadByUrlRequest);
 
     FileUploadByUrlResponse uploadByUrl(FileUploadByUrlRequest fileUploadByUrlRequest);
 
@@ -43,7 +43,7 @@ public interface FileService {
 
     FileDto rename(FileRenameRequest fileRenameRequest, ScopeType scopeType, ManagedByType  managedByType);
 
-    FileDto rename(Long storeId, FileRenameRequest fileRenameRequest);
+    FileDto rename(Long shopId, FileRenameRequest fileRenameRequest);
 
     FileDto move(FileMoveRequest fileMoveRequest);
 
@@ -51,7 +51,7 @@ public interface FileService {
 
     void delete(UUID id);
 
-    void delete(Long storeId, UUID id);
+    void delete(Long shopId, UUID id);
 
     void delete(UUID id, ScopeType scopeType,  ManagedByType managedByType);
 

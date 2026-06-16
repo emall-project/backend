@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import store.emall.backend.accounts.user.Gender;
 import store.emall.backend.security.SecurityConstants;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 import store.emall.backend.security.jwt.JwtService;
 import store.emall.backend.security.userdetails.CustomUserDetails;
 
@@ -62,7 +62,7 @@ public class JwtValidationFilter extends OncePerRequestFilter {
                     String role = jwtService.extractRole(jwt);
                     Integer age = jwtService.extractAge(jwt);
                     Gender gender = jwtService.extractGender(jwt);
-                    List<StoreRef> shopIds = jwtService.extractShopIds(jwt);
+                    List<ShopRef> shopIds = jwtService.extractShopIds(jwt);
 
                     CustomUserDetails userDetails =
                             new CustomUserDetails(userId, username, fullName, role, age, gender, shopIds);

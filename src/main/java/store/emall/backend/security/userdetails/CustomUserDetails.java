@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import store.emall.backend.accounts.user.Gender;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 import store.emall.backend.accounts.user.User;
 
 import java.util.Collection;
@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
     private final Integer age;
     private final Gender gender;
 
-    private final List<StoreRef> shopIds;
+    private final List<ShopRef> shopIds;
 
     public CustomUserDetails(User user) {
         this.userId = user.getUserId();
@@ -57,7 +57,7 @@ public class CustomUserDetails implements UserDetails {
         this.shopIds = Collections.emptyList();
     }
 
-    public CustomUserDetails(User user, List<StoreRef> shopIds) {
+    public CustomUserDetails(User user, List<ShopRef> shopIds) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -77,7 +77,7 @@ public class CustomUserDetails implements UserDetails {
                              String roleCode,
                              Integer age,
                              Gender gender,
-                             List<StoreRef> shopIds) {
+                             List<ShopRef> shopIds) {
         this.userId = userId;
         this.username = username;
         this.password = null;

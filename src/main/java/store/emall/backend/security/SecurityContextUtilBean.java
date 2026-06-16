@@ -3,7 +3,7 @@ package store.emall.backend.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import store.emall.backend.accounts.user.Gender;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class SecurityContextUtilBean {
         return SecurityContextUtil.getCurrentGender().orElse(Gender.NOT_SPECIFIED);
     }
 
-    public List<StoreRef> getCurrentShopIds() {
+    public List<ShopRef> getCurrentShopIds() {
         return SecurityContextUtil.getCurrentShopIds();
     }
 

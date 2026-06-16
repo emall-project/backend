@@ -51,7 +51,7 @@ public class SystemFolderController {
     public EMallsResponseEntity<FolderDto> create(
             @RequestBody @Validated({Default.class, OnCreate.class}) FolderDto folderDto
     ) {
-        folderDto.setScope(folderDto.getStoreId() == null ? ScopeType.SYSTEM : ScopeType.STORE);
+        folderDto.setScope(folderDto.getShopId() == null ? ScopeType.SYSTEM : ScopeType.SHOP);
         folderDto.setManagedBy(ManagedByType.SYSTEM);
 
         FolderDto dto = folderService.create(folderDto);

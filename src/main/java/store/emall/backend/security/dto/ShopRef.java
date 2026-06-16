@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class StoreRef {
-    private Long storeId;
+public class ShopRef {
+    private Long shopId;
     private Long mallId;
 }

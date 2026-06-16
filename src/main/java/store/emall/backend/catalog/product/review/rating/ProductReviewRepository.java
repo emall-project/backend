@@ -19,16 +19,16 @@ public interface ProductReviewRepository extends JpaRepository<ProductReview, Lo
 
     long countByProduct_Id(Long productId);
 
-    long countByProduct_StoreId(Long storeId);
+    long countByProduct_ShopId(Long shopId);
 
-    List<ProductReview> findTop5ByProduct_StoreIdOrderByCreatedAtDesc(Long storeId);
+    List<ProductReview> findTop5ByProduct_ShopIdOrderByCreatedAtDesc(Long shopId);
 
     @Query("SELECT AVG(r.rating) FROM ProductReview r WHERE r.product.id = :productId")
     Double findAverageRatingByProductId(@Param("productId") Long productId);
 
-    @Query("SELECT AVG(r.rating) FROM ProductReview r WHERE r.product.storeId = :storeId")
-    Double findAverageRatingByStoreId(@Param("storeId") Long storeId);
+    @Query("SELECT AVG(r.rating) FROM ProductReview r WHERE r.product.shopId = :shopId")
+    Double findAverageRatingByShopId(@Param("shopId") Long shopId);
 
-    @Query("SELECT COUNT(DISTINCT r.product.id) FROM ProductReview r WHERE r.product.storeId = :storeId")
-    long countReviewedProductsByStoreId(@Param("storeId") Long storeId);
+    @Query("SELECT COUNT(DISTINCT r.product.id) FROM ProductReview r WHERE r.product.shopId = :shopId")
+    long countReviewedProductsByShopId(@Param("shopId") Long shopId);
 }

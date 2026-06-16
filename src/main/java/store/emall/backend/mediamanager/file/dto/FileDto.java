@@ -26,7 +26,7 @@ public class FileDto {
 
     private Long size;
 
-    private Long storeId;
+    private Long shopId;
 
     private Status status;
 

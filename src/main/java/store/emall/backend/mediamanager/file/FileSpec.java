@@ -10,6 +10,6 @@ import org.springframework.data.jpa.domain.Specification;
         @Spec(params = "name", path = "name", spec = LikeIgnoreCase.class),
         @Spec(params = "mime-type", path = "mimeType", spec = Equal.class),
         @Spec(params = "folder-id", path = "folder.id", spec = Equal.class),
-        @Spec(params = "store-id", path = "storeId", spec = Equal.class)
+        @Spec(params = "store-id", path = "shopId", spec = Equal.class)
 })
 public interface FileSpec extends Specification<File> {}

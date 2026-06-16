@@ -78,8 +78,8 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(readOnly = true)
 //    @Cacheable("fileCache")
-    public FileDto getByStoreIdAndId(Long storeId, UUID id) {
-        File file = fileServiceHelper.getFile(id, storeId);
+    public FileDto getByShopIdAndId(Long shopId, UUID id) {
+        File file = fileServiceHelper.getFile(id, shopId);
         return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
     }
 
@@ -137,7 +137,7 @@ public class FileServiceImpl implements FileService {
         fileServiceHelper.validateScopeConsistency(dto);
 
         Folder folder = fileServiceHelper.getFolder(dto.getFolderId());
-        fileServiceHelper.validateFileFolderScope(dto.getStoreId(), dto.getScope(), folder);
+        fileServiceHelper.validateFileFolderScope(dto.getShopId(), dto.getScope(), folder);
         fileServiceHelper.validateUniqueName(dto.getFolderId(), dto.getName());
 
         File file = FileMapper.toEntity(dto, folder);
@@ -157,15 +157,15 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public FileUploadByUrlResponse uploadByUrl(Long storeId, FileUploadByUrlRequest dto) {
-        dto.setStoreId(storeId);
-        dto.setScope(ScopeType.STORE);
-        dto.setManagedBy(ManagedByType.STORE);
+    public FileUploadByUrlResponse uploadByUrl(Long shopId, FileUploadByUrlRequest dto) {
+        dto.setShopId(shopId);
+        dto.setScope(ScopeType.SHOP);
+        dto.setManagedBy(ManagedByType.SHOP);
 
-        Folder folder = fileServiceHelper.getFolder(dto.getFolderId(), storeId);
+        Folder folder = fileServiceHelper.getFolder(dto.getFolderId(), shopId);
 
         fileServiceHelper.validateScopeConsistency(dto);
-        fileServiceHelper.validateFileFolderScope(dto.getStoreId(), dto.getScope(), folder);
+        fileServiceHelper.validateFileFolderScope(dto.getShopId(), dto.getScope(), folder);
         fileServiceHelper.validateUniqueName(dto.getFolderId(), dto.getName());
 
         UUID fileId = UUID.randomUUID();
@@ -221,8 +221,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public FileDto rename(Long storeId, FileRenameRequest dto) {
-        fileServiceHelper.getFile(dto.getId(), storeId);
+    public FileDto rename(Long shopId, FileRenameRequest dto) {
+        fileServiceHelper.getFile(dto.getId(), shopId);
         return rename(dto);
     }
 
@@ -231,8 +231,8 @@ public class FileServiceImpl implements FileService {
     public FileDto move(FileMoveRequest dto) {
         File file = fileServiceHelper.getFile(dto.getId());
 
-        if(!Objects.equals(dto.getStoreId(), file.getStoreId())) {
-            throw FileExceptions.storeIdMisMatch();
+        if(!Objects.equals(dto.getShopId(), file.getShopId())) {
+            throw FileExceptions.shopIdMisMatch();
         }
 
         Long folderId = file.getFolder() != null ? file.getFolder().getId() : null;
@@ -243,7 +243,7 @@ public class FileServiceImpl implements FileService {
         Folder newFolder = fileServiceHelper.getFolder(dto.getNewFolderId());
 
         fileServiceHelper.validateUniqueNameForMove(file, dto.getNewFolderId());
-        fileServiceHelper.validateFileFolderScope(file.getStoreId(), file.getScope(), newFolder);
+        fileServiceHelper.validateFileFolderScope(file.getShopId(), file.getScope(), newFolder);
 
         file.setFolder(newFolder);
         fileRepository.save(file);
@@ -260,7 +260,7 @@ public class FileServiceImpl implements FileService {
         fileServiceHelper.validateTransferTarget(file, newFolder, dto);
 
         file.setFolder(newFolder);
-        file.setStoreId(dto.getNewStoreId());
+        file.setShopId(dto.getNewShopId());
         file.setScope(dto.getNewScope());
         file.setManagedBy(dto.getNewManagedBy());
 
@@ -278,8 +278,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public void delete(Long storeId, UUID id) {
-        File file = fileServiceHelper.getFile(id, storeId);
+    public void delete(Long shopId, UUID id) {
+        File file = fileServiceHelper.getFile(id, shopId);
         delete(file);
     }
 
@@ -312,10 +312,10 @@ public class FileServiceImpl implements FileService {
     }
 
     private void validateStoreScopedFilter(FileFilter fileFilter) {
-        if (fileFilter == null || fileFilter.getStoreId() == null || fileFilter.getFolderId() == null) {
+        if (fileFilter == null || fileFilter.getShopId() == null || fileFilter.getFolderId() == null) {
             return;
         }
 
-        fileServiceHelper.getFolder(fileFilter.getFolderId(), fileFilter.getStoreId());
+        fileServiceHelper.getFolder(fileFilter.getFolderId(), fileFilter.getShopId());
     }
 }

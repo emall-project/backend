@@ -4,7 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import store.emall.backend.accounts.user.Gender;
-import store.emall.backend.security.dto.StoreRef;
+import store.emall.backend.security.dto.ShopRef;
 import store.emall.backend.security.userdetails.CustomUserDetails;
 
 import java.util.Collections;
@@ -88,7 +88,7 @@ public final class SecurityContextUtil {
     }
 
     /** Returns the current shop owner's shop IDs (empty list for other roles). */
-    public static List<StoreRef> getCurrentShopIds() {
+    public static List<ShopRef> getCurrentShopIds() {
         return getCurrentUserDetails()
                 .map(CustomUserDetails::getShopIds)
                 .orElse(Collections.emptyList());
@@ -155,7 +155,7 @@ public final class SecurityContextUtil {
             return false;
         }
         return getCurrentShopIds().stream()
-                .anyMatch(ref -> shopId.equals(ref.getStoreId()));
+                .anyMatch(ref -> shopId.equals(ref.getShopId()));
     }
 
     public static boolean isAdminOrShopOwnerOf(Long shopId) {
@@ -167,8 +167,8 @@ public final class SecurityContextUtil {
             return null;
         }
         return getCurrentShopIds().stream()
-                .filter(ref -> shopId.equals(ref.getStoreId()))
-                .map(StoreRef::getMallId)
+                .filter(ref -> shopId.equals(ref.getShopId()))
+                .map(ShopRef::getMallId)
                 .findFirst()
                 .orElse(null);
     }

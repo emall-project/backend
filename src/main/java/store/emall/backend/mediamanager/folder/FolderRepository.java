@@ -16,15 +16,15 @@ public interface FolderRepository extends JpaRepository<Folder, Long>, JpaSpecif
 
     boolean existsByParentIsNullAndName(String name);
 
-    Optional<Folder> findByStoreIdAndId(Long storeId, Long id);
+    Optional<Folder> findByShopIdAndId(Long shopId, Long id);
 
-    boolean existsByStoreIdAndId(Long storeId, Long id);
+    boolean existsByShopIdAndId(Long shopId, Long id);
 
     Optional<Folder> findByIdAndScope(Long id, ScopeType scope);
 
     Optional<Folder> findByIdAndScopeAndManagedBy(Long id, ScopeType scope, ManagedByType managedBy);
 
-    Optional<Folder> findByIdAndStoreIdAndScopeAndManagedBy(Long id, Long storeId, ScopeType scope, ManagedByType managedBy);
+    Optional<Folder> findByIdAndShopIdAndScopeAndManagedBy(Long id, Long shopId, ScopeType scope, ManagedByType managedBy);
 
     boolean existsByIdAndScopeAndManagedBy(Long id, ScopeType scope, ManagedByType managedBy);
 
