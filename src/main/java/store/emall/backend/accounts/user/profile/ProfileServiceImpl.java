@@ -26,7 +26,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional(readOnly = true)
     public UserDto getProfile(Long userId) {
         User user = findActiveCustomer(userId);
-        FileDto profilePicture = fetchImageSafely(user.getProfilePictureUuid());
+        FileDto profilePicture = fileService.getById(user.getProfilePictureUuid());
         return UserMapper.toFullDto(user, profilePicture);
     }
 
@@ -75,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService {
         // Validate new profile picture if provided and different
         if (request.getProfilePictureUuid() != null
                 && !request.getProfilePictureUuid().equals(user.getProfilePictureUuid())) {
-            getAndValidateImage(request.getProfilePictureUuid());
+            fileService.getAndValidateImage(request.getProfilePictureUuid(), "ProfilePictureUuid");
         }
 
         // Merge changes using the dedicated mapper method
@@ -84,7 +84,7 @@ public class ProfileServiceImpl implements ProfileService {
         User saved = userRepository.save(user);
         log.info("Profile updated for user: {}", userId);
 
-        FileDto profilePicture = fetchImageSafely(saved.getProfilePictureUuid());
+        FileDto profilePicture = fileService.getById(saved.getProfilePictureUuid());
         return UserMapper.toFullDto(user, profilePicture);
     }
 
@@ -104,22 +104,4 @@ public class ProfileServiceImpl implements ProfileService {
         return user;
     }
 
-
-    public void getAndValidateImage(UUID uuid) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw UserExceptions.invalidFileType();
-        }
-    }
-
-    public FileDto fetchImageSafely(UUID uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return fileService.getById(uuid);
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
-    }
 }

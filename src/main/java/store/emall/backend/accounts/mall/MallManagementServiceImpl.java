@@ -24,7 +24,6 @@ import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,11 +82,11 @@ public class MallManagementServiceImpl implements MallManagementService {
         // Validate logo image if provided
         FileDto logoImage = null;
         if (mallDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(mallDto.getLogoUuid());
+            logoImage = fileService.getAndValidateImage(mallDto.getLogoUuid(), "LogoImageUuid");
         }
 
         // Validate mall images if provided
-        List<FileDto> mallImages = getAndValidateImages(mallDto.getMallImagesUuids());
+        List<FileDto> mallImages = fileService.getAndValidateImages(mallDto.getMallImagesUuids(), "MallImagesUuids");
 
         Mall mall = MallMapper.toEntity(mallDto, city);
 
@@ -103,7 +102,7 @@ public class MallManagementServiceImpl implements MallManagementService {
             mallDto.getRestaurants().forEach(restaurantDto -> {
                 // Validate restaurant logo if provided
                 if (restaurantDto.getLogoUuid() != null) {
-                    getAndValidateImage(restaurantDto.getLogoUuid());
+                    fileService.getAndValidateImage(restaurantDto.getLogoUuid(),"LogoImageUuid");
                 }
                 MallRestaurant restaurantEntity = MallRestaurantMapper.toEntity(restaurantDto);
                 restaurantEntity.setMall(mall);
@@ -116,8 +115,9 @@ public class MallManagementServiceImpl implements MallManagementService {
         log.info("Mall created: mallId={}, name={}", savedMall.getMallId(), savedMall.getName());
 
         // Build restaurant DTOs with logo image
+        // todo:  fetch images then map them to dto to fix n + 1
         List<MallRestaurantDto> restaurantDtos = savedMall.getRestaurants().stream()
-                .map(r -> MallRestaurantMapper.toFullDto(r, fetchImageSafely(r.getLogoUuid())))
+                .map(r -> MallRestaurantMapper.toFullDto(r, fileService.getById(r.getLogoUuid())))
                 .collect(Collectors.toList());
 
         return MallMapper.toFullDto(savedMall, logoImage, mallImages, restaurantDtos);
@@ -164,12 +164,12 @@ public class MallManagementServiceImpl implements MallManagementService {
 
         // Validate new logo if provided
         if (mallDto.getLogoUuid() != null && !mallDto.getLogoUuid().equals(existing.getLogoUuid())) {
-            getAndValidateImage(mallDto.getLogoUuid());
+            fileService.getAndValidateImage(mallDto.getLogoUuid(), "LogoImageUuid");
         }
 
         // Validate new mall images if provided
         if (mallDto.getMallImagesUuids() != null && !mallDto.getMallImagesUuids().isEmpty()) {
-            getAndValidateImages(mallDto.getMallImagesUuids());
+            fileService.getAndValidateImages(mallDto.getMallImagesUuids(), "MallImagesUuids");
         }
 
         // If services list is provided, replace all existing services
@@ -188,7 +188,7 @@ public class MallManagementServiceImpl implements MallManagementService {
             mallDto.getRestaurants().forEach(restaurantDto -> {
                 // Validate restaurant logo if provided
                 if (restaurantDto.getLogoUuid() != null) {
-                    getAndValidateImage(restaurantDto.getLogoUuid());
+                    fileService.getAndValidateImage(restaurantDto.getLogoUuid(), "LogoImageUuid");
                 }
                 MallRestaurant restaurantEntity = MallRestaurantMapper.toEntity(restaurantDto);
                 restaurantEntity.setMall(existing);
@@ -277,55 +277,18 @@ public class MallManagementServiceImpl implements MallManagementService {
     }
 
     private MallDto toDtoWithMedia(Mall mall) {
-        FileDto logoImage = fetchImageSafely(mall.getLogoUuid());
-        List<FileDto> mallImages = fetchImagesSafely(mall.getMallImagesUuids());
+        FileDto logoImage = fileService.getById(mall.getLogoUuid());
+        List<FileDto> mallImages = fileService.getByIds(mall.getMallImagesUuids());
 
         List<MallRestaurantDto> restaurantDtos = mall.getRestaurants() != null
                 ? mall.getRestaurants().stream()
-                .map(r -> MallRestaurantMapper.toFullDto(r, fetchImageSafely(r.getLogoUuid())))
+                .map(r -> MallRestaurantMapper.toFullDto(r, fileService.getById(r.getLogoUuid())))
                 .collect(Collectors.toList())
                 : Collections.emptyList();
 
         return MallMapper.toFullDto(mall, logoImage, mallImages, restaurantDtos);
     }
 
-    private FileDto fetchImageSafely(UUID uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        FileDto fileDto = fileService.getById(uuid);
-        return fileDto;
-    }
 
-    private List<FileDto> fetchImagesSafely(List<UUID> uuids) {
-        if (uuids == null || uuids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return uuids.stream()
-                .map(this::fetchImageSafely)
-                .filter(dto -> dto != null)
-                .collect(Collectors.toList());
-    }
-
-    private FileDto getAndValidateImage(UUID uuid) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw MallExceptions.invalidFileType();
-        }
-        return fileDto;
-    }
-
-    private List<FileDto> getAndValidateImages(List<UUID> uuids) {
-        if (uuids == null || uuids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return uuids.stream()
-                .map(this::getAndValidateImage)
-                .collect(Collectors.toList());
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
-    }
 
 }

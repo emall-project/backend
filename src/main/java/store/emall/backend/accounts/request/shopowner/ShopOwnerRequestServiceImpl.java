@@ -134,15 +134,15 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
         // Validate media files
         FileDto profilePictureImage = null;
         if (dto.getProfilePictureUuid() != null) {
-            profilePictureImage = getAndValidateImage(dto.getProfilePictureUuid(), "ProfilePictureUuid");
+            profilePictureImage = fileService.getAndValidateImage(dto.getProfilePictureUuid(), "ProfilePictureUuid");
         }
 
-        FileDto licenseImage = getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
-        List<FileDto> shopPhotos = getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuid");
+        FileDto licenseImage = fileService.getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
+        List<FileDto> shopPhotos = fileService.getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuid");
 
         FileDto logoImage = null;
         if (shopRequestDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
+            logoImage = fileService.getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
         }
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
@@ -200,15 +200,15 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
         // Validate media files
         FileDto profilePictureImage = null;
         if (dto.getProfilePictureUuid() != null) {
-            profilePictureImage = getAndValidateImage(dto.getProfilePictureUuid(), "ProfilePictureUuid");
+            profilePictureImage = fileService.getAndValidateImage(dto.getProfilePictureUuid(), "ProfilePictureUuid");
         }
 
-        FileDto licenseImage = getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
-        List<FileDto> shopPhotos = getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuids");
+        FileDto licenseImage = fileService.getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
+        List<FileDto> shopPhotos = fileService.getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuids");
 
         FileDto logoImage = null;
         if (shopRequestDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
+            logoImage = fileService.getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
         }
 
         // Reset owner request fields
@@ -272,12 +272,12 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
         ShopRequestDto shopRequestDto = dto.getShopRequest();
 
         // Validate media files
-        FileDto licenseImage = getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
-        List<FileDto> shopPhotos = getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuids");
+        FileDto licenseImage = fileService.getAndValidateImage(shopRequestDto.getLicenseImageUuid(), "LicenseImageUuid");
+        List<FileDto> shopPhotos = fileService.getAndValidateImages(shopRequestDto.getShopPhotosUuids(), "ShopPhotosUuids");
 
         FileDto logoImage = null;
         if (shopRequestDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
+            logoImage = fileService.getAndValidateImage(shopRequestDto.getLogoUuid(), "LogoUuid");
         }
 
         ShopRequest shopRequest = ShopRequest.builder()
@@ -662,30 +662,7 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
                 .collect(Collectors.toList());
     }
 
-    private FileDto getAndValidateImage(UUID uuid, String fieldName) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw ShopOwnerRequestExceptions.invalidFileType(fieldName);
-        }
-        return fileDto;
-    }
 
-    private List<FileDto> getAndValidateImages(List<UUID> uuids, String fieldName) {
-        if (uuids == null || uuids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<FileDto> result = new ArrayList<>();
-
-        for (int i = 0; i < uuids.size(); i++) {
-            result.add(getAndValidateImage(uuids.get(i), fieldName + "[" + i + "]"));
-        }
-
-        return result;
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
-    }
 
     private void createShopFolder(Shop shop) {
         if (shop.getFolderId() != null) {
@@ -810,7 +787,7 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
                 .newManagedBy(ManagedByType.SYSTEM)
                 .build();
 
-        FileDto saved = fileService.transfer(fileTransferRequest);
+        fileService.transfer(fileTransferRequest);
     }
 
     private void triggerTrial(Shop savedShop, User owner) {

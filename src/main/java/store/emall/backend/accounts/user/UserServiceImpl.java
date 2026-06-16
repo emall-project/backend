@@ -18,7 +18,6 @@ import store.emall.backend.accounts.user.role.RoleRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -103,7 +102,7 @@ public class UserServiceImpl implements UserService {
         // Validate profile picture if provided
         FileDto profilePictureImage = null;
         if (userDto.getProfilePictureUuid() != null) {
-            profilePictureImage = getAndValidateImage(userDto.getProfilePictureUuid());
+            profilePictureImage = fileService.getAndValidateImage(userDto.getProfilePictureUuid(), "ProfilePictureUuid");
         }
 
         User user = UserMapper.toEntity(userDto, role);
@@ -154,7 +153,7 @@ public class UserServiceImpl implements UserService {
         // Validate new profile picture if provided and different
         if (userDto.getProfilePictureUuid() != null
                 && !userDto.getProfilePictureUuid().equals(existing.getProfilePictureUuid())) {
-            getAndValidateImage(userDto.getProfilePictureUuid());
+            fileService.getAndValidateImage(userDto.getProfilePictureUuid(), "ProfilePictureUuid");
         }
 
         UserMapper.merge(existing, userDto, role);
@@ -209,27 +208,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto toDtoWithMedia(User user) {
-        FileDto profilePictureImage = fetchImageSafely(user.getProfilePictureUuid());
+        FileDto profilePictureImage = fileService.getById(user.getProfilePictureUuid());
         return UserMapper.toFullDto(user, profilePictureImage);
-    }
-
-    private FileDto fetchImageSafely(UUID uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return fileService.getById(uuid);
-    }
-
-    private FileDto getAndValidateImage(UUID uuid) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw UserExceptions.invalidFileType();
-        }
-        return fileDto;
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
     }
 
 }

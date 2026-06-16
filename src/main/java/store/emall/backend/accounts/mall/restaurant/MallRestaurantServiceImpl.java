@@ -12,7 +12,6 @@ import store.emall.backend.accounts.mall.MallRepository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +77,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
         // Validate logo if provided
         FileDto logoImage = null;
         if (restaurantDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(restaurantDto.getLogoUuid());
+            logoImage = fileService.getAndValidateImage(restaurantDto.getLogoUuid(), "LogoImageUuid");
         }
 
         MallRestaurant restaurant = MallRestaurantMapper.toEntity(restaurantDto);
@@ -114,7 +113,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
                         throw MallRestaurantExceptions.restaurantNameExists();
                     }
                     if (dto.getLogoUuid() != null) {
-                        getAndValidateImage(dto.getLogoUuid());
+                        fileService.getAndValidateImage(dto.getLogoUuid(),  "LogoImageUuid");
                     }
                 })
                 .map(dto -> {
@@ -160,7 +159,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
 
         // Validate new logo if provided and different
         if (restaurantDto.getLogoUuid() != null && !restaurantDto.getLogoUuid().equals(existing.getLogoUuid())) {
-            getAndValidateImage(restaurantDto.getLogoUuid());
+            fileService.getAndValidateImage(restaurantDto.getLogoUuid(), "LogoImageUuid");
         }
 
         MallRestaurantMapper.merge(existing, restaurantDto);
@@ -216,26 +215,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
     }
 
     private MallRestaurantDto toDtoWithMedia(MallRestaurant restaurant) {
-        FileDto logoImage = fetchImageSafely(restaurant.getLogoUuid());
+        FileDto logoImage = fileService.getById(restaurant.getLogoUuid());
         return MallRestaurantMapper.toFullDto(restaurant, logoImage);
-    }
-
-    private FileDto fetchImageSafely(UUID uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return fileService.getById(uuid);
-    }
-
-    private FileDto getAndValidateImage(UUID uuid) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw MallRestaurantExceptions.invalidFileType();
-        }
-        return fileDto;
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
     }
 }

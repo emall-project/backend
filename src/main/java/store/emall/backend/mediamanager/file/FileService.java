@@ -23,6 +23,10 @@ public interface FileService {
 
     List<FileDto> getByFolderId(Long id);
 
+    FileDto getAndValidateImage(UUID id,  String fieldName);
+
+    List<FileDto> getAndValidateImages(List<UUID> ids, String fieldName);
+
     boolean existsById(UUID id);
 
     List<FileDto> getByIds(List<UUID> ids);

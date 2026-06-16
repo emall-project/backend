@@ -94,6 +94,26 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public FileDto getAndValidateImage(UUID id, String fieldName) {
+        FileDto fileDto = getById(id);
+        if (!isImage(fileDto.getMimeType())){
+            throw FileExceptions.invalidFileType(fieldName);
+        }
+        return fileDto;
+    }
+
+    @Override
+    public List<FileDto> getAndValidateImages(List<UUID> ids, String fieldName) {
+        List<FileDto> files = getByIds(ids);
+        for (FileDto fileDto : files) {
+            if (!isImage(fileDto.getMimeType())){
+                throw FileExceptions.invalidFileType(fieldName + "[" + fileDto.getId() + "]");
+            }
+        }
+        return files;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public boolean existsById(UUID id) {
         return fileRepository.existsById(id);

@@ -111,11 +111,11 @@ public class ShopServiceImpl implements ShopService {
         // Validate and fetch media files from media-manager
         FileDto logoImage = null;
         if (shopDto.getLogoUuid() != null) {
-            logoImage = getAndValidateImage(shopDto.getLogoUuid(), "LogoUuid");
+            logoImage = fileService.getAndValidateImage(shopDto.getLogoUuid(), "LogoUuid");
         }
 
-        FileDto licenseImage = getAndValidateImage(shopDto.getLicenseImageUuid(), "LicenseImageUuid");
-        List<FileDto> shopPhotos = getAndValidateImages(shopDto.getShopPhotosUuids());
+        FileDto licenseImage = fileService.getAndValidateImage(shopDto.getLicenseImageUuid(), "LicenseImageUuid");
+        List<FileDto> shopPhotos = fileService.getAndValidateImages(shopDto.getShopPhotosUuids(), "ShopPhotosUuids");
 
         Shop shop = ShopMapper.toEntity(shopDto);
         shop.setMall(mall);
@@ -222,13 +222,13 @@ public class ShopServiceImpl implements ShopService {
         }
 
         if (newLogoUuid != null) {
-            getAndValidateImage(newLogoUuid, "LogoUuid");
+            fileService.getAndValidateImage(newLogoUuid, "LogoUuid");
         }
         if (newLicenseUuid != null) {
-            getAndValidateImage(newLicenseUuid, "LicenseImageUuid");
+            fileService.getAndValidateImage(newLicenseUuid, "LicenseImageUuid");
         }
         if (!newPhotoUuids.isEmpty()) {
-            getAndValidateImages(newPhotoUuids);
+            fileService.getAndValidateImages(newPhotoUuids, "ShopPhotosUuids");
         }
 
         ShopMapper.merge(existing, shopDto);
@@ -409,32 +409,6 @@ public class ShopServiceImpl implements ShopService {
                 .map(mediaById::get)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-    }
-
-    private FileDto getAndValidateImage(UUID uuid, String fieldName) {
-        FileDto fileDto = fileService.getById(uuid);
-        if (!isImage(fileDto.getMimeType())) {
-            throw ShopExceptions.invalidFileType(fieldName);
-        }
-        return fileDto;
-    }
-
-    private List<FileDto> getAndValidateImages(List<UUID> uuids) {
-        if (uuids == null || uuids.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<FileDto> result = new ArrayList<>();
-
-        for (UUID uuid : uuids) {
-            result.add(getAndValidateImage(uuid, "ShopPhotosUuids"));
-        }
-
-        return result;
-    }
-
-    private boolean isImage(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
     }
 
     private void createShopFolder(Shop shop) {

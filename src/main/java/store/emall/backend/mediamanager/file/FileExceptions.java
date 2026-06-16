@@ -116,4 +116,12 @@ public final class FileExceptions {
                 .build();
     }
 
+
+    public static EMallsException invalidFileType(String fieldName) {
+        return EMallsException.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(MessageKey.INVALID_FILE_TYPE.getKey())
+                .errorCode(List.of(new ErrorCode(fieldName, MessageKey.INVALID_FILE_TYPE.getKey())))
+                .build();
+    }
 }
