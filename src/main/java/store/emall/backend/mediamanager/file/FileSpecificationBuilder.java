@@ -18,7 +18,7 @@ public final class FileSpecificationBuilder {
                 nameSpec(filter.getName()),
                 mimeTypeSpec(filter.getMimeType()),
                 folderSpec(filter.getFolderId()),
-                storeSpec(filter.getShopId()),
+                shopSpec(filter.getShopId()),
                 sizeSpec(filter.getFileSize()),
                 statusSpec(filter.getStatus()),
                 scopeSpec(filter.getScope()),
@@ -62,7 +62,7 @@ public final class FileSpecificationBuilder {
         };
     }
 
-    public static Specification<File> storeSpec(Long shopId) {
+    public static Specification<File> shopSpec(Long shopId) {
         return (root, query, cb) -> {
             if (shopId == null) {
                 return null;

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS media_manager.files
     size          BIGINT,
     status        varchar(20),
     error_message varchar(255),
-    store_id      BIGINT,
+    shop_id      BIGINT,
 
     created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by    VARCHAR(150),

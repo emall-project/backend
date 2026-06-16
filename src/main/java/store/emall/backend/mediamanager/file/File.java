@@ -44,7 +44,7 @@ public class File extends EMallsBaseEntity {
     @Column(name = "extension", length = 10)
     private String extension;
 
-    @Column(name = "store_id")
+    @Column(name = "shop_id")
     private Long shopId;
 
     @Column(name = "size")

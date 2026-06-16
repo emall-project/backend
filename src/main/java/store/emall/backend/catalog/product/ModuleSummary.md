@@ -1,9 +1,9 @@
 ### 1. Domain Model Summary
 - **Main Entity:** `Product` represents a catalog item.
-- **Hierarchy & Ownership:** A product belongs strictly to one `Category`, one `Brand`, and is owned by a specific `Store` (`shopId`) within a `Mall` (`mallId`).
+- **Hierarchy & Ownership:** A product belongs strictly to one `Category`, one `Brand`, and is owned by a specific `Shop` (`shopId`) within a `Mall` (`mallId`).
 - **Composition & Lifecycle Shift:** A product is composed of `ProductVariant`s. *However, unlike the previous version, variants now have an independent lifecycle.* They are created with the product but updated/deleted via their own dedicated endpoints.
 - **Key Fields:**
-  - `slug`: The store-scoped URL identifier.
+  - `slug`: The shop-scoped URL identifier.
   - `isActive`: Boolean flag dictating public visibility, which now triggers explicit lifecycle hooks (`activation`/`deactivation`).
   - `targetedAudience` & `ageGroup`: Enums dictating the demographic scope.
 
@@ -16,9 +16,9 @@ The API strictly partitions access between two domains:
   - **Allowed:** Read-only access to browse and view active products.
   - **Forbidden:** Accessing inactive/draft products or mutating any data.
   - **Enforcement:** The controller forces `filter.setIsActive(true)`. Direct endpoint fetches explicitly check `product.getIsActive()` and throw an exception if false.
-- **Store Role (`StoreProductController`):**
+- **Shop Role (`ShopProductController`):**
   - **Allowed:** Full CRUD operations on products and individual variants belonging to their `shopId`.
-  - **Forbidden:** Modifying or viewing products/variants of other stores.
+  - **Forbidden:** Modifying or viewing products/variants of other shops.
   - **Enforcement:** `shopId` is bound via the URL path (`@PathVariable`), implicitly trusting the path and overriding payload values to prevent ID spoofing.
 
 ---
@@ -62,7 +62,7 @@ The API strictly partitions access between two domains:
 ---
 
 ### 5. Hidden / Implicit Rules
-- **Store-Level Slug Scoping:** Slugs are not globally unique across the platform. Store A and Store B can both safely have a product slugged `samsung-s24`.
+- **Shop-Level Slug Scoping:** Slugs are not globally unique across the platform. Shop A and Shop B can both safely have a product slugged `samsung-s24`.
 - **Dynamic Pricing Mastery:** The Catalog module does not own final pricing. The `hasDiscount`, `discountedPrice`, and `offerId` fields are transient and injected entirely at runtime by the `CampaignsClient`.
 - **Tag Auto-Resolution:** When saving a product, the system automatically resolves provided tags. If a tag does not exist, it is implicitly created behind the scenes via `tagService.resolveTags()`.
 

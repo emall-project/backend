@@ -19,7 +19,7 @@ import store.emall.backend.mediamanager.folder.dto.FolderFilter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stores/{shopId}/folders")
+@RequestMapping("/shops/{shopId}/folders")
 @PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
 public class ShopFolderController {

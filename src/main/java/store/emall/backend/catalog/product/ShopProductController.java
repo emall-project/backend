@@ -21,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("stores/{shopId}/products")
+@RequestMapping("shops/{shopId}/products")
 @PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
 public class ShopProductController {

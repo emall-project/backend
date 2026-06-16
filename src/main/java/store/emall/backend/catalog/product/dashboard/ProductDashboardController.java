@@ -11,7 +11,7 @@ import store.emall.backend.common.response.EMallsResponseEntity;
 
 
 @RestController
-@RequestMapping("stores/{shopId}/products/dashboard")
+@RequestMapping("shops/{shopId}/products/dashboard")
 @PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor
 public class ProductDashboardController {

@@ -7,13 +7,13 @@ ALTER TABLE media_manager.files
 
 UPDATE media_manager.files
 SET scope = CASE
-                WHEN store_id IS NULL THEN 'SYSTEM'
+                WHEN shop_id IS NULL THEN 'SYSTEM'
                 ELSE 'SHOP'
     END;
 
 UPDATE media_manager.files
 SET managed_by = CASE
-                     WHEN store_id IS NULL THEN 'ADMIN'
+                     WHEN shop_id IS NULL THEN 'ADMIN'
                      ELSE 'SHOP'
     END;
 

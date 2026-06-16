@@ -30,7 +30,7 @@ public final class ProductSpecificationBuilder {
                 categorySpec(filter.getCategoryId(), filter.getCategoryIds()),
                 brandSpec(filter.getBrandId()),
                 mallSpec(filter.getMallId()),
-                storeSpec(filter.getShopId()),
+                shopSpec(filter.getShopId()),
                 isActiveSpec(filter.getIsActive()),
                 targetedAudienceSpec(filter.getTargetedAudience()),
                 ageGroupSpec(filter.getAgeGroup()),
@@ -109,7 +109,7 @@ public final class ProductSpecificationBuilder {
         };
     }
 
-    public static Specification<Product> storeSpec(Long shopId) {
+    public static Specification<Product> shopSpec(Long shopId) {
         return (root, query, cb) -> {
             if (shopId == null) {
                 return null;

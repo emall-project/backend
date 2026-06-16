@@ -338,8 +338,8 @@ public class ProductServiceImpl implements ProductService {
 
         productServiceHelper.audienceValidation(dto, category, brand);
 
-        if (productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), shopId)) {
-            throw ProductExceptions.slugExistsInTheSameStore();
+        if (productServiceHelper.slugExistsInTheSameShop(dto.getSlug(), shopId)) {
+            throw ProductExceptions.slugExistsInTheSameShop();
         }
 
         productServiceHelper.validateSingleDefaultVariant(dto);
@@ -393,9 +393,9 @@ public class ProductServiceImpl implements ProductService {
         productServiceHelper.audienceValidation(dto, category, brand);
 
         if (!existing.getSlug().equals(dto.getSlug()) &&
-                productServiceHelper.slugExistsInTheSameStore(dto.getSlug(), existing.getShopId())) {
+                productServiceHelper.slugExistsInTheSameShop(dto.getSlug(), existing.getShopId())) {
             log.warn("Slug {} already exists", dto.getSlug());
-            throw ProductExceptions.slugExistsInTheSameStore();
+            throw ProductExceptions.slugExistsInTheSameShop();
         }
 
         if (!existing.getMallId().equals(mallId)) {
@@ -403,7 +403,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if (!existing.getShopId().equals(shopId)) {
-            throw ProductExceptions.productDoesNotBelongToStore();
+            throw ProductExceptions.productDoesNotBelongToShop();
         }
 
         // Resolve tags

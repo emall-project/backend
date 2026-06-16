@@ -555,7 +555,7 @@ public class ShopOwnerRequestServiceImpl implements ShopOwnerRequestService {
 
         Mall mall = resolveOrCreateMall(shopRequest);
         if (shopRepository.existsByNameAndMall_MallId(shopRequest.getName(), mall.getMallId())) {
-            throw store.emall.backend.accounts.shop.ShopExceptions.shopNameExistsInMall();
+            throw ShopExceptions.shopNameExistsInMall();
         }
 
         // Create Shop

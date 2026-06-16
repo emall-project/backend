@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("stores/{shopId}/files")
+@RequestMapping("shops/{shopId}/files")
 //todo: replace with isShopOwnerOf(#shopId)
 @PreAuthorize("@auth.isAdminOrShopOwnerOf(#shopId)")
 @RequiredArgsConstructor

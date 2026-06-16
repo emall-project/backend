@@ -15,14 +15,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class OtpService {
 
-    private final Map<String, OtpEntry> otpStore = new ConcurrentHashMap<>();
+    private final Map<String, OtpEntry> otpShop = new ConcurrentHashMap<>();
     private final SecureRandom secureRandom = new SecureRandom();
 
     public String generateOtp(String phoneNumber) {
         String otp = String.format("%06d", secureRandom.nextInt(999999));
 
         OtpEntry entry = new OtpEntry(otp, System.currentTimeMillis() + SecurityConstants.OTP_EXPIRATION_MS);
-        otpStore.put(phoneNumber, entry);
+        otpShop.put(phoneNumber, entry);
 
         // TODO: Integrate with SMS provider to actually send the OTP
         log.info("OTP generated for phone {}: {} (replace with SMS in production)", phoneNumber, otp);
@@ -31,19 +31,19 @@ public class OtpService {
     }
 
     public boolean verifyOtp(String phoneNumber, String otp) {
-        OtpEntry entry = otpStore.get(phoneNumber);
+        OtpEntry entry = otpShop.get(phoneNumber);
 
         if (entry == null) {
             return false;
         }
 
         if (System.currentTimeMillis() > entry.expiresAt()) {
-            otpStore.remove(phoneNumber);
+            otpShop.remove(phoneNumber);
             return false;
         }
 
         if (entry.otp().equals(otp)) {
-            otpStore.remove(phoneNumber); // One-time use
+            otpShop.remove(phoneNumber); // One-time use
             return true;
         }
 
@@ -51,25 +51,25 @@ public class OtpService {
     }
 
     public boolean isOtpExpired(String phoneNumber) {
-        OtpEntry entry = otpStore.get(phoneNumber);
+        OtpEntry entry = otpShop.get(phoneNumber);
         if (entry == null) return true;
         return System.currentTimeMillis() > entry.expiresAt();
     }
 
     public OtpVerifyResult verifyOtpWithReason(String key, String otp) {
-        OtpEntry entry = otpStore.get(key);
+        OtpEntry entry = otpShop.get(key);
 
         if (entry == null) {
             return OtpVerifyResult.EXPIRED;
         }
 
         if (System.currentTimeMillis() > entry.expiresAt()) {
-            otpStore.remove(key);
+            otpShop.remove(key);
             return OtpVerifyResult.EXPIRED;
         }
 
         if (entry.otp().equals(otp)) {
-            otpStore.remove(key);
+            otpShop.remove(key);
             return OtpVerifyResult.SUCCESS;
         }
 

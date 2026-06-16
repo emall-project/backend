@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS media_manager.folders
     id         BIGINT PRIMARY KEY DEFAULT NEXTVAL('media_manager.folder_id_seq'),
     name       varchar(50),
     parent_id  BIGINT,
-    store_id   BIGINT,
+    shop_id   BIGINT,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(150),

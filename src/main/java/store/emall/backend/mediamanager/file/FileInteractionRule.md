@@ -22,7 +22,7 @@
 * File scope must match folder scope:
 
   * system file → inside system folder
-  * store file → inside store folder of the same store
+  * shop file → inside shop folder of the same shop
 
 ---
 
@@ -40,7 +40,7 @@
     * `scope = SHOP` if `shopId != null`
     * `managedBy = ADMIN` or current internal service
 
-  * **Store endpoints**
+  * **Shop endpoints**
     * `scope = SHOP`
     * `managedBy = SHOP`
     * `shopId = {shopId}`
@@ -53,7 +53,7 @@
   * `scope = SYSTEM`
   * `shopId = null`
 
-* **Store file**
+* **Shop file**
   * `scope = SHOP`
   * `shopId != null`
 
@@ -61,12 +61,12 @@
 
   * Valid:
     * system file → system folder
-    * store A file → store A folder
+    * shop A file → shop A folder
 
   * Invalid:
-    * system file → store folder
-    * store file → system folder
-    * store A file → store B folder
+    * system file → shop folder
+    * shop file → system folder
+    * shop A file → shop B folder
 
 ---
 
@@ -75,7 +75,7 @@
 * System can:
 
   * Create system files
-  * Create store files
+  * Create shop files
   * Access any file
   * Rename any file
   * Move any file
@@ -89,19 +89,19 @@
 
 ---
 
-## Store Rules
+## Shop Rules
 
-* Store operates with a fixed `shopId`
+* Shop operates with a fixed `shopId`
 
 ### Allowed
 
 * Can:
 
-  * Upload file only into their own store folder
-  * Access files belonging to their own store
-  * Rename files belonging to their own store
-  * Move files within their own store
-  * Delete files belonging to their own store
+  * Upload file only into their own shop folder
+  * Access files belonging to their own shop
+  * Rename files belonging to their own shop
+  * Move files within their own shop
+  * Delete files belonging to their own shop
 
 ### Restricted
 
@@ -109,10 +109,10 @@
 
   * Upload into system folder
   * Access system files
-  * Access files of another store
+  * Access files of another shop
   * Move file into:
     * system folder
-    * another store's folder
+    * another shop's folder
   * Change `scope`
   * Change `managedBy`
 
@@ -128,9 +128,9 @@ When creating or moving a file:
   * `file.shopId = null`
   * `folder.shopId = null`
 
-* If file is store-scoped:
+* If file is shop-scoped:
 
-  * folder must belong to the same store
+  * folder must belong to the same shop
   * `file.shopId = shopId`
   * `folder.shopId = shopId`
 
@@ -143,13 +143,13 @@ When creating or moving a file:
 
 ---
 
-## Store-Level Safety Rules
+## Shop-Level Safety Rules
 
-For store endpoints:
+For shop endpoints:
 
 * The `shopId` comes from the path
 
-* The store owner must only operate on:
+* The shop owner must only operate on:
 
   * files with the same `shopId`
   * folders with the same `shopId`
@@ -169,13 +169,13 @@ When moving a file:
 * Valid:
 
   * system file → system folder
-  * store A file → store A folder
+  * shop A file → shop A folder
 
 * Invalid:
 
-  * system file → store folder
-  * store file → system folder
-  * store A file → store B folder
+  * system file → shop folder
+  * shop file → system folder
+  * shop A file → shop B folder
 
 ---
 
@@ -186,18 +186,18 @@ When moving a file:
 * System may create:
 
   * system file in system folder
-  * store file in store folder
+  * shop file in shop folder
 
 * File scope must match folder scope
 
-### Store upload-by-URL
+### Shop upload-by-URL
 
-* Store owner may only:
+* Shop owner may only:
 
-  * upload into folders of their own store
+  * upload into folders of their own shop
 
 * Upload to system folder must be rejected
-* Upload to another store folder must be rejected
+* Upload to another shop folder must be rejected
 
 ---
 
@@ -206,17 +206,17 @@ When moving a file:
 * Renaming does not change scope
 * Renaming does not change manager
 * File name must remain unique inside the same folder
-* Store owner can rename only files belonging to their own store
+* Shop owner can rename only files belonging to their own shop
 * System can rename any file
 
 ---
 
 ## Delete Rules
 
-* Store owner can delete only files belonging to their own store
+* Shop owner can delete only files belonging to their own shop
 * System can delete any file
 
-* Deleting a file also removes its related stored objects:
+* Deleting a file also removes its related shopd objects:
 
   * original
   * medium

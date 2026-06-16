@@ -60,12 +60,12 @@ public class JwtService {
         claims.put(SecurityConstants.CLAIM_FULL_NAME,  fullName);
         claims.put(SecurityConstants.CLAIM_ROLE,       role);
         claims.put(SecurityConstants.CLAIM_TOKEN_TYPE, SecurityConstants.TOKEN_TYPE_ACCESS);
-        List<Map<String, Object>> storeList = shopIds != null
+        List<Map<String, Object>> shopList = shopIds != null
                 ? shopIds.stream()
                 .map(s -> Map.<String, Object>of("shopId", s.getShopId(), "mallId", s.getMallId()))
                 .toList()
                 : List.of();
-        claims.put(SecurityConstants.CLAIM_SHOP_IDS, storeList);
+        claims.put(SecurityConstants.CLAIM_SHOP_IDS, shopList);
         return buildToken(claims, username, SecurityConstants.ACCESS_TOKEN_EXPIRATION_MS);
     }
 

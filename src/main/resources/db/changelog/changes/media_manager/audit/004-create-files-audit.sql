@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS media_manager.files_audit
     mime_type     varchar(20),
     extension     varchar(10),
     size          BIGINT,
-    store_id      BIGINT,
+    shop_id      BIGINT,
     status        varchar(20),
     error_message varchar(255),
 

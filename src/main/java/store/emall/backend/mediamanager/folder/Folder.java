@@ -43,7 +43,7 @@ public class Folder extends EMallsBaseEntity {
     @JoinColumn(name = "parent_id")
     private Folder parent;
 
-    @Column(name = "store_id")
+    @Column(name = "shop_id")
     private Long shopId;
 
 

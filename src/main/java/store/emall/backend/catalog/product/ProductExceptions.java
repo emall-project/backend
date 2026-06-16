@@ -47,7 +47,7 @@ public final class ProductExceptions {
     // ----------------------------
     // Bad Request Exceptions
     // ----------------------------
-    public static EMallsException slugExistsInTheSameStore() {
+    public static EMallsException slugExistsInTheSameShop() {
         return EMallsException.builder()
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .message(MessageKey.PRODUCT_SLUG_EXISTS_IN_THE_SAME_SHOP.getKey())
@@ -103,7 +103,7 @@ public final class ProductExceptions {
                 .build();
     }
 
-    public static EMallsException productDoesNotBelongToStore() {
+    public static EMallsException productDoesNotBelongToShop() {
         return EMallsException.builder()
                 .httpStatus(HttpStatus.FORBIDDEN)
                 .message(MessageKey.PRODUCT_DOSE_NOT_BELONG_TO_SHOP.getKey())

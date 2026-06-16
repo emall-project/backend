@@ -44,7 +44,7 @@
     * `scope = SYSTEM`
     * `managedBy = ADMIN`
 
-  * **Store endpoints**
+  * **Shop endpoints**
 
     * `scope = SHOP`
     * `managedBy = SHOP`
@@ -65,7 +65,7 @@
   * `scope = SYSTEM`
   * `shopId = null`
 
-* **Store folder**
+* **Shop folder**
 
   * `scope = SHOP`
   * `shopId != null`
@@ -77,13 +77,13 @@
   * Valid:
 
     * system → system
-    * store A → store A
+    * shop A → shop A
 
   * Invalid:
 
-    * system → store
-    * store → system
-    * store A → store B
+    * system → shop
+    * shop → system
+    * shop A → shop B
 
 ---
 
@@ -100,26 +100,26 @@
 
 * Admin cannot:
 
-  * Access store folders
+  * Access shop folders
   * Update/delete folders managed by services
   * Change `scope` or `managedBy`
 
 ---
 
-## Store Rules
+## Shop Rules
 
-* Store operates with a fixed `shopId`
+* Shop operates with a fixed `shopId`
 
 ### Allowed
 
 * Can:
 
-  * Create folders in their store
-  * Read folders in their store
+  * Create folders in their shop
+  * Read folders in their shop
   * Update/delete folders where:
 
     * `scope = SHOP`
-    * `shopId = current store`
+    * `shopId = current shop`
     * `managedBy = SHOP`
 
 ### Restricted
@@ -128,8 +128,8 @@
 
   * Create root folders
   * Access system folders
-  * Access other stores
-  * Move folders outside their store
+  * Access other shops
+  * Move folders outside their shop
   * Change `scope` or `managedBy`
 
 ---

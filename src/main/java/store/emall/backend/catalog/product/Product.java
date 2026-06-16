@@ -27,8 +27,8 @@ import java.util.*;
                         columnList = "mall_id, category_id, targeted_audience, age_group"
                 ),
                 @Index(
-                        name = "idx_product_mall_store_target_age",
-                        columnList = "mall_id, store_id, targeted_audience, age_group"
+                        name = "idx_product_mall_shop_target_age",
+                        columnList = "mall_id, shop_id, targeted_audience, age_group"
                 ),
                 @Index(
                         name = "idx_product_mall_brand_target_age",
@@ -90,7 +90,7 @@ public class Product extends EMallsBaseEntity {
     @Column(name = "mall_id", nullable = false)
     private Long mallId;
 
-    @Column(name = "store_id", nullable = false)
+    @Column(name = "shop_id", nullable = false)
     private Long shopId;
 
     @ManyToMany

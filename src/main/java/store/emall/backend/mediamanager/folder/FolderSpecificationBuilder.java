@@ -18,7 +18,7 @@ public final class FolderSpecificationBuilder {
         return Specification.allOf(
                 nameSpec(filter.getName()),
                 parentSpec(filter.getParentId()),
-                storeSpec(filter.getShopId()),
+                shopSpec(filter.getShopId()),
                 scopeSpec(filter.getScope()),
                 managedBySpec(filter.getManagedByType())
         );
@@ -47,7 +47,7 @@ public final class FolderSpecificationBuilder {
         };
     }
 
-    public static Specification<Folder> storeSpec(Long shopId) {
+    public static Specification<Folder> shopSpec(Long shopId) {
         return (root, query, cb) -> {
             if (shopId == null) {
                 return null;

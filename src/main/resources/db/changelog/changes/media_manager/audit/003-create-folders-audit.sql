@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS media_manager.folders_audit
 
     name       varchar(50),
     parent_id  BIGINT,
-    store_id   BIGINT,
+    shop_id   BIGINT,
 
     created_at TIMESTAMP,
     created_by VARCHAR(150),

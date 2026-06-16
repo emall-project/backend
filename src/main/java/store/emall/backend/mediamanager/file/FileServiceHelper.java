@@ -125,11 +125,11 @@ public class FileServiceHelper {
         }
 
         boolean sameScope = file.getScope() == dto.getNewScope();
-        boolean sameStore = Objects.equals(file.getShopId(), dto.getNewShopId());
+        boolean sameShop = Objects.equals(file.getShopId(), dto.getNewShopId());
         boolean sameFolder = Objects.equals(file.getFolder().getId(), dto.getNewFolderId());
         boolean sameManager = file.getManagedBy() == dto.getNewManagedBy();
 
-        if (!(sameScope && sameStore && sameFolder && sameManager)
+        if (!(sameScope && sameShop && sameFolder && sameManager)
                 && fileRepository.existsByNameAndFolder_Id(file.getName(), dto.getNewFolderId())) {
             throw FileExceptions.fileNameExists();
         }

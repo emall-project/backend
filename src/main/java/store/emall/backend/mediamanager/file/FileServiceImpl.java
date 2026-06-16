@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(readOnly = true)
     public PaginatedResponse<FileDto> getAll(Pageable pageable, FileFilter fileFilter) {
-        validateStoreScopedFilter(fileFilter);
+        validateShopScopedFilter(fileFilter);
         Specification<File> spec = fileSpecificationBuilder.build(fileFilter);
 
         Page<FileDto> page = fileRepository.findAll(spec, pageable)
@@ -49,7 +49,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(readOnly = true)
     public List<FileDto> getAllFileList(FileFilter fileFilter) {
-        validateStoreScopedFilter(fileFilter);
+        validateShopScopedFilter(fileFilter);
         Specification<File> spec = fileSpecificationBuilder.build(fileFilter);
 
         List<File> files = (spec == null) ? fileRepository.findAll() : fileRepository.findAll(spec);
@@ -311,7 +311,7 @@ public class FileServiceImpl implements FileService {
         cloudStorage.delete(generateFileKey(file.getId(), FileSize.SMALL));
     }
 
-    private void validateStoreScopedFilter(FileFilter fileFilter) {
+    private void validateShopScopedFilter(FileFilter fileFilter) {
         if (fileFilter == null || fileFilter.getShopId() == null || fileFilter.getFolderId() == null) {
             return;
         }

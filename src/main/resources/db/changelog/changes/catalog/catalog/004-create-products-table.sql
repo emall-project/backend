@@ -21,12 +21,12 @@ CREATE TABLE IF NOT EXISTS catalog.products
     brand_id          BIGINT       NOT NULL,
     category_id       BIGINT       NOT NULL,
     mall_id           BIGINT       NOT NULL,
-    store_id          BIGINT       NOT NULL,
+    shop_id          BIGINT       NOT NULL,
     created_at        timestamp    NOT NULL DEFAULT now(),
     created_by        VARCHAR(50),
     updated_at        timestamp             DEFAULT now(),
     updated_by        VARCHAR(50),
-    UNIQUE (slug, store_id),
+    UNIQUE (slug, shop_id),
     FOREIGN KEY (brand_id) REFERENCES catalog.brands (id),
     FOREIGN KEY (category_id) REFERENCES catalog.categories (id)
 );
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS catalog.products
 CREATE INDEX IF NOT EXISTS idx_product_mall_category_target_age
     ON catalog.products (mall_id, category_id, targeted_audience, age_group);
 
-CREATE INDEX IF NOT EXISTS idx_product_mall_store_target_age
-    ON catalog.products (mall_id, store_id, targeted_audience, age_group);
+CREATE INDEX IF NOT EXISTS idx_product_mall_shop_target_age
+    ON catalog.products (mall_id, shop_id, targeted_audience, age_group);
 
 CREATE INDEX IF NOT EXISTS idx_product_mall_brand_target_age
     ON catalog.products (mall_id, brand_id, targeted_audience, age_group);
