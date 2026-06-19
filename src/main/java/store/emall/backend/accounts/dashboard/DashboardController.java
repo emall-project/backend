@@ -12,7 +12,7 @@ import store.emall.backend.accounts.dashboard.shopowner.ShopOwnerDashboardDto;
 import store.emall.backend.security.SecurityContextUtil;
 
 @RestController
-@RequestMapping("/api/dashboard")
+@RequestMapping("/dashboard")
 @RequiredArgsConstructor
 public class DashboardController {
 

@@ -11,7 +11,7 @@
 //import java.util.Map;
 //
 //@RestController
-//@RequestMapping("/api/v1/interactions")
+//@RequestMapping("/v1/interactions")
 //@RequiredArgsConstructor
 //public class InteractionEventController {
 //

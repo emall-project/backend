@@ -17,7 +17,7 @@ import store.emall.backend.common.validation.OnUpdate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ad-requests")
+@RequestMapping("/ad-requests")
 @RequiredArgsConstructor
 public class AdRequestController {
 

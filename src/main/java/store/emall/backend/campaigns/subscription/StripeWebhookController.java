@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import static com.stripe.net.ApiResource.GSON;
 
 @RestController
-@RequestMapping("/api/subscriptions/webhooks")
+@RequestMapping("/subscriptions/webhooks")
 @RequiredArgsConstructor
 @Slf4j
 public class StripeWebhookController {

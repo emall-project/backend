@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/ad-templates")
+@RequestMapping("/ad-templates")
 @RequiredArgsConstructor
 public class AdTemplateController {
 

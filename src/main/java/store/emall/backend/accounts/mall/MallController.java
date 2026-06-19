@@ -16,7 +16,7 @@ import store.emall.backend.accounts.mall.dtos.MallDto;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/malls")
+@RequestMapping("/malls")
 @RequiredArgsConstructor
 public class MallController {
 

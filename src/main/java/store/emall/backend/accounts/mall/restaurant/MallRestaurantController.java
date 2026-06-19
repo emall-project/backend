@@ -16,7 +16,7 @@ import store.emall.backend.common.validation.OnUpdateRestaurantDirectly;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/mall-restaurants")
+@RequestMapping("/mall-restaurants")
 @RequiredArgsConstructor
 public class MallRestaurantController {
 

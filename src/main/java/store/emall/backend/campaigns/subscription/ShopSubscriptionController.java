@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 // todo remove api prefix
-@RequestMapping("/api/subscriptions")
+@RequestMapping("/subscriptions")
 @RequiredArgsConstructor
 public class ShopSubscriptionController {
 

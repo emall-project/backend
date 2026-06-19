@@ -8,7 +8,7 @@ import store.emall.backend.common.response.EMallsResponseEntity;
 import store.emall.backend.accounts.user.UserDto;
 
 @RestController
-@RequestMapping("/api/users/{userId}/profile")
+@RequestMapping("/users/{userId}/profile")
 @RequiredArgsConstructor
 public class ProfileController {
 

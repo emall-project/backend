@@ -24,7 +24,7 @@ import store.emall.backend.accounts.user.UserDto;
  *   POST /api/auth/refresh-token      -> Refresh access token (reads X-Refresh-Token header)
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

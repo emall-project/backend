@@ -19,7 +19,7 @@ import store.emall.backend.accounts.request.shop.ShopRequestDto;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/shop-owner-requests")
+@RequestMapping("/shop-owner-requests")
 @RequiredArgsConstructor
 public class ShopOwnerRequestController {
 

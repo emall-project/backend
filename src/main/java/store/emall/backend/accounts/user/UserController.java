@@ -15,7 +15,7 @@ import store.emall.backend.common.validation.OnUpdate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {

@@ -16,7 +16,7 @@ import store.emall.backend.common.validation.OnUpdate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping("/cities")
 @RequiredArgsConstructor
 public class CityController {
 
