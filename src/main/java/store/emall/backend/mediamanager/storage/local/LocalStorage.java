@@ -57,6 +57,19 @@ public class LocalStorage implements CloudStorage {
     }
 
     @Override
+    public String copy(String sourceKey, String destinationKey, String contentType, String cacheControl) {
+        try {
+            Path sourcePath = basePath.resolve(sourceKey);
+            Path destinationPath = basePath.resolve(destinationKey);
+            Files.createDirectories(destinationPath.getParent());
+            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            return destinationKey;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to copy local file", e);
+        }
+    }
+
+    @Override
     public String generateUrl(String key) {
         // Returns a local file path or could return a URL served by Spring Boot
         return basePath.resolve(key).toAbsolutePath().toUri().toString();
@@ -64,7 +77,7 @@ public class LocalStorage implements CloudStorage {
 
     @Override
     public String generatePresignedUrl(String key) {
-        return "";
+        return generateUrl(key);
     }
 
     @Override
@@ -74,6 +87,11 @@ public class LocalStorage implements CloudStorage {
 
     @Override
     public boolean fileExist(String key) {
-        return false;
+        return Files.exists(basePath.resolve(key));
+    }
+
+    @Override
+    public String getBucketName() {
+        return "local";
     }
 }

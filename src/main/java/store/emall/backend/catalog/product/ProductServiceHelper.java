@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import store.emall.backend.campaigns.offer.*;
 import store.emall.backend.catalog.brand.Brand;
 import store.emall.backend.catalog.category.Category;
+import store.emall.backend.catalog.product.product_variant.ProductVariant;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.common.audience.AgeGroup;
 import store.emall.backend.common.audience.TargetedAudience;
@@ -17,6 +19,7 @@ import store.emall.backend.catalog.product.product_variant.ProductVariantDto;
 import store.emall.backend.catalog.publisher.JobPublisher;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -33,6 +36,7 @@ public class ProductServiceHelper {
     private final ObjectProvider<OfferService> offerServiceProvider;
     private final FileService fileService;
     private final JobPublisher jobPublisher;
+    private final MediaVisibilityService mediaVisibilityService;
 
     boolean slugExistsInTheSameShop(String slug, Long shopId) {
         boolean result = productRepository.existsBySlugIgnoreCaseAndShopId(slug, shopId);
@@ -131,6 +135,21 @@ public class ProductServiceHelper {
         }
         return fileDtoMap;
 
+    }
+
+    public void syncVariantMediaBindings(ProductVariant variant) {
+        List<UUID> mediaIds = variant.getMedia() == null
+                ? List.of()
+                : variant.getMedia().stream()
+                .map(medium -> medium.getMediumId())
+                .toList();
+
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.PRODUCT_VARIANT,
+                variant.getId(),
+                "media",
+                mediaIds
+        );
     }
 
     public void publishCreatedJob(Product product) {

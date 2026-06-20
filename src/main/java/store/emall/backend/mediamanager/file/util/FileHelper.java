@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.FileSize;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
 import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import javax.imageio.ImageIO;
@@ -145,7 +146,8 @@ public class FileHelper {
 
         String key = generateFileKey(
                 id,
-                size
+                size,
+                MediaVisibility.PRIVATE
         );
         return cloudStorage.generatePresignedUrl(key);
     }
@@ -163,7 +165,16 @@ public class FileHelper {
     }
 
 
+    public static String generateFileKey(UUID uuid, FileSize size, MediaVisibility visibility) {
+        String visibilityPrefix = MediaVisibility.PUBLIC.equals(visibility) ? "public" : "private";
+        return visibilityPrefix + "/uploads/" + uuid + "/" + size.getSize();
+    }
+
     public static String generateFileKey(UUID uuid, FileSize size) {
-        return size.getSize() + "/" +uuid;
+        return generateFileKey(uuid, size, MediaVisibility.PRIVATE);
+    }
+
+    public static String generateLegacyFileKey(UUID uuid, FileSize size) {
+        return size.getSize() + "/" + uuid;
     }
 }

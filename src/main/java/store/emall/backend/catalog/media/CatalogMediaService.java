@@ -8,7 +8,7 @@ import store.emall.backend.catalog.category.Category;
 import store.emall.backend.catalog.category.CategoryRepository;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfig;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigRepository;
-import store.emall.backend.common.Entity;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.catalog.product.product_variant.ProductVariant;
 import store.emall.backend.catalog.product.product_variant.ProductVariantRepository;
 import store.emall.backend.common.util.media.MediaUsageDto;
@@ -39,7 +39,7 @@ public class CatalogMediaService {
             inUse = true;
             for (Category category : categories) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.CATEGORY)
+                        .entityType(EntityType.CATEGORY)
                         .entityId(category.getId())
                         .entityName(category.getName())
                         .build();
@@ -51,7 +51,7 @@ public class CatalogMediaService {
             inUse = true;
             for (CategoryAudienceConfig audienceConfig : audienceConfigs) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.CATEGORY_AUDIENCE_CONFIG)
+                        .entityType(EntityType.CATEGORY_AUDIENCE_CONFIG)
                         .entityId(audienceConfig.getId())
                         .entityName(audienceConfig.getCategory().getName() + " " + audienceConfig.getTargetedAudience() + " " + audienceConfig.getAgeGroup())
                         .build();
@@ -63,7 +63,7 @@ public class CatalogMediaService {
             inUse = true;
             for (Brand brand : brands) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.BRAND)
+                        .entityType(EntityType.BRAND)
                         .entityId(brand.getId())
                         .entityName(brand.getName())
                         .build();
@@ -75,7 +75,7 @@ public class CatalogMediaService {
             inUse = true;
             for (ProductVariant variant : variants) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.PRODUCT_VARIANT)
+                        .entityType(EntityType.PRODUCT_VARIANT)
                         .entityId(variant.getId())
                         .entityName(variant.getName())
                         .build();

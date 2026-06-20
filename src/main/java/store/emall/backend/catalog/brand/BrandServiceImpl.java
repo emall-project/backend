@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class BrandServiceImpl implements BrandService {
     private final BrandServiceHelper brandServiceHelper;
     private final BrandSpecificationBuilder brandSpecificationBuilder;
     private final MediaManagerHelper mediaManagerHelper;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     @Transactional(readOnly = true)
@@ -85,6 +88,7 @@ public class BrandServiceImpl implements BrandService {
 
         Brand brand = BrandMapper.toEntity(dto);
         Brand saved = brandRepository.save(brand);
+        brandServiceHelper.syncBrandImageBinding(saved);
         return BrandMapper.toDto(saved, image);
     }
 
@@ -112,6 +116,7 @@ public class BrandServiceImpl implements BrandService {
         existing.setImageId(dto.getImageId());
         existing.setIsActive(dto.getIsActive());
         Brand saved = brandRepository.save(existing);
+        brandServiceHelper.syncBrandImageBinding(saved);
         return BrandMapper.toDto(saved, image);
     }
 
@@ -158,6 +163,7 @@ public class BrandServiceImpl implements BrandService {
             throw BrandExceptions.brandHasProducts();
         }
 
+        mediaVisibilityService.removeEntityBindings(EntityType.BRAND, id);
         brandRepository.delete(brand);
     }
 

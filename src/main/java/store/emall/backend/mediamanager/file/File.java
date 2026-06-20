@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 import store.emall.backend.common.base.EMallsBaseEntity;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
 import store.emall.backend.mediamanager.folder.Folder;
 
 import java.util.UUID;
@@ -64,4 +65,18 @@ public class File extends EMallsBaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "managed_by", nullable = false, length = 50)
     private ManagedByType managedBy;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "visibility", nullable = false, length = 20)
+    @Builder.Default
+    private MediaVisibility visibility = MediaVisibility.PRIVATE;
+
+    @Column(name = "bucket", length = 255)
+    private String bucket;
+
+    @Column(name = "cache_control", length = 255)
+    private String cacheControl;
+
+    @Column(name = "content_type", length = 255)
+    private String contentType;
 }

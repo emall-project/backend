@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.emall.backend.campaigns.ad.request.AdRequest;
 import store.emall.backend.campaigns.ad.request.AdRequestRepository;
-import store.emall.backend.common.Entity;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.util.media.MediaUsageDto;
 import store.emall.backend.common.util.media.Reference;
 
@@ -27,7 +27,7 @@ public class CampaignsMediaService {
             inUse = true;
             for (AdRequest adRequest : adRequests) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.AD_REQUEST)
+                        .entityType(EntityType.AD_REQUEST)
                         .entityId(adRequest.getAdRequestId())
                         .entityName(adRequest.getTitle())
                         .build();

@@ -10,9 +10,8 @@ import store.emall.backend.interaction.analytics.job.JobExecutionRecord;
 import store.emall.backend.interaction.analytics.job.JobExecutionService;
 import store.emall.backend.interaction.analytics.model.ModelInvocationRecord;
 import store.emall.backend.interaction.analytics.model.ModelInvocationService;
-import store.emall.backend.common.Entity;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.SystemService;
-import store.emall.backend.interaction.jobs.JobRoutingKeys;
 import store.emall.backend.interaction.jobs.ingestion.catalog.product.ProductJobType;
 import store.emall.backend.interaction.models.product_similarity_engine.ProductSimilarityEngineClient;
 import store.emall.backend.interaction.models.product_similarity_engine.dto.SimilarProductsResponse;
@@ -26,7 +25,7 @@ import java.util.Map;
 public class ProductSimilarityServiceImpl implements ProductSimilarityService {
 
 
-    private static final String ENTITY_TYPE = Entity.PRODUCT.name();
+    private static final String ENTITY_TYPE = EntityType.PRODUCT.name();
     private static final String SOURCE_SERVICE = SystemService.CATALOG.getServiceName();
     private static final String MODEL_NAME = "product-similarity-engine";// should be more dynamic
     private static final String PROVIDER = "PRODUCT_SIMILARITY_ENGINE";//

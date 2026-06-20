@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfig;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigDto;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigMapper;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.*;
 
@@ -29,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryServiceHelper categoryServiceHelper;
     private final CategorySpecificationBuilder specificationBuilder;
     private final MediaManagerHelper mediaManagerHelper;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     @Transactional(readOnly = true)
@@ -196,6 +199,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = CategoryMapper.toEntity(dto);
 
         Category saved = categoryRepository.save(category);
+        categoryServiceHelper.syncCategoryMediaBindings(saved);
 
         return categoryServiceHelper.injectImages(CategoryMapper.toDto(saved, categoryImage));
     }
@@ -245,6 +249,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         Category saved = categoryRepository.save(existing);
+        categoryServiceHelper.syncCategoryMediaBindings(saved);
         return categoryServiceHelper.injectImages(CategoryMapper.toDto(saved, categoryImage));
     }
 
@@ -265,6 +270,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryAudienceConfig config = CategoryAudienceConfigMapper.toEntity(categoryAudienceConfigDto, category);
         category.getAudienceConfig().add(config);
         Category saved = categoryRepository.save(category);
+        categoryServiceHelper.syncCategoryMediaBindings(saved);
 
         return withImages(CategoryMapper.toDto(saved));
     }
@@ -282,6 +288,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (productCount > 0) {
             throw CategoryExceptions.categoryHasProducts();
         }
+        mediaVisibilityService.removeEntityBindings(EntityType.CATEGORY, id);
         categoryRepository.delete(category);
     }
 
@@ -294,6 +301,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw CategoryExceptions.categoryAudienceConfigNotFound();
         }
         categoryRepository.save(category);
+        categoryServiceHelper.syncCategoryMediaBindings(category);
     }
 
     @Override

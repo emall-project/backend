@@ -65,6 +65,9 @@ public class S3Storage implements CloudStorage {
         } catch (NoSuchKeyException e) {
             return false;
         } catch (S3Exception e) {
+            if (e.statusCode() == 404) {
+                return false;
+            }
             throw new RuntimeException("Error checking file existence: " + key, e);
         }
     }
@@ -84,9 +87,32 @@ public class S3Storage implements CloudStorage {
     }
 
     @Override
+    public String copy(String sourceKey, String destinationKey, String contentType, String cacheControl) {
+        try {
+            CopyObjectRequest.Builder request = CopyObjectRequest.builder()
+                    .sourceBucket(bucket)
+                    .sourceKey(sourceKey)
+                    .destinationBucket(bucket)
+                    .destinationKey(destinationKey)
+                    .metadataDirective(MetadataDirective.REPLACE);
+
+            if (contentType != null && !contentType.isBlank()) {
+                request.contentType(contentType);
+            }
+            if (cacheControl != null && !cacheControl.isBlank()) {
+                request.cacheControl(cacheControl);
+            }
+
+            s3Client.copyObject(request.build());
+            return destinationKey;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to copy file in S3 from " + sourceKey + " to " + destinationKey, e);
+        }
+    }
+
+    @Override
     public String generateUrl(String key) {
-        // For simplicity, assume public bucket or served via CDN
-        return "https://" + bucket + ".s3.amazonaws.com/" + key;
+        return generatePresignedUrl(key);
     }
 
     @Override
@@ -123,5 +149,10 @@ public class S3Storage implements CloudStorage {
         return presigner.presignGetObject(presignRequest)
                 .url()
                 .toString();
+    }
+
+    @Override
+    public String getBucketName() {
+        return bucket;
     }
 }

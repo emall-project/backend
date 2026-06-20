@@ -2,6 +2,7 @@ package store.emall.backend.mediamanager.file;
 
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
 import store.emall.backend.mediamanager.folder.Folder;
 
 import java.util.Optional;
@@ -23,6 +24,9 @@ public class FileMapper {
                         .shopId(f.getShopId())
                         .scope(f.getScope())
                         .managedBy(f.getManagedBy())
+                        .visibility(f.getVisibility())
+                        .contentType(f.getContentType())
+                        .cacheControl(f.getCacheControl())
                         .build())
                 .orElse(new FileDto());
     }
@@ -40,6 +44,9 @@ public class FileMapper {
                         .status(dto.getStatus())
                         .scope(dto.getScope())
                         .managedBy(dto.getManagedBy())
+                        .visibility(dto.getVisibility() != null ? dto.getVisibility() : MediaVisibility.PRIVATE)
+                        .contentType(dto.getContentType())
+                        .cacheControl(dto.getCacheControl())
                         .build())
                 .orElse(null);
     }

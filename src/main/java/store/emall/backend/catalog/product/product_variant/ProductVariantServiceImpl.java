@@ -18,8 +18,10 @@ import store.emall.backend.catalog.product.ProductServiceHelper;
 import store.emall.backend.catalog.product.product_media.ProductMediumMapper;
 import store.emall.backend.catalog.product.product_media.ProductMediumDto;
 import store.emall.backend.catalog.product.product_variant.variant_attribute.VariantAttributeDto;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +38,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     private final AttributeOptionRepository attributeOptionRepository;
     private final FileService fileService;
     private final ProductServiceHelper productServiceHelper;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     public ProductVariantDto add(Long shopId, Long productId, ProductVariantDto dto) {
@@ -56,6 +59,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
         // Save the variant
         ProductVariant saved = productVariantRepository.saveAndFlush(variant);
+
+        productServiceHelper.syncVariantMediaBindings(saved);
 
         if (saved.getIsDefault()) {
             productVariantRepository.clearDefaultForProduct(variant.getProduct().getId());
@@ -85,6 +90,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
         // Save the variant
         ProductVariant saved = productVariantRepository.saveAndFlush(variant);
+
+        productServiceHelper.syncVariantMediaBindings(saved);
 
         // Convert to DTO and inject media
         ProductVariantDto savedDto = ProductVariantMapper.toDto(saved);
@@ -117,6 +124,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         // Save the variant
         ProductVariant saved = productVariantRepository.save(existing);
 
+        productServiceHelper.syncVariantMediaBindings(saved);
+        
         // Convert to DTO and inject media
         ProductVariantDto savedDto = ProductVariantMapper.toDto(saved);
         return productServiceHelper.injectMedium(savedDto);
@@ -131,9 +140,11 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         if (variant.getIsDefault().equals(Boolean.TRUE)) {
             throw ProductVariantExceptions.defaultVariantDeletionNotAllowed();
         }
+        mediaVisibilityService.removeBindings(EntityType.PRODUCT_VARIANT, id, "media");
         // make sure no orders on this
         productVariantRepository.delete(variant);
     }
+
 
     private boolean validMediumType(String mimeType) {
         return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/"));

@@ -1,6 +1,6 @@
 package store.emall.backend.common;
 
-public enum Entity {
+public enum EntityType {
     // campaigns
     AD_REQUEST,
     OFFER,

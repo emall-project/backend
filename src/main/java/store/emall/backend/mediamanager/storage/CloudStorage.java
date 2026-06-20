@@ -30,6 +30,11 @@ public interface CloudStorage {
     void delete(String key);
 
     /**
+     * Copies an object within the same storage backend, replacing response metadata when supported.
+     */
+    String copy(String sourceKey, String destinationKey, String contentType, String cacheControl);
+
+    /**
      * Generates a URL to access the file.
      *
      * @param key the object key
@@ -43,5 +48,7 @@ public interface CloudStorage {
     String generatePresignedUploadUrl(String key);
 
     boolean fileExist(String key);
+
+    String getBucketName();
 
 }
