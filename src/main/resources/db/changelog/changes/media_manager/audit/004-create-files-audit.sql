@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS media_manager.files_audit
     rev           INT  NOT NULL,
     revtype       SMALLINT,
 
-    id            uuid,
     name          varchar(255),
     folder_id     BIGINT,
     shop_id       BIGINT,
