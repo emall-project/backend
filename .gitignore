@@ -33,3 +33,7 @@ build/
 .vscode/
 
 .env
+
+# Private keys
+keys/
+*.pem

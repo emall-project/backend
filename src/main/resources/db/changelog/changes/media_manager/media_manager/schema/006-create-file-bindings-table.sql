@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset JehadHamid:006-add-cloudfront-media-delivery
+--changeset JehadHamid:006-create-file-bindings-table
 
 CREATE SEQUENCE IF NOT EXISTS media_manager.file_binding_seq
     START WITH 1
