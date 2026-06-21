@@ -149,10 +149,23 @@ public class FileHelper {
                 size,
                 MediaVisibility.PRIVATE
         );
+        log.warn(
+                "Legacy S3 presigned media URL path used fileId={}, size={}, objectKey={}. This bypasses CloudFront MediaUrlService.",
+                id,
+                size,
+                key
+        );
         return cloudStorage.generatePresignedUrl(key);
     }
 
     public static FileDto injectPresignedUrlToTheDto(FileDto fileDto, boolean originalOnly, CloudStorage cloudStorage) {
+        log.warn(
+                "Legacy FileDto URL injection used fileId={}, visibility={}, mimeType={}, originalOnly={}. Expected path is MediaUrlService.",
+                fileDto.getId(),
+                fileDto.getVisibility(),
+                fileDto.getMimeType(),
+                originalOnly
+        );
         fileDto.setOriginalFileUrl(generatePresignedUrl(fileDto.getId(), FileSize.OPTIMIZED_ORIGINAL, cloudStorage));
         if(!isImage(fileDto.getMimeType()))
             return fileDto;

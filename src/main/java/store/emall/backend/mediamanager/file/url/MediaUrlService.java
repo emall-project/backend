@@ -1,6 +1,7 @@
 package store.emall.backend.mediamanager.file.url;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.emall.backend.mediamanager.file.File;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static store.emall.backend.mediamanager.file.util.FileHelper.isImage;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MediaUrlService {
@@ -43,6 +45,15 @@ public class MediaUrlService {
     }
 
     private FileDto attachUrls(File file, FileDto dto) {
+        log.debug(
+                "Resolving media URLs through MediaUrlService fileId={}, visibility={}, mimeType={}, cdnConfigured={}, cloudFrontSigningConfigured={}",
+                file.getId(),
+                file.getVisibility(),
+                file.getMimeType(),
+                hasCdnBaseUrl(),
+                cloudFrontSignerService.isConfigured()
+        );
+
         dto.setOriginalFileUrl(urlFor(file, FileSize.OPTIMIZED_ORIGINAL));
 
         if (isImage(file.getMimeType())) {
@@ -56,22 +67,36 @@ public class MediaUrlService {
         MediaVisibility visibility = file.getVisibility() == null ? MediaVisibility.PRIVATE : file.getVisibility();
         String objectKey = FileHelper.generateFileKey(file.getId(), size, visibility);
         if (objectKey == null || objectKey.isBlank()) {
+            log.warn("Media URL skipped because object key is blank fileId={}, size={}, visibility={}", file.getId(), size, visibility);
             return null;
         }
 
         if (MediaVisibility.PRIVATE.equals(visibility) && !mediaAuthorizationService.canAccess(file)) {
+            log.debug("Media URL denied by authorization fileId={}, size={}, objectKey={}", file.getId(), size, objectKey);
             return null;
         }
 
         if (MediaVisibility.PUBLIC.equals(visibility) && hasCdnBaseUrl()) {
+            log.debug("Media URL resolved as unsigned CloudFront URL fileId={}, size={}, objectKey={}", file.getId(), size, objectKey);
             return cdnUrl(objectKey);
         }
 
         if (hasCdnBaseUrl() && cloudFrontSignerService.isConfigured()) {
             String signedUrl = cloudFrontSignerService.sign(cdnUrl(objectKey));
             if (signedUrl != null) {
+                log.debug("Media URL resolved as signed CloudFront URL fileId={}, size={}, objectKey={}", file.getId(), size, objectKey);
                 return signedUrl;
             }
+            log.warn("CloudFront signing returned null; falling back to S3 presigned URL fileId={}, size={}, objectKey={}", file.getId(), size, objectKey);
+        } else {
+            log.warn(
+                    "CloudFront not configured; falling back to S3 presigned URL fileId={}, size={}, objectKey={}, cdnConfigured={}, cloudFrontSigningConfigured={}",
+                    file.getId(),
+                    size,
+                    objectKey,
+                    hasCdnBaseUrl(),
+                    cloudFrontSignerService.isConfigured()
+            );
         }
 
         return cloudStorage.generatePresignedUrl(objectKey);

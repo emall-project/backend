@@ -120,6 +120,7 @@ public class S3Storage implements CloudStorage {
 
     @Override
     public String generatePresignedUploadUrl(String key) {
+        log.debug("Generating S3 presigned upload URL for key={}", key);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucket)
@@ -138,6 +139,8 @@ public class S3Storage implements CloudStorage {
     @Override
     @Cacheable("preSignedCache")
     public String generatePresignedUrl(String key) {
+        log.debug("Generating S3 presigned download URL for key={}", key);
+
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucket)
                 .key(key)
