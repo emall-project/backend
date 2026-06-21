@@ -82,6 +82,8 @@ services:
         -Dotel.instrumentation.http.server.exclude-urls=.*/actuator.*
 
 
+    secrets:
+      - cloudfront_private_key
     expose:
       - "8080"
     networks:
@@ -185,3 +187,7 @@ volumes:
   emall_data:
   nginx_logs:
   rabbitmq_data:
+
+secrets:
+  cloudfront_private_key:
+    file: ./keys/emall_cdn_private_key.pem
