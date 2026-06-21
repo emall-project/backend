@@ -110,6 +110,9 @@ public class InternalAuthFilter extends OncePerRequestFilter {
         if ("GET".equals(method) && path.matches("/api/offers/product/\\d+/active-price")) return true;
         if ("POST".equals(method) && "/api/offers/products/active-discounts".equals(path)) return true;
 
+        if (path.startsWith("/internal/")) {
+            return true;
+        }
         return false;
     }
 
