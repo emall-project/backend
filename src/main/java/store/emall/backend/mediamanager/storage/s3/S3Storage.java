@@ -1,6 +1,8 @@
 package store.emall.backend.mediamanager.storage.s3;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 import store.emall.backend.mediamanager.storage.CloudStorage;
 import store.emall.backend.mediamanager.storage.StorageConstant;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -13,6 +15,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignReques
 import java.io.InputStream;
 import java.time.Duration;
 
+@Slf4j
 public class S3Storage implements CloudStorage {
 
     private final S3Client s3Client;
@@ -127,10 +130,11 @@ public class S3Storage implements CloudStorage {
                         StorageConstant.DEFAULT_PRESIGNEDURL_EXPIRATION_TIME))
                 .putObjectRequest(putObjectRequest)
                 .build();
-
-        return presigner.presignPutObject(presignRequest)
-                .url()
+        PresignedPutObjectRequest presignedPutObjectRequest = presigner.presignPutObject(presignRequest);
+        String url = presignedPutObjectRequest.url()
                 .toString();
+        log.info("presigned url : {}", url);
+        return url;
     }
 
     @Override
