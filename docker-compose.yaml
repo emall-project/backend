@@ -60,7 +60,12 @@ services:
       AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-
+      MEDIA_CDN_BASE_URL: ${MEDIA_CDN_BASE_URL}
+      CLOUDFRONT_KEY_PAIR_ID: ${CLOUDFRONT_KEY_PAIR_ID}
+      CLOUDFRONT_PRIVATE_KEY: ${CLOUDFRONT_PRIVATE_KEY}
+      MEDIA_SIGNED_URL_TTL_SECONDS: ${MEDIA_SIGNED_URL_TTL_SECONDS}
+      MEDIA_PUBLIC_CACHE_CONTROL: ${MEDIA_PUBLIC_CACHE_CONTROL}
+      MEDIA_PRIVATE_CACHE_CONTROL: ${MEDIA_PRIVATE_CACHE_CONTROL}
       # RabbitMQ
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
@@ -82,8 +87,6 @@ services:
         -Dotel.instrumentation.http.server.exclude-urls=.*/actuator.*
 
 
-    secrets:
-      - cloudfront_private_key
     expose:
       - "8080"
     networks:
@@ -187,7 +190,3 @@ volumes:
   emall_data:
   nginx_logs:
   rabbitmq_data:
-
-secrets:
-  cloudfront_private_key:
-    file: ./keys/emall_cdn_private_key.pem
