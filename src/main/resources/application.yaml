@@ -93,8 +93,8 @@ aws:
   s3:
     bucket: ${AWS_BUCKET_NAME:emall-media-bucket}
     region: ${AWS_REGION_NAME:eu-north-1}
-    access-key: ${AWS_ACCESS_KEY_ID:AKIAQSOI4CH2BJQTDB74}
-    secret-key: ${AWS_SECRET_ACCESS_KEY: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}
+    access-key: ${AWS_ACCESS_KEY_ID:}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}
 
 media:
   cdn:

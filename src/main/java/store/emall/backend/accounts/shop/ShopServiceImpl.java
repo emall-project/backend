@@ -13,6 +13,7 @@ import store.emall.backend.catalog.brand.BrandDto;
 import store.emall.backend.catalog.brand.BrandService;
 import store.emall.backend.common.audience.AgeGroup;
 import store.emall.backend.common.audience.TargetedAudience;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.accounts.mall.Mall;
 import store.emall.backend.accounts.mall.MallExceptions;
@@ -22,6 +23,7 @@ import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.dto.FileTransferRequest;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 import store.emall.backend.mediamanager.folder.FolderService;
 import store.emall.backend.mediamanager.folder.dto.FolderDto;
 import store.emall.backend.security.SecurityContextUtil;
@@ -52,6 +54,7 @@ public class ShopServiceImpl implements ShopService {
     private final FolderService folderService;
     private final BrandService brandService;
     private final ObjectProvider<ShopSubscriptionService> shopSubscriptionServiceProvider;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     @Transactional(readOnly = true)
@@ -140,6 +143,7 @@ public class ShopServiceImpl implements ShopService {
             moveFileSafely(savedShop.getLogoUuid(), savedShop.getFolderId(),
                     "logo", savedShop.getShopId());
         }
+        syncShopMediaBindings(savedShop);
 
         log.info("Shop created: shopId={}, name={}, mallId={}",
                 savedShop.getShopId(), savedShop.getName(), mall.getMallId());
@@ -246,6 +250,7 @@ public class ShopServiceImpl implements ShopService {
             moveFileSafely(newLogoUuid, savedShop.getFolderId(),
                     "logo", savedShop.getShopId());
         }
+        syncShopMediaBindings(savedShop);
 
         log.info("Shop updated: shopId={}", savedShop.getShopId());
         return toDtoWithMedia(savedShop);
@@ -256,6 +261,7 @@ public class ShopServiceImpl implements ShopService {
     public void delete(Long id) {
         Shop shop = shopRepository.findById(id)
                 .orElseThrow(ShopExceptions::shopNotFound);
+        mediaVisibilityService.removeEntityBindings(EntityType.SHOP, id);
         shopRepository.delete(shop);
 
         log.info("Shop deleted: shopId={}", id);
@@ -425,6 +431,30 @@ public class ShopServiceImpl implements ShopService {
         Long newFolderId = saved.getId();
         shop.setFolderId(newFolderId);
         shopRepository.save(shop);
+    }
+
+    private void syncShopMediaBindings(Shop shop) {
+        if (shop == null || shop.getShopId() == null) {
+            return;
+        }
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.SHOP,
+                shop.getShopId(),
+                "logo",
+                shop.getLogoUuid() == null ? List.of() : List.of(shop.getLogoUuid())
+        );
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.SHOP,
+                shop.getShopId(),
+                "photos",
+                shop.getShopPhotosUuids() == null ? List.of() : shop.getShopPhotosUuids()
+        );
+        mediaVisibilityService.syncPrivateBindings(
+                EntityType.SHOP,
+                shop.getShopId(),
+                "license",
+                shop.getLicenseImageUuid() == null ? List.of() : List.of(shop.getLicenseImageUuid())
+        );
     }
 
     private void moveFileSafely(UUID fileUuid, Long targetFolderId, String fieldName, Long shopId) {

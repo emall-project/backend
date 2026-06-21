@@ -131,10 +131,8 @@ public class S3Storage implements CloudStorage {
                 .putObjectRequest(putObjectRequest)
                 .build();
         PresignedPutObjectRequest presignedPutObjectRequest = presigner.presignPutObject(presignRequest);
-        String url = presignedPutObjectRequest.url()
+        return presignedPutObjectRequest.url()
                 .toString();
-        log.info("presigned url : {}", url);
-        return url;
     }
 
     @Override

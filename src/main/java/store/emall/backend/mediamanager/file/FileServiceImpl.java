@@ -5,20 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.mediamanager.file.dto.*;
+import store.emall.backend.mediamanager.file.url.MediaUrlService;
 import store.emall.backend.mediamanager.file.util.FileValidation;
+import store.emall.backend.mediamanager.file.visibility.FileBindingRepository;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 import store.emall.backend.mediamanager.folder.Folder;
 import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static store.emall.backend.mediamanager.file.util.FileHelper.*;
 
@@ -32,6 +36,12 @@ public class FileServiceImpl implements FileService {
     private final FileSpecificationBuilder fileSpecificationBuilder;
     private final FileServiceHelper fileServiceHelper;
     private final FileValidation fileValidation;
+    private final MediaUrlService mediaUrlService;
+    private final MediaVisibilityService mediaVisibilityService;
+    private final FileBindingRepository fileBindingRepository;
+
+    @Value("${media.cache-control.private:private, max-age=300}")
+    private String privateCacheControl;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,8 +50,7 @@ public class FileServiceImpl implements FileService {
         Specification<File> spec = fileSpecificationBuilder.build(fileFilter);
 
         Page<FileDto> page = fileRepository.findAll(spec, pageable)
-                .map(FileMapper::toDto)
-                .map(fileDto -> injectPresignedUrlToTheDto(fileDto, false, cloudStorage));
+                .map(mediaUrlService::toDtoWithUrls);
 
         return PaginatedResponse.of(page);
     }
@@ -54,47 +63,53 @@ public class FileServiceImpl implements FileService {
 
         List<File> files = (spec == null) ? fileRepository.findAll() : fileRepository.findAll(spec);
 
-        return files.stream()
-                .map(FileMapper::toDto)
-                .map(fileDto -> injectPresignedUrlToTheDto(fileDto, false, cloudStorage))
-                .collect(Collectors.toList());
+        return mediaUrlService.toDtosWithUrls(files);
     }
 
     @Override
     @Transactional(readOnly = true)
 //    @Cacheable("fileCache")
     public FileDto getById(UUID id) {
+        if (id == null) {
+            return null;
+        }
         File file = fileServiceHelper.getFile(id);
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
     @Transactional(readOnly = true)
     public FileDto getByIdAndScope(UUID id, ScopeType scopeType) {
+        if (id == null) {
+            return null;
+        }
         File file = fileServiceHelper.getFile(id, scopeType);
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
     @Transactional(readOnly = true)
 //    @Cacheable("fileCache")
     public FileDto getByShopIdAndId(Long shopId, UUID id) {
+        if (id == null) {
+            return null;
+        }
         File file = fileServiceHelper.getFile(id, shopId);
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
     @Transactional
     public List<FileDto> getByFolderId(Long id) {
         List<File> files = fileRepository.findByFolder_Id(id);
-        return files.stream()
-                .map(FileMapper::toDto)
-                .map(fileDto -> injectPresignedUrlToTheDto(fileDto, false, cloudStorage))
-                .collect(Collectors.toList());
+        return mediaUrlService.toDtosWithUrls(files);
     }
 
     @Override
     public FileDto getAndValidateImage(UUID id, String fieldName) {
+        if (id == null) {
+            throw FileExceptions.invalidFileType(fieldName);
+        }
         FileDto fileDto = getById(id);
         if (!isImage(fileDto.getMimeType())){
             throw FileExceptions.invalidFileType(fieldName);
@@ -104,6 +119,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<FileDto> getAndValidateImages(List<UUID> ids, String fieldName) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
         List<FileDto> files = getByIds(ids);
         for (FileDto fileDto : files) {
             if (!isImage(fileDto.getMimeType())){
@@ -122,11 +140,11 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(readOnly = true)
     public List<FileDto> getByIds(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
         List<File> files = fileRepository.findAllById(ids);
-        return files.stream()
-                .map(FileMapper::toDto)
-                .map(fileDto -> injectPresignedUrlToTheDto(fileDto, false, cloudStorage))
-                .collect(Collectors.toList());
+        return mediaUrlService.toDtosWithUrls(files);
     }
 
     @Override
@@ -143,10 +161,11 @@ public class FileServiceImpl implements FileService {
         File file = FileMapper.toEntity(dto, folder);
         file.setId(fileId);
         file.setStatus(Status.PENDING);
+        initializePrivateUploadMetadata(file);
 
         fileRepository.save(file);
 
-        String fileKey = generateFileKey(fileId, FileSize.ORIGINAL);
+        String fileKey = generateFileKey(fileId, FileSize.ORIGINAL, MediaVisibility.PRIVATE);
         String uploadUrl = cloudStorage.generatePresignedUploadUrl(fileKey);
 
         return FileUploadByUrlResponse.builder()
@@ -173,10 +192,11 @@ public class FileServiceImpl implements FileService {
         File file = FileMapper.toEntity(dto, folder);
         file.setId(fileId);
         file.setStatus(Status.PENDING);
+        initializePrivateUploadMetadata(file);
 
         fileRepository.save(file);
 
-        String fileKey = generateFileKey(fileId, FileSize.ORIGINAL);
+        String fileKey = generateFileKey(fileId, FileSize.ORIGINAL, MediaVisibility.PRIVATE);
         String uploadUrl = cloudStorage.generatePresignedUploadUrl(fileKey);
 
         return FileUploadByUrlResponse.builder()
@@ -195,8 +215,13 @@ public class FileServiceImpl implements FileService {
         file.setSize(completeUploadRequest.getSize());
         file.setMimeType(completeUploadRequest.getMimeType());
         file.setExtension(completeUploadRequest.getExtension());
+        file.setContentType(completeUploadRequest.getMimeType());
+        file.setCacheControl(privateCacheControl);
 
         fileRepository.save(file);
+        if (completeUploadRequest.getStatus() == Status.APPROVED) {
+            mediaVisibilityService.recomputeVisibility(file.getId());
+        }
     }
 
     @Override
@@ -209,7 +234,7 @@ public class FileServiceImpl implements FileService {
         file.setName(dto.getNewName());
         fileRepository.save(file);
 
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
@@ -237,7 +262,7 @@ public class FileServiceImpl implements FileService {
 
         Long folderId = file.getFolder() != null ? file.getFolder().getId() : null;
         if (Objects.equals(folderId, dto.getNewFolderId())) {
-            return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+            return mediaUrlService.toDtoWithUrls(file);
         }
 
         Folder newFolder = fileServiceHelper.getFolder(dto.getNewFolderId());
@@ -248,7 +273,7 @@ public class FileServiceImpl implements FileService {
         file.setFolder(newFolder);
         fileRepository.save(file);
 
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
@@ -266,7 +291,7 @@ public class FileServiceImpl implements FileService {
 
         fileRepository.save(file);
 
-        return injectPresignedUrlToTheDto(FileMapper.toDto(file), false, cloudStorage);
+        return mediaUrlService.toDtoWithUrls(file);
     }
 
     @Override
@@ -301,14 +326,24 @@ public class FileServiceImpl implements FileService {
     private void delete(File file) {
 
         fileValidation.validateFileUsage(file.getId());
+
+        deleteKnownKeys(file);
+        fileBindingRepository.deleteByFile_Id(file.getId());
         fileRepository.delete(file);
+    }
 
-        cloudStorage.delete(generateFileKey(file.getId(), FileSize.ORIGINAL));
-        cloudStorage.delete(generateFileKey(file.getId(), FileSize.OPTIMIZED_ORIGINAL));
-        if (!isImage(file.getMimeType())) return;
+    private void initializePrivateUploadMetadata(File file) {
+        file.setVisibility(MediaVisibility.PRIVATE);
+        file.setBucket(cloudStorage.getBucketName());
+        file.setCacheControl(privateCacheControl);
+    }
 
-        cloudStorage.delete(generateFileKey(file.getId(), FileSize.MEDIUM));
-        cloudStorage.delete(generateFileKey(file.getId(), FileSize.SMALL));
+    private void deleteKnownKeys(File file) {
+        for (FileSize size : FileSize.values()) {
+            cloudStorage.delete(generateFileKey(file.getId(), size, MediaVisibility.PRIVATE));
+            cloudStorage.delete(generateFileKey(file.getId(), size, MediaVisibility.PUBLIC));
+            cloudStorage.delete(generateLegacyFileKey(file.getId(), size));
+        }
     }
 
     private void validateShopScopedFilter(FileFilter fileFilter) {
