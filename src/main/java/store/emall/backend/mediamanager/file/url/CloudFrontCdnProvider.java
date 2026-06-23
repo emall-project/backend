@@ -16,35 +16,55 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
-public class CloudFrontSignerService {
+public class CloudFrontCdnProvider implements MediaCdnProvider {
 
+    private static final String PROVIDER_NAME = "cloudfront";
+
+    private final String cdnBaseUrl;
     private final String keyPairId;
     private final String privateKeyPem;
     private final long signedUrlTtlSeconds;
     private volatile PrivateKey privateKey;
 
-    public CloudFrontSignerService(
+    public CloudFrontCdnProvider(
+            @Value("${media.cdn.base-url:}") String cdnBaseUrl,
             @Value("${media.cdn.key-pair-id:}") String keyPairId,
             @Value("${media.cdn.private-key:}") String privateKeyPem,
             @Value("${media.cdn.signed-url-ttl-seconds:300}") long signedUrlTtlSeconds
     ) {
+        this.cdnBaseUrl = cdnBaseUrl;
         this.keyPairId = keyPairId;
         this.privateKeyPem = privateKeyPem;
         this.signedUrlTtlSeconds = signedUrlTtlSeconds;
     }
 
+    @Override
+    public String providerName() {
+        return PROVIDER_NAME;
+    }
+
+    @Override
     public boolean isConfigured() {
-        return keyPairId != null && !keyPairId.isBlank()
+        return hasCdnBaseUrl()
+                && keyPairId != null && !keyPairId.isBlank()
                 && privateKeyPem != null && !privateKeyPem.isBlank();
     }
 
-    public String sign(String resourceUrl) {
+    @Override
+    public String publicUrl(String objectKey) {
+        return cdnUrl(objectKey);
+    }
+
+    @Override
+    public Optional<String> signedUrl(String objectKey) {
         if (!isConfigured()) {
-            return null;
+            return Optional.empty();
         }
+        String resourceUrl = cdnUrl(objectKey);
         try {
             long expiresAt = Instant.now().plusSeconds(signedUrlTtlSeconds).getEpochSecond();
             String policy = cannedPolicy(resourceUrl, expiresAt);
@@ -55,15 +75,27 @@ public class CloudFrontSignerService {
 
             String encodedSignature = cloudFrontBase64(signature.sign());
             String separator = resourceUrl.contains("?") ? "&" : "?";
-            return resourceUrl
+            return Optional.of(resourceUrl
                     + separator
                     + "Expires=" + expiresAt
                     + "&Signature=" + encodedSignature
-                    + "&Key-Pair-Id=" + URLEncoder.encode(keyPairId, StandardCharsets.UTF_8);
+                    + "&Key-Pair-Id=" + URLEncoder.encode(keyPairId, StandardCharsets.UTF_8));
         } catch (Exception e) {
             log.warn("CloudFront URL signing failed: {}", e.getMessage());
-            return null;
+            return Optional.empty();
         }
+    }
+
+    private boolean hasCdnBaseUrl() {
+        return cdnBaseUrl != null && !cdnBaseUrl.isBlank();
+    }
+
+    private String cdnUrl(String objectKey) {
+        String normalizedBase = cdnBaseUrl.endsWith("/")
+                ? cdnBaseUrl.substring(0, cdnBaseUrl.length() - 1)
+                : cdnBaseUrl;
+        String normalizedKey = objectKey.startsWith("/") ? objectKey.substring(1) : objectKey;
+        return normalizedBase + "/" + normalizedKey;
     }
 
     private PrivateKey getPrivateKey() throws Exception {
