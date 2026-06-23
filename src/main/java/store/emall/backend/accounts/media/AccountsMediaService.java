@@ -12,7 +12,7 @@ import store.emall.backend.accounts.shop.Shop;
 import store.emall.backend.accounts.shop.ShopRepository;
 import store.emall.backend.accounts.user.User;
 import store.emall.backend.accounts.user.UserRepository;
-import store.emall.backend.common.Entity;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.util.media.MediaUsageDto;
 import store.emall.backend.common.util.media.Reference;
 
@@ -38,7 +38,7 @@ public class AccountsMediaService {
             inUse = true;
             for (Mall mall : malls) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.MALL)
+                        .entityType(EntityType.MALL)
                         .entityId(mall.getMallId())
                         .entityName(mall.getName())
                         .build();
@@ -51,7 +51,7 @@ public class AccountsMediaService {
             inUse = true;
             for (Shop shop : shops) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.SHOP)
+                        .entityType(EntityType.SHOP)
                         .entityId(shop.getShopId())
                         .entityName(shop.getName())
                         .build();
@@ -64,7 +64,7 @@ public class AccountsMediaService {
             inUse = true;
             for (MallRestaurant restaurant : restaurants) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.MALL_RESTAURANT)
+                        .entityType(EntityType.MALL_RESTAURANT)
                         .entityId(restaurant.getRestaurantId())
                         .entityName(restaurant.getName())
                         .build();
@@ -77,7 +77,7 @@ public class AccountsMediaService {
             inUse = true;
             for (ShopRequest shopRequest : shopRequests) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.SHOP_REQUEST)
+                        .entityType(EntityType.SHOP_REQUEST)
                         .entityId(shopRequest.getId())
                         .entityName(shopRequest.getName())
                         .build();
@@ -90,7 +90,7 @@ public class AccountsMediaService {
             inUse = true;
             for (User user : users) {
                 Reference reference = Reference.builder()
-                        .entity(Entity.USER)
+                        .entityType(EntityType.USER)
                         .entityId(user.getUserId())
                         .entityName(user.getFullName() != null ? user.getFullName() : user.getUsername())
                         .build();

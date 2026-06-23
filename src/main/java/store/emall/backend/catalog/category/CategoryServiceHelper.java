@@ -3,13 +3,16 @@ package store.emall.backend.catalog.category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfig;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigDto;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigMapper;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.common.audience.AgeGroup;
 import store.emall.backend.common.audience.TargetedAudience;
 import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +24,8 @@ public class CategoryServiceHelper {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final MediaManagerHelper mediaManagerHelper;
+    private final MediaVisibilityService mediaVisibilityService;
+
     public void deactivation(Category category) {
 
         List<Category> children = categoryRepository.findByParentId(category.getId());
@@ -210,4 +215,28 @@ public class CategoryServiceHelper {
         }
     }
 
+
+    public void syncCategoryMediaBindings(Category category) {
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.CATEGORY,
+                category.getId(),
+                "image",
+                category.getImageId() == null ? List.of() : List.of(category.getImageId())
+        );
+
+        List<UUID> audienceImages = category.getAudienceConfig() == null
+                ? List.of()
+                : category.getAudienceConfig().stream()
+                .map(CategoryAudienceConfig::getImageId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .toList();
+
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.CATEGORY,
+                category.getId(),
+                "audienceConfigImages",
+                audienceImages
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package store.emall.backend.mediamanager.storage.s3;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 import store.emall.backend.mediamanager.storage.CloudStorage;
 import store.emall.backend.mediamanager.storage.StorageConstant;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -13,6 +15,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignReques
 import java.io.InputStream;
 import java.time.Duration;
 
+@Slf4j
 public class S3Storage implements CloudStorage {
 
     private final S3Client s3Client;
@@ -65,6 +68,9 @@ public class S3Storage implements CloudStorage {
         } catch (NoSuchKeyException e) {
             return false;
         } catch (S3Exception e) {
+            if (e.statusCode() == 404) {
+                return false;
+            }
             throw new RuntimeException("Error checking file existence: " + key, e);
         }
     }
@@ -84,13 +90,37 @@ public class S3Storage implements CloudStorage {
     }
 
     @Override
+    public String copy(String sourceKey, String destinationKey, String contentType, String cacheControl) {
+        try {
+            CopyObjectRequest.Builder request = CopyObjectRequest.builder()
+                    .sourceBucket(bucket)
+                    .sourceKey(sourceKey)
+                    .destinationBucket(bucket)
+                    .destinationKey(destinationKey)
+                    .metadataDirective(MetadataDirective.REPLACE);
+
+            if (contentType != null && !contentType.isBlank()) {
+                request.contentType(contentType);
+            }
+            if (cacheControl != null && !cacheControl.isBlank()) {
+                request.cacheControl(cacheControl);
+            }
+
+            s3Client.copyObject(request.build());
+            return destinationKey;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to copy file in S3 from " + sourceKey + " to " + destinationKey, e);
+        }
+    }
+
+    @Override
     public String generateUrl(String key) {
-        // For simplicity, assume public bucket or served via CDN
-        return "https://" + bucket + ".s3.amazonaws.com/" + key;
+        return generatePresignedUrl(key);
     }
 
     @Override
     public String generatePresignedUploadUrl(String key) {
+        log.debug("Generating S3 presigned upload URL for key={}", key);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucket)
@@ -101,15 +131,16 @@ public class S3Storage implements CloudStorage {
                         StorageConstant.DEFAULT_PRESIGNEDURL_EXPIRATION_TIME))
                 .putObjectRequest(putObjectRequest)
                 .build();
-
-        return presigner.presignPutObject(presignRequest)
-                .url()
+        PresignedPutObjectRequest presignedPutObjectRequest = presigner.presignPutObject(presignRequest);
+        return presignedPutObjectRequest.url()
                 .toString();
     }
 
     @Override
     @Cacheable("preSignedCache")
     public String generatePresignedUrl(String key) {
+        log.debug("Generating S3 presigned download URL for key={}", key);
+
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucket)
                 .key(key)
@@ -123,5 +154,10 @@ public class S3Storage implements CloudStorage {
         return presigner.presignGetObject(presignRequest)
                 .url()
                 .toString();
+    }
+
+    @Override
+    public String getBucketName() {
+        return bucket;
     }
 }

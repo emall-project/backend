@@ -10,12 +10,19 @@ CREATE TABLE IF NOT EXISTS media_manager.files_audit
 
     name          varchar(255),
     folder_id     BIGINT,
-    mime_type     varchar(20),
+    shop_id       BIGINT,
+
+    mime_type     varchar(255),
     extension     varchar(10),
+    content_type  varchar(255),
     size          BIGINT,
-    shop_id      BIGINT,
+
     status        varchar(20),
     error_message varchar(255),
+
+    visibility    varchar(20),
+    bucket        varchar(255),
+    cache_control varchar(255),
 
     created_at    TIMESTAMP,
     created_by    VARCHAR(150),

@@ -19,11 +19,16 @@ import store.emall.backend.accounts.mall.service.MallServiceEntity;
 import store.emall.backend.accounts.mall.service.MallServiceMapper;
 import store.emall.backend.accounts.shop.ShopRepository;
 import store.emall.backend.accounts.shop.ShopStatus;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +40,7 @@ public class MallManagementServiceImpl implements MallManagementService {
     private final CityRepository cityRepository;
     private final FileService fileService;
     private final ShopRepository shopRepository;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     @Transactional(readOnly = true)
@@ -111,6 +117,7 @@ public class MallManagementServiceImpl implements MallManagementService {
         }
 
         Mall savedMall = mallRepository.save(mall);
+        syncMallMediaBindings(savedMall);
 
         log.info("Mall created: mallId={}, name={}", savedMall.getMallId(), savedMall.getName());
 
@@ -182,6 +189,13 @@ public class MallManagementServiceImpl implements MallManagementService {
             });
         }
 
+        List<Long> oldRestaurantIds = existing.getRestaurants() == null
+                ? List.of()
+                : existing.getRestaurants().stream()
+                .map(MallRestaurant::getRestaurantId)
+                .filter(Objects::nonNull)
+                .toList();
+
         // If restaurants list is provided, replace all existing restaurants
         if (mallDto.getRestaurants() != null) {
             existing.getRestaurants().clear();
@@ -198,6 +212,8 @@ public class MallManagementServiceImpl implements MallManagementService {
 
         MallMapper.merge(existing, mallDto, city);
         Mall savedMall = mallRepository.save(existing);
+        oldRestaurantIds.forEach(id -> mediaVisibilityService.removeEntityBindings(EntityType.MALL_RESTAURANT, id));
+        syncMallMediaBindings(savedMall);
 
         log.info("Mall updated: mallId={}", savedMall.getMallId());
 
@@ -215,6 +231,12 @@ public class MallManagementServiceImpl implements MallManagementService {
             throw MallExceptions.mallHasActiveShops();
         }
 
+        if (mall.getRestaurants() != null) {
+            mall.getRestaurants().forEach(restaurant ->
+                    mediaVisibilityService.removeEntityBindings(EntityType.MALL_RESTAURANT, restaurant.getRestaurantId())
+            );
+        }
+        mediaVisibilityService.removeEntityBindings(EntityType.MALL, id);
         mallRepository.delete(mall);
         log.info("Mall deleted: mallId={}", id);
     }
@@ -289,6 +311,38 @@ public class MallManagementServiceImpl implements MallManagementService {
         return MallMapper.toFullDto(mall, logoImage, mallImages, restaurantDtos);
     }
 
+    private void syncMallMediaBindings(Mall mall) {
+        if (mall == null || mall.getMallId() == null) {
+            return;
+        }
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.MALL,
+                mall.getMallId(),
+                "logo",
+                mall.getLogoUuid() == null ? List.of() : List.of(mall.getLogoUuid())
+        );
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.MALL,
+                mall.getMallId(),
+                "images",
+                mall.getMallImagesUuids() == null ? List.of() : mall.getMallImagesUuids()
+        );
+        if (mall.getRestaurants() != null) {
+            mall.getRestaurants().forEach(this::syncRestaurantLogoBinding);
+        }
+    }
+
+    private void syncRestaurantLogoBinding(MallRestaurant restaurant) {
+        if (restaurant == null || restaurant.getRestaurantId() == null) {
+            return;
+        }
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.MALL_RESTAURANT,
+                restaurant.getRestaurantId(),
+                "logo",
+                restaurant.getLogoUuid() == null ? List.of() : List.of(restaurant.getLogoUuid())
+        );
+    }
 
 
 }

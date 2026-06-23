@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.accounts.mall.Mall;
 import store.emall.backend.accounts.mall.MallExceptions;
 import store.emall.backend.accounts.mall.MallRepository;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
     private final MallRestaurantRepository restaurantRepository;
     private final MallRepository mallRepository;
     private final FileService fileService;
+    private final MediaVisibilityService mediaVisibilityService;
 
     @Override
     @Transactional(readOnly = true)
@@ -84,6 +87,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
         restaurant.setMall(mall);
 
         MallRestaurant saved = restaurantRepository.save(restaurant);
+        syncRestaurantLogoBinding(saved);
         log.info("Restaurant created: restaurantId={}, name={}", saved.getRestaurantId(), saved.getName());
 
         return MallRestaurantMapper.toFullDto(saved, logoImage);
@@ -124,6 +128,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
                 .collect(Collectors.toList());
 
         return restaurantRepository.saveAll(restaurants).stream()
+                .peek(this::syncRestaurantLogoBinding)
                 .map(this::toDtoWithMedia)
                 .collect(Collectors.toList());
     }
@@ -164,6 +169,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
 
         MallRestaurantMapper.merge(existing, restaurantDto);
         MallRestaurant saved = restaurantRepository.save(existing);
+        syncRestaurantLogoBinding(saved);
 
         log.info("Restaurant updated: restaurantId={}", saved.getRestaurantId());
 
@@ -175,6 +181,7 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
     public void deleteRestaurant(Long restaurantId) {
         MallRestaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(MallRestaurantExceptions::restaurantNotFound);
+        mediaVisibilityService.removeEntityBindings(EntityType.MALL_RESTAURANT, restaurantId);
         restaurantRepository.delete(restaurant);
         log.info("Restaurant deleted: restaurantId={}", restaurantId);
     }
@@ -182,6 +189,11 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
     @Override
     @Transactional
     public void deleteAllRestaurantsByMall(Long mallId) {
+        restaurantRepository.findByMall_MallId(mallId)
+                .forEach(restaurant -> mediaVisibilityService.removeEntityBindings(
+                        EntityType.MALL_RESTAURANT,
+                        restaurant.getRestaurantId()
+                ));
         restaurantRepository.deleteByMall_MallId(mallId);
         log.info("All restaurants deleted for mallId={}", mallId);
     }
@@ -217,5 +229,17 @@ public class MallRestaurantServiceImpl implements MallRestaurantService {
     private MallRestaurantDto toDtoWithMedia(MallRestaurant restaurant) {
         FileDto logoImage = fileService.getById(restaurant.getLogoUuid());
         return MallRestaurantMapper.toFullDto(restaurant, logoImage);
+    }
+
+    private void syncRestaurantLogoBinding(MallRestaurant restaurant) {
+        if (restaurant == null || restaurant.getRestaurantId() == null) {
+            return;
+        }
+        mediaVisibilityService.syncPublicBindings(
+                EntityType.MALL_RESTAURANT,
+                restaurant.getRestaurantId(),
+                "logo",
+                restaurant.getLogoUuid() == null ? List.of() : List.of(restaurant.getLogoUuid())
+        );
     }
 }

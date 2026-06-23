@@ -91,10 +91,20 @@ stripe:
 
 aws:
   s3:
-    bucket: ${AWS_BUCKET_NAME:emall-media}
+    bucket: ${AWS_BUCKET_NAME:emall-media-bucket}
     region: ${AWS_REGION_NAME:eu-north-1}
-    access-key: ${AWS_ACCESS_KEY_ID}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
+    access-key: ${AWS_ACCESS_KEY_ID:}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}
+
+media:
+  cdn:
+    base-url: ${MEDIA_CDN_BASE_URL:}
+    key-pair-id: ${CLOUDFRONT_KEY_PAIR_ID:}
+    private-key: ${CLOUDFRONT_PRIVATE_KEY:}
+    signed-url-ttl-seconds: ${MEDIA_SIGNED_URL_TTL_SECONDS:300}
+  cache-control:
+    public: ${MEDIA_PUBLIC_CACHE_CONTROL:public, max-age=31536000, immutable}
+    private: ${MEDIA_PRIVATE_CACHE_CONTROL:private, max-age=300}
 
 
 models:

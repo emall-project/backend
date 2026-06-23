@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.FileSize;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
 import store.emall.backend.mediamanager.storage.CloudStorage;
 
 import javax.imageio.ImageIO;
@@ -145,12 +146,26 @@ public class FileHelper {
 
         String key = generateFileKey(
                 id,
-                size
+                size,
+                MediaVisibility.PRIVATE
+        );
+        log.warn(
+                "Legacy S3 presigned media URL path used fileId={}, size={}, objectKey={}. This bypasses CloudFront MediaUrlService.",
+                id,
+                size,
+                key
         );
         return cloudStorage.generatePresignedUrl(key);
     }
 
     public static FileDto injectPresignedUrlToTheDto(FileDto fileDto, boolean originalOnly, CloudStorage cloudStorage) {
+        log.warn(
+                "Legacy FileDto URL injection used fileId={}, visibility={}, mimeType={}, originalOnly={}. Expected path is MediaUrlService.",
+                fileDto.getId(),
+                fileDto.getVisibility(),
+                fileDto.getMimeType(),
+                originalOnly
+        );
         fileDto.setOriginalFileUrl(generatePresignedUrl(fileDto.getId(), FileSize.OPTIMIZED_ORIGINAL, cloudStorage));
         if(!isImage(fileDto.getMimeType()))
             return fileDto;
@@ -163,7 +178,16 @@ public class FileHelper {
     }
 
 
+    public static String generateFileKey(UUID uuid, FileSize size, MediaVisibility visibility) {
+        String visibilityPrefix = MediaVisibility.PUBLIC.equals(visibility) ? "public" : "private";
+        return visibilityPrefix + "/uploads/" + uuid + "/" + size.getSize();
+    }
+
     public static String generateFileKey(UUID uuid, FileSize size) {
-        return size.getSize() + "/" +uuid;
+        return generateFileKey(uuid, size, MediaVisibility.PRIVATE);
+    }
+
+    public static String generateLegacyFileKey(UUID uuid, FileSize size) {
+        return size.getSize() + "/" + uuid;
     }
 }

@@ -4,6 +4,7 @@ import lombok.*;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.mediamanager.file.Status;
+import store.emall.backend.mediamanager.file.visibility.MediaVisibility;
 
 import java.util.UUID;
 
@@ -33,6 +34,12 @@ public class FileDto {
     private ScopeType scope;
 
     private ManagedByType managedBy;
+
+    private MediaVisibility visibility;
+
+    private String contentType;
+
+    private String cacheControl;
 
     private String originalFileUrl;
     private String mediumFileUrl;
