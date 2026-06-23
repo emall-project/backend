@@ -12,7 +12,6 @@ import store.emall.backend.catalog.category.audience_config.CategoryAudienceConf
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigMapper;
 import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.dto.FileDto;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
@@ -64,10 +63,10 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileLightDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
 
         Page<CategoryLightDto> page = categoryPage.map(category -> {
-            FileLightDto image = imagesMap.get(category.getImageId());
+            FileDto image = imagesMap.get(category.getImageId());
 
             return CategoryMapper.toLightDto(category, image);
         });
@@ -112,16 +111,16 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileLightDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
 
 
         Map<Long, CategoryTreeDto> dtoMap = new HashMap<>();
         List<CategoryTreeDto> roots = new ArrayList<>();
 
         for (Category category : categories) {
-            FileLightDto fileLightDto = imagesMap.get(category.getImageId());
+            FileDto fileDto = imagesMap.get(category.getImageId());
 
-            CategoryTreeDto dto = CategoryMapper.toTreeDto(category, fileLightDto);
+            CategoryTreeDto dto = CategoryMapper.toTreeDto(category, fileDto);
             dtoMap.put(dto.getId(), dto);
         }
 

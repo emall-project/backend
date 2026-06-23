@@ -9,7 +9,6 @@ import store.emall.backend.catalog.brand.Brand;
 import store.emall.backend.catalog.category.Category;
 import store.emall.backend.catalog.product.product_variant.ProductVariant;
 import store.emall.backend.common.EntityType;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.common.audience.AgeGroup;
 import store.emall.backend.common.audience.TargetedAudience;
 import store.emall.backend.catalog.job.ProductJob;
@@ -119,19 +118,20 @@ public class ProductServiceHelper {
         return dto;
     }
 
-    public Map<UUID, FileLightDto> getMedia(List<UUID> mediaIds) {
+    public Map<UUID, FileDto> getMedia(List<UUID> mediaIds) {
         if (mediaIds == null || mediaIds.isEmpty()) {
             return Collections.emptyMap();
         }
 
         List<FileDto> files = fileService.getByIds(mediaIds);
 
-        Map<UUID, FileLightDto> fileDtoMap = new HashMap<>();
+        Map<UUID, FileDto> fileDtoMap = new HashMap<>();
         for (FileDto fileDto : files) {
-            FileLightDto fileLightDto = new FileLightDto();
-            fileLightDto.setId(fileDto.getId());
-            fileLightDto.setSmallFileUrl(fileDto.getSmallFileUrl());
-            fileDtoMap.put(fileDto.getId(), fileLightDto);
+            fileDto.setId(fileDto.getId());
+            fileDto.setOriginalFileUrl(fileDto.getOriginalFileUrl());
+            fileDto.setMediumFileUrl(fileDto.getMediumFileUrl());
+            fileDto.setSmallFileUrl(fileDto.getSmallFileUrl());
+            fileDtoMap.put(fileDto.getId(), fileDto);
         }
         return fileDtoMap;
 

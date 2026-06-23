@@ -2,7 +2,7 @@ package store.emall.backend.catalog.product.light;
 
 import lombok.Builder;
 import lombok.Data;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.math.BigDecimal;
 
@@ -17,7 +17,7 @@ public class ProductLightDto {
     private BigDecimal basePrice;
     private Boolean hasDiscount;
     private BigDecimal discountedPrice;
-    private FileLightDto medium;
+    private FileDto medium;
     private String categoryName;
     private String brandName;
     private Boolean isActive;

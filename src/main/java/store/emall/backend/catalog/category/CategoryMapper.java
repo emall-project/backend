@@ -4,7 +4,6 @@ import store.emall.backend.catalog.category.audience_config.CategoryAudienceConf
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigDto;
 import store.emall.backend.catalog.category.audience_config.CategoryAudienceConfigMapper;
 import store.emall.backend.mediamanager.file.dto.FileDto;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -138,7 +137,7 @@ public class CategoryMapper {
                 .depthLevel(category.getDepthLevel())
                 .build();
     }
-    public static CategoryLightDto toLightDto(Category category, FileLightDto image) {
+    public static CategoryLightDto toLightDto(Category category, FileDto image) {
         return CategoryLightDto.builder()
                 .id(category.getId())
                 .name(category.getName())
@@ -155,7 +154,7 @@ public class CategoryMapper {
                 .build();
     }
 
-    public static CategoryTreeDto toTreeDto(Category category, FileLightDto image) {
+    public static CategoryTreeDto toTreeDto(Category category, FileDto image) {
         return CategoryTreeDto.builder()
                 .id(category.getId())
                 .name(category.getName())

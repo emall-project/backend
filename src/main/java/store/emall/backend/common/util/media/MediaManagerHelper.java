@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import store.emall.backend.catalog.category.CategoryExceptions;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.mediamanager.file.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 
@@ -50,22 +49,21 @@ public class MediaManagerHelper {
     }
 
 
-    public Map<UUID, FileLightDto> getLightMedia(List<UUID> imageIds) {
+    public Map<UUID, FileDto> getLightMedia(List<UUID> imageIds) {
 
         if (imageIds == null || imageIds.isEmpty()) {
             return null;
         }
 
-        // TODO REPLACE WITH endpoint that's return FileLightDto
+        // TODO REPLACE WITH endpoint that's return FileDto
         List<FileDto> files = fileService.getByIds(imageIds);
 
         //inject image File
-        Map<UUID, FileLightDto> fileDtoMap = new HashMap<>();
+        Map<UUID, FileDto> fileDtoMap = new HashMap<>();
         for (FileDto fileDto : files) {
-            FileLightDto fileLightDto = new FileLightDto();
-            fileLightDto.setId(fileDto.getId());
-            fileLightDto.setSmallFileUrl(fileDto.getSmallFileUrl());
-            fileDtoMap.put(fileDto.getId(), fileLightDto);
+            fileDto.setId(fileDto.getId());
+            fileDto.setSmallFileUrl(fileDto.getSmallFileUrl());
+            fileDtoMap.put(fileDto.getId(), fileDto);
         }
         return fileDtoMap;
     }

@@ -3,7 +3,7 @@ package store.emall.backend.catalog.category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 
 @Builder
@@ -12,7 +12,7 @@ import store.emall.backend.mediamanager.file.dto.FileLightDto;
 public class CategoryLightDto {
     private Long id;
     private String name;
-    private FileLightDto image;
+    private FileDto image;
     private Integer depthLevel;
 }
 

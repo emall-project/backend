@@ -1,7 +1,7 @@
 package store.emall.backend.catalog.product.info;
 
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.catalog.product.Product;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public class ProductInfoMapper {
         return toInfoDto(entity, null);
     }
 
-    public static ProductInfoDto toInfoDto(Product entity, FileLightDto medium) {
+    public static ProductInfoDto toInfoDto(Product entity, FileDto medium) {
         if (entity == null) return null;
 
         List<ProductInfoDto.VariantPriceInfoDto> variants = entity.getVariants() == null

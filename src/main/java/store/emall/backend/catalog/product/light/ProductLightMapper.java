@@ -1,15 +1,15 @@
 package store.emall.backend.catalog.product.light;
 
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.catalog.product.Product;
 import store.emall.backend.catalog.product.product_variant.ProductVariant;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class ProductLightMapper {
     public static ProductLightDto toDtoLight(Product product) {
-        FileLightDto medium= new FileLightDto();
+        FileDto medium= new FileDto();
         ProductVariant defaultVariant = product.getDefaultVariant();
         medium.setId(defaultVariant.getMedia().getFirst().getMediumId());
         return ProductLightDto.builder()
@@ -31,7 +31,7 @@ public class ProductLightMapper {
     public static ProductLightDto toProductLightDto(
             Long productId,
             Map<Long, ProductLightRow> productLightRowMap,
-            Map<UUID, FileLightDto> mediaMap
+            Map<UUID, FileDto> mediaMap
     ) {
         ProductLightRow row = productLightRowMap.get(productId);
 
@@ -54,12 +54,12 @@ public class ProductLightMapper {
                 .build();
 
         if (row.getMediumId() != null) {
-            FileLightDto media = mediaMap.get(row.getMediumId());
+            FileDto media = mediaMap.get(row.getMediumId());
 
             if (media != null) {
                 dto.setMedium(media);
             } else {
-                FileLightDto mediumRef = new FileLightDto();
+                FileDto mediumRef = new FileDto();
                 mediumRef.setId(row.getMediumId());
                 dto.setMedium(mediumRef);
             }

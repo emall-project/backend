@@ -13,7 +13,6 @@ import store.emall.backend.catalog.brand.Brand;
 import store.emall.backend.catalog.brand.BrandRepository;
 import store.emall.backend.catalog.category.Category;
 import store.emall.backend.catalog.category.CategoryRepository;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
 import store.emall.backend.catalog.product.info.ProductInfoDto;
 import store.emall.backend.catalog.product.info.ProductInfoMapper;
 import store.emall.backend.catalog.product.light.ProductLightMapper;
@@ -29,6 +28,7 @@ import store.emall.backend.catalog.tag.TagMapper;
 import store.emall.backend.interaction.ai.product_similarity.ProductSimilarityService;
 import store.emall.backend.interaction.ai.product_similarity.dto.SimilarProductsQuery;
 import store.emall.backend.interaction.ai.product_similarity.dto.SimilarProductsResult;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -132,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        Map<UUID, FileLightDto> mediaMap = productServiceHelper.getMedia(mediaIds);
+        Map<UUID, FileDto> mediaMap = productServiceHelper.getMedia(mediaIds);
         Map<Long, ActiveProductDiscountDto> discountMap = includeDiscounts
                 ? productServiceHelper.getActiveDiscounts(productIds)
                 : Collections.emptyMap();
@@ -183,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
 
     private record ProductLightLookup(
             Map<Long, ProductLightRow> rowMap,
-            Map<UUID, FileLightDto> mediaMap,
+            Map<UUID, FileDto> mediaMap,
             Map<Long, ActiveProductDiscountDto> discountMap
     ) {
         private static ProductLightLookup empty() {
@@ -250,7 +250,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductInfoMapper.toInfoDto(product, getDefaultMedium(product));
     }
 
-    private FileLightDto getDefaultMedium(Product product) {
+    private FileDto getDefaultMedium(Product product) {
         UUID mediumId = getDefaultMediumId(product);
         if (mediumId == null) {
             return null;

@@ -1,7 +1,7 @@
 package store.emall.backend.catalog.product.info;
 
 import lombok.*;
-import store.emall.backend.mediamanager.file.dto.FileLightDto;
+import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ProductInfoDto {
     private Long shopId;
     private Long mallId;
 
-    private FileLightDto medium;
+    private FileDto medium;
     private List<VariantPriceInfoDto> variants;
 
     @Getter
