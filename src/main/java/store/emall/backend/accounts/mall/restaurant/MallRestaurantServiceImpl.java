@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.common.EntityType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.accounts.mall.Mall;
 import store.emall.backend.accounts.mall.MallExceptions;

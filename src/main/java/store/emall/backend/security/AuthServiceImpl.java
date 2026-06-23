@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.common.email.EmailService;
 import store.emall.backend.common.phone_number.PhoneNumberMapper;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.security.dto.ForgotPasswordRequest;
 import store.emall.backend.security.dto.ResetPasswordRequest;

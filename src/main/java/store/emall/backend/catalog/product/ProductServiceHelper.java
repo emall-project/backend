@@ -16,7 +16,7 @@ import store.emall.backend.catalog.product.light.ProductLightDto;
 import store.emall.backend.catalog.product.product_media.ProductMediumDto;
 import store.emall.backend.catalog.product.product_variant.ProductVariantDto;
 import store.emall.backend.catalog.publisher.JobPublisher;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 

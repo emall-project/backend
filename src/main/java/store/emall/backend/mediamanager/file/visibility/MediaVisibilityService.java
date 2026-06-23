@@ -133,6 +133,13 @@ public class MediaVisibilityService {
         recomputeVisibility(fileId);
     }
 
+    public List<FileBindingDto> getFileBindings(UUID fileId) {
+        List<FileBinding> fileBindings = fileBindingRepository.findByFile_id(fileId);
+        return fileBindings.stream()
+                .map(FileBindingMapper::toDto)
+                .toList();
+    }
+
     @Transactional
     public void recomputeVisibility(UUID fileId) {
         File file = fileRepository.findById(fileId).orElse(null);

@@ -1,9 +1,12 @@
-package store.emall.backend.mediamanager.file;
+package store.emall.backend.mediamanager.file.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
+import store.emall.backend.mediamanager.file.File;
+import store.emall.backend.mediamanager.file.FileExceptions;
+import store.emall.backend.mediamanager.file.FileRepository;
 import store.emall.backend.mediamanager.file.dto.FileMoveRequest;
 import store.emall.backend.mediamanager.file.dto.FileTransferRequest;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;

@@ -1,11 +1,10 @@
 package store.emall.backend.catalog.brand;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.common.EntityType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 

@@ -29,4 +29,6 @@ public interface FileBindingRepository extends JpaRepository<FileBinding, Long> 
     long countByFile_IdAndVisibility(UUID fileId, MediaVisibility visibility);
 
     void deleteByFile_Id(UUID fileId);
+
+    List<FileBinding> findByFile_id(UUID fileId);
 }

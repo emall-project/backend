@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.common.EntityType;
 import store.emall.backend.common.page.PaginatedResponse;
-import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class BrandServiceImpl implements BrandService {
     private final ProductRepository productRepository;
     private final BrandServiceHelper brandServiceHelper;
     private final BrandSpecificationBuilder brandSpecificationBuilder;
-    private final MediaManagerHelper mediaManagerHelper;
+    private final FileService fileService;
     private final MediaVisibilityService mediaVisibilityService;
 
     @Override
@@ -41,7 +41,7 @@ public class BrandServiceImpl implements BrandService {
                 .map(Brand::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
         Page<BrandDto> page = brandPage.map(brand -> {
             FileDto image = imagesMap.get(brand.getImageId());
@@ -64,7 +64,7 @@ public class BrandServiceImpl implements BrandService {
                 .map(Brand::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
         List<BrandDto> result = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class BrandServiceImpl implements BrandService {
             throw BrandExceptions.slugExists();
         }
 
-        FileDto image = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto image = fileService.getAndValidateImage(dto.getImageId(), "BrandLogo");
 
         Brand brand = BrandMapper.toEntity(dto);
         Brand saved = brandRepository.save(brand);
@@ -97,7 +97,7 @@ public class BrandServiceImpl implements BrandService {
         Brand existing = brandRepository.findById(dto.getId())
                 .orElseThrow(BrandExceptions::brandNotFound);
 
-        FileDto image = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto image = fileService.getAndValidateImage(dto.getImageId(), "BrandLogo");
 
         if (!existing.getSlug().equals(dto.getSlug())
                 && brandRepository.existsBySlug(dto.getSlug())) {

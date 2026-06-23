@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.folder.dto.FolderDto;
 import store.emall.backend.mediamanager.folder.dto.FolderFilter;
 

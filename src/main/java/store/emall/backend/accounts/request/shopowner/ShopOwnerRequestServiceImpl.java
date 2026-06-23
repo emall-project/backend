@@ -30,7 +30,7 @@ import store.emall.backend.accounts.request.shop.ShopRequestRepository;
 import store.emall.backend.accounts.request.shop.ShopRequestStatus;
 import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.dto.FileTransferRequest;
 import store.emall.backend.mediamanager.folder.FolderService;

@@ -20,15 +20,13 @@ import store.emall.backend.accounts.mall.service.MallServiceMapper;
 import store.emall.backend.accounts.shop.ShopRepository;
 import store.emall.backend.accounts.shop.ShopStatus;
 import store.emall.backend.common.EntityType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

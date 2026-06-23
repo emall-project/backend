@@ -13,8 +13,8 @@ import store.emall.backend.catalog.category.audience_config.CategoryAudienceConf
 import store.emall.backend.common.EntityType;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.common.page.PaginatedResponse;
-import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.*;
@@ -29,8 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final ProductRepository productRepository;
     private final CategoryServiceHelper categoryServiceHelper;
     private final CategorySpecificationBuilder specificationBuilder;
-    private final MediaManagerHelper mediaManagerHelper;
     private final MediaVisibilityService mediaVisibilityService;
+    private final FileService fileService;
 
     @Override
     @Transactional(readOnly = true)
@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
         Page<CategoryDto> page = categoryPage.map(category -> {
             FileDto image = imagesMap.get(category.getImageId());
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
         Page<CategoryLightDto> page = categoryPage.map(category -> {
             FileDto image = imagesMap.get(category.getImageId());
@@ -87,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
         List<CategoryDto> result = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::getImageId)
                 .toList();
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getLightMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
 
 
         Map<Long, CategoryTreeDto> dtoMap = new HashMap<>();
@@ -184,7 +184,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryServiceHelper.validateAudienceConfigAllowed(dto);
         categoryServiceHelper.validateAudienceConfig(dto);
 
-        FileDto categoryImage = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto categoryImage = fileService.getAndValidateImage(dto.getImageId(), "CategoryImage");
         categoryServiceHelper.validateAudienceConfigImages(dto.getAudienceConfig());
 
 
@@ -216,7 +216,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryServiceHelper.validateAudienceConfigAllowed(dto);
         categoryServiceHelper.validateAudienceConfig(dto);
 //  TODO : consider the existing config in validation
-        FileDto categoryImage = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto categoryImage = fileService.getAndValidateImage(dto.getImageId(), "CategoryImage");
         categoryServiceHelper.validateAudienceConfigImages(dto.getAudienceConfig());
 
         if (Boolean.TRUE.equals(existing.getIsActive()) && Boolean.FALSE.equals(dto.getIsActive())) {
@@ -264,7 +264,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw CategoryExceptions.audienceConfigNotAllowed();
         }
         categoryServiceHelper.validateAudienceConfig(categoryDto);
-        mediaManagerHelper.getAndValidatedImage(categoryAudienceConfigDto.getImageId());
+        fileService.getAndValidateImage(categoryAudienceConfigDto.getImageId(), "CategoryAudienceImage");
 
         CategoryAudienceConfig config = CategoryAudienceConfigMapper.toEntity(categoryAudienceConfigDto, category);
         category.getAudienceConfig().add(config);
@@ -328,7 +328,7 @@ public class CategoryServiceImpl implements CategoryService {
             return dto;
         }
 
-        Map<UUID, FileDto> imagesMap = mediaManagerHelper.getMedia(imageIds);
+        Map<UUID, FileDto> imagesMap = fileService.getMedia(imageIds);
         if (imagesMap == null || imagesMap.isEmpty()) {
             return dto;
         }

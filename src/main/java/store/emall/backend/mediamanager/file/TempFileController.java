@@ -12,6 +12,7 @@ import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.common.validation.OnTempFileUpload;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlRequest;
 import store.emall.backend.mediamanager.file.dto.FileUploadByUrlResponse;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.folder.FolderService;
 import store.emall.backend.mediamanager.folder.SystemFolder;
 

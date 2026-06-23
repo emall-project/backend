@@ -21,7 +21,7 @@ import store.emall.backend.campaigns.ad.template.AdTemplateStatus;
 import store.emall.backend.common.page.PaginatedResponse;
 import store.emall.backend.security.SecurityContextUtil;
 import store.emall.backend.campaigns.subscription.*;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 
 import java.math.BigDecimal;

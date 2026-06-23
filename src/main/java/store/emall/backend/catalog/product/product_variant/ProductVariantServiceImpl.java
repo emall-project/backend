@@ -1,6 +1,5 @@
 package store.emall.backend.catalog.product.product_variant;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import store.emall.backend.catalog.product.product_media.ProductMediumMapper;
 import store.emall.backend.catalog.product.product_media.ProductMediumDto;
 import store.emall.backend.catalog.product.product_variant.variant_attribute.VariantAttributeDto;
 import store.emall.backend.common.EntityType;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 

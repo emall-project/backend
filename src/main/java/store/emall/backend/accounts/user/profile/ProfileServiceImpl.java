@@ -1,17 +1,14 @@
 package store.emall.backend.accounts.user.profile;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import store.emall.backend.mediamanager.file.FileService;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.dto.FileDto;
 import store.emall.backend.common.phone_number.PhoneNumberMapper;
 import store.emall.backend.accounts.user.*;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

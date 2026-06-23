@@ -1,11 +1,12 @@
 package store.emall.backend.mediamanager.file;
 
 import org.springframework.http.HttpStatus;
-import store.emall.backend.common.util.media.Reference;
 import store.emall.backend.common.SystemService;
 import store.emall.backend.common.exception.EMallsException;
 import store.emall.backend.common.message.MessageKey;
 import store.emall.backend.common.response.ErrorCode;
+import store.emall.backend.mediamanager.file.visibility.FileBinding;
+import store.emall.backend.mediamanager.file.visibility.FileBindingDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public final class FileExceptions {
                 .build();
     }
 
-    public static EMallsException fileInUse(List<Reference> references) {
+    public static EMallsException fileInUse(List<FileBindingDto> references) {
         return EMallsException.builder()
                 .httpStatus(HttpStatus.CONFLICT)
                 .message(MessageKey.FILE_IN_USE.getKey())

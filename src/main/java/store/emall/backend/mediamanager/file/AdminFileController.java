@@ -13,6 +13,7 @@ import store.emall.backend.common.scope.ManagedByType;
 import store.emall.backend.common.scope.ScopeType;
 import store.emall.backend.common.validation.OnCreate;
 import store.emall.backend.mediamanager.file.dto.*;
+import store.emall.backend.mediamanager.file.service.FileService;
 
 import java.util.List;
 import java.util.UUID;
