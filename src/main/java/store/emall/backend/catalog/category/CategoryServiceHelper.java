@@ -9,9 +9,9 @@ import store.emall.backend.catalog.category.audience_config.CategoryAudienceConf
 import store.emall.backend.common.EntityType;
 import store.emall.backend.common.audience.AgeGroup;
 import store.emall.backend.common.audience.TargetedAudience;
-import store.emall.backend.common.util.media.MediaManagerHelper;
 import store.emall.backend.catalog.product.ProductRepository;
 import store.emall.backend.mediamanager.file.dto.FileDto;
+import store.emall.backend.mediamanager.file.service.FileService;
 import store.emall.backend.mediamanager.file.visibility.MediaVisibilityService;
 
 import java.util.*;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceHelper {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
-    private final MediaManagerHelper mediaManagerHelper;
+    private final FileService fileService;
     private final MediaVisibilityService mediaVisibilityService;
 
     public void deactivation(Category category) {
@@ -192,13 +192,13 @@ public class CategoryServiceHelper {
     public CategoryAudienceConfigDto injectAudienceConfigImage(
             CategoryAudienceConfigDto dto
     ) {
-        FileDto image = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto image = fileService.getAndValidateImage(dto.getImageId(), "CategoryImage");
         dto.setImage(image);
         return dto;
     }
 
     public CategoryDto injectImageUrl(CategoryDto dto) {
-        FileDto image = mediaManagerHelper.getAndValidatedImage(dto.getImageId());
+        FileDto image = fileService.getAndValidateImage(dto.getImageId(), "CategoryImage");
         dto.setImage(image);
         return dto;
     }
@@ -211,7 +211,7 @@ public class CategoryServiceHelper {
         }
 
         for (var config : configs) {
-            mediaManagerHelper.getAndValidatedImage(config.getImageId());
+            fileService.getAndValidateImage(config.getImageId(), "CategoryAudienceImage");
         }
     }
 
