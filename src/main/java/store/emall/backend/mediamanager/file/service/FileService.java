@@ -17,10 +17,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
-    MediaQueryService mediaQueryService;
-    MediaValidationService mediaValidationService;
-    MediaCommandService mediaCommandService;
-    MediaUploadService mediaUploadService;
+    private final MediaQueryService mediaQueryService;
+    private final MediaValidationService mediaValidationService;
+    private final MediaCommandService mediaCommandService;
+    private final MediaUploadService mediaUploadService;
 
 
     public PaginatedResponse<FileDto> getAll(Pageable pageable, FileFilter spec) {
