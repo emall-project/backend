@@ -1,24 +1,24 @@
-name: emall
+name: rihab
 
 services:
   # -------------------------
   # Database (internal only)
   # -------------------------
-  emall-db:
+  rihab-db:
     image: postgres:17
-    container_name: emall-db
+    container_name: rihab-db
     environment:
-      POSTGRES_DB: emall
-      POSTGRES_USER: emall
-      POSTGRES_PASSWORD: ${EMALL_DB_PASSWORD:-devpass}
+      POSTGRES_DB: rihab
+      POSTGRES_USER: rihab
+      POSTGRES_PASSWORD: ${RIHAB_DB_PASSWORD:-devpass}
     volumes:
-      - emall_data:/var/lib/postgresql/data
+      - rihab_data:/var/lib/postgresql/data
       # Optional: use this if your app/Liquibase does not create schemas itself.
       # - ./db/init:/docker-entrypoint-initdb.d:ro
     networks:
       - system-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U emall -d emall" ]
+      test: [ "CMD-SHELL", "pg_isready -U rihab -d rihab" ]
       interval: 10s
       timeout: 3s
       retries: 20
@@ -26,11 +26,11 @@ services:
   # -------------------------
   # Monolith app (internal only)
   # -------------------------
-  emall-app:
+  rihab-app:
     build: .
-    container_name: emall-app
+    container_name: rihab-app
     depends_on:
-      emall-db:
+      rihab-db:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -40,9 +40,9 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: prod
 
-      SPRING_DATASOURCE_URL: jdbc:postgresql://emall-db:5432/emall
-      SPRING_DATASOURCE_USERNAME: emall
-      SPRING_DATASOURCE_PASSWORD: ${EMALL_DB_PASSWORD:-devpass}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rihab-db:5432/rihab
+      SPRING_DATASOURCE_USERNAME: rihab
+      SPRING_DATASOURCE_PASSWORD: ${RIHAB_DB_PASSWORD:-devpass}
 
       # Shared security/internal credentials
       JWT_SECRET: ${JWT_SECRET}
@@ -69,8 +69,8 @@ services:
       # RabbitMQ
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER:-emall}
-      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-emallpass}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER:-rihab}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-devpass}
 
       # Observability
       GRAFANA_URL: http://grafana-lgtm:4318
@@ -78,7 +78,7 @@ services:
       OTEL_INSTRUMENTATION_SPRING_BOOT_ACTUATOR_AUTOCONFIGURE_ENABLED: "false"
       JAVA_TOOL_OPTIONS: >
         -javaagent:/otel/opentelemetry-javaagent.jar
-        -Dotel.service.name=emall-app
+        -Dotel.service.name=rihab-app
         -Dotel.exporter.otlp.endpoint=http://otel-collector:4317
         -Dotel.exporter.otlp.protocol=grpc
         -Dotel.traces.exporter=otlp
@@ -106,8 +106,8 @@ services:
       - "5672:5672"     # app communication
       - "15672:15672"   # management UI
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-emall}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-emallpass}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-rihab}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-devpass}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
@@ -124,7 +124,7 @@ services:
   gateway:
     image: nginx:1.27
     depends_on:
-      emall-app:
+      rihab-app:
         condition: service_healthy
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
@@ -146,7 +146,7 @@ services:
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
       GF_SERVER_DOMAIN: localhost
 
-      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-emall}
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-rihab}
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-devpass}
 
       GF_AUTH_ANONYMOUS_ENABLED: "false"
@@ -187,6 +187,6 @@ networks:
     name: system-network
 
 volumes:
-  emall_data:
+  rihab_data:
   nginx_logs:
   rabbitmq_data:
